@@ -49,11 +49,11 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <section className="relative grid px-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-gray-100">
+      <section className="relative  space-x-2 px-4 md:flex lg:grid lg:grid-cols-3 bg-gray-100">
         <SideBar />
 
         {open && <CreatePost setOpen={setOpen} />}
-        <main className="my-2">
+        <main className="my-2 lg:w-[40rem]">
           <div
             onClick={() => setOpen(true)}
             className="flex items-center space-x-2 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 mt-5 rounded-lg w-full"
