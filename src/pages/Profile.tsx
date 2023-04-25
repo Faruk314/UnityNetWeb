@@ -86,7 +86,7 @@ const Profile = () => {
             <ProfileFriends friendStatus={friendStatus} userId={userId} />
           </div>
 
-          <div className="">
+          <div className="mx-2">
             {posts.length === 0 && (
               <span className="text-center text-blue-600">
                 There is no existing posts

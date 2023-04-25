@@ -17,7 +17,7 @@ const ProfileHeader = ({ userInfo }: Props) => {
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
 
   return (
-    <div className="relative h-[13rem] md:h-[20rem] lg:h-[30rem]">
+    <div className="relative h-[17rem] md:h-[30rem]">
       <img
         onClick={() => {
           userInfo.cover_image
