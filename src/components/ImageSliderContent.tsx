@@ -15,14 +15,13 @@ interface Props {
 const ImageSliderContent = ({ userId, photos }: Props) => {
   const [openLikes, setOpenLikes] = useState(false);
   const [count, setCount] = useState(0);
-  const [openComments, setOpenComments] = useState(true);
   const [openShares, setOpenShares] = useState(false);
 
   console.log(photos.length);
 
   return (
-    <div className="overflow-y-auto lg:grid lg:grid-cols-3 lg:overflow-hidden md:h-full">
-      <div id="slider" className="lg:col-span-2">
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 lg:overflow-hidden md:h-full">
+      <div id="slider" className="lg:col-span-3">
         <div className="relative bg-black h-[30rem] md:h-full flex items-center">
           <img
             src={photos[count]?.photo}
@@ -64,7 +63,7 @@ const ImageSliderContent = ({ userId, photos }: Props) => {
         </div>
       </div>
 
-      <div className="bg-white lg:overflow-auto">
+      <div className="bg-white overflow-y-auto h-[29rem] md:h-full">
         <UserInfo
           userId={userId}
           firstName={photos[count]?.first_name}
@@ -81,23 +80,20 @@ const ImageSliderContent = ({ userId, photos }: Props) => {
           <CommentsAndLikes
             userId={userId}
             postId={photos[count]?.id}
-            setOpenComments={setOpenComments}
             setOpenLikes={setOpenLikes}
             setOpenShares={setOpenShares}
           />
         </div>
 
-        {openComments && (
-          <div className="m-4 overflow-y-auto h-[40rem] my-4">
-            {
-              <CommentsContent
-                userId={userId}
-                postId={photos[count]?.id}
-                image={photos[count]?.image}
-              />
-            }
-          </div>
-        )}
+        <div className="m-4 my-4">
+          {
+            <CommentsContent
+              userId={userId}
+              postId={photos[count]?.id}
+              image={photos[count]?.image}
+            />
+          }
+        </div>
 
         {openLikes && (
           <UsersByLikes

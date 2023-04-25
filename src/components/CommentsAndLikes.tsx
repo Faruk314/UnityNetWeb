@@ -12,7 +12,7 @@ interface Props {
   userId: number;
   postId: number;
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenComments: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenComments?: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
   type?: string | null;
   sharedPostId?: number;
@@ -35,6 +35,7 @@ const CommentsAndLikes = ({
   const [sharesCount, setSharesCount] = useState(0);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const postComments = useAppSelector((state) => state.post.postComments);
+  const [focus, setFocus] = useState(false);
 
   useEffect(() => {
     const isLiked = async () => {
@@ -149,7 +150,7 @@ const CommentsAndLikes = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          setOpenComments((prev) => !prev);
+          setOpenComments ? setOpenComments((prev) => !prev) : setFocus(true);
         }}
         className="flex space-x-1 hover:text-blue-500"
       >
