@@ -90,7 +90,7 @@ const CommentsContent = ({ postId, image, userId }: Props) => {
         </button>
       </div>
 
-      <div className="flex flex-col space-y-5 h-[15rem]">
+      <div className="flex flex-col space-y-5">
         {postComments.length === 0 && (
           <p className="text-center text-blue-600">
             There is currently no comments.

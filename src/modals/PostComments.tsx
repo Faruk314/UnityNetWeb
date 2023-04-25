@@ -35,33 +35,39 @@ const PostComments = ({
 }: Props) => {
   return (
     <div className="fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
-      <div className="flex justify-center flex-col space-y-2 bg-white mx-2 h-max px-5 rounded-lg overflow-y-auto lg:w-[40rem] max-h-[60rem]">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpenComments(false);
-          }}
-          className="bg-gray-200 rounded-full flex items-center space-x-2 px-3 py-1 w-[2rem] hover:bg-gray-300 my-2"
-        >
-          X
-        </button>
+      <div className="w-[40rem] mx-4">
+        <div className="bg-white p-2 border">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenComments(false);
+            }}
+            className="bg-gray-200 rounded-full flex items-center space-x-2 px-3 py-1 w-[2rem] hover:bg-gray-300"
+          >
+            X
+          </button>
+        </div>
 
-        <PostContent
-          postId={postId}
-          userId={userId}
-          firstName={firstName}
-          lastName={lastName}
-          image={image}
-          postPhoto={postPhoto}
-          postText={postText}
-          createdAt={createdAt}
-          setOpenLikes={setOpenLikes}
-          setOpenComments={setOpenComments}
-          setOpenShares={setOpenShares}
-          type={type}
-        />
+        <div className="h-[40rem] overflow-auto bg-white p-4">
+          <PostContent
+            postId={postId}
+            userId={userId}
+            firstName={firstName}
+            lastName={lastName}
+            image={image}
+            postPhoto={postPhoto}
+            postText={postText}
+            createdAt={createdAt}
+            setOpenLikes={setOpenLikes}
+            setOpenComments={setOpenComments}
+            setOpenShares={setOpenShares}
+            type={type}
+          />
 
-        <CommentsContent userId={userId} postId={postId} image={image} />
+          <div className="">
+            <CommentsContent userId={userId} postId={postId} image={image} />
+          </div>
+        </div>
       </div>
     </div>
   );
