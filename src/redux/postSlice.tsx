@@ -13,6 +13,7 @@ interface Post extends IPost {
   first_name: string;
   last_name: string;
   image: string;
+  edited: boolean;
 }
 
 interface InitialState {
@@ -35,6 +36,7 @@ const initialState: InitialState = {
     type: "",
     id: 0,
     updated_at: 0,
+    edited: false,
   },
   userPosts: [],
   postComments: [],

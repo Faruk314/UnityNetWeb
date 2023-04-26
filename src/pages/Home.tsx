@@ -82,6 +82,7 @@ const Home = () => {
               firstName={post.first_name}
               lastName={post.last_name}
               image={post.image}
+              edited={post.edited}
             />
           ))}
         </main>

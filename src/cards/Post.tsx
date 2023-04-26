@@ -14,6 +14,7 @@ interface Props {
   createdAt: Date | number;
   postPhoto: string | null;
   type: string;
+  edited: boolean;
 }
 
 const Post = ({
@@ -26,6 +27,7 @@ const Post = ({
   postPhoto,
   image,
   type,
+  edited,
 }: Props) => {
   const [openLikes, setOpenLikes] = useState(false);
   const [openComments, setOpenComments] = useState(false);
@@ -46,6 +48,7 @@ const Post = ({
         setOpenShares={setOpenShares}
         postPhoto={postPhoto}
         type={type}
+        edited={edited}
       />
 
       {openComments && (
@@ -62,6 +65,7 @@ const Post = ({
           setOpenShares={setOpenShares}
           postPhoto={postPhoto}
           type={type}
+          edited={edited}
         />
       )}
 

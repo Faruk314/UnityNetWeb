@@ -31,6 +31,7 @@ const PreviewPost = () => {
             createdAt={post.created_at}
             postPhoto={post.photo}
             type={post.type}
+            edited={post.edited}
           />
         </div>
       </section>

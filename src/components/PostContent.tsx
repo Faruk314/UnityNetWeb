@@ -18,6 +18,7 @@ interface Props {
   setOpenComments: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
+  edited: boolean;
 }
 
 const PostContent = ({
@@ -33,6 +34,7 @@ const PostContent = ({
   setOpenLikes,
   setOpenShares,
   type,
+  edited,
 }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [sharedPost, setSharedPost] = useState<any>({});
@@ -109,6 +111,7 @@ const PostContent = ({
             image={sharedPost.image}
             createdAt={sharedPost.created_at}
             type={sharedPost.likes}
+            edited={edited}
           />
         </div>
       )}

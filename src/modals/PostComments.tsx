@@ -13,6 +13,7 @@ interface Props {
   createdAt: Date | number;
   postPhoto: string | null;
   type: string | null;
+  edited: boolean;
   setOpenComments: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +30,7 @@ const PostComments = ({
   createdAt,
   postPhoto,
   type,
+  edited,
   setOpenComments,
   setOpenLikes,
   setOpenShares,
@@ -62,6 +64,7 @@ const PostComments = ({
             setOpenComments={setOpenComments}
             setOpenShares={setOpenShares}
             type={type}
+            edited={edited}
           />
 
           <div className="">
