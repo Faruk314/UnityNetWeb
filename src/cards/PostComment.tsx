@@ -106,42 +106,43 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
   return (
     <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md p-2 max-w-[30rem]">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <Link to={`/profile/${userId}`}>
-            <img
-              src={user.image}
-              alt=""
-              className="border-2 w-[3rem] h-[3rem] rounded-full"
-            />
-          </Link>
+        <div className="flex items-start justify-between w-full space-x-2">
+          <div className="flex space-x-2 w-full">
+            <Link to={`/profile/${userId}`}>
+              <img
+                src={user.image}
+                alt=""
+                className="border-2 w-[3rem] h-[3rem] rounded-full"
+              />
+            </Link>
+            <div className="w-full">
+              <h3 className="font-bold">
+                {user.first_name} {user.last_name}
+              </h3>
 
-          <div>
-            <h3 className="font-bold">
-              {user.first_name} {user.last_name}
-            </h3>
-            <p className="">{comment}</p>
+              <p className="break-all">{comment}</p>
+            </div>
           </div>
-        </div>
+          <div className="relative">
+            <button>
+              <BiDotsVerticalRounded
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenOptions((prev) => !prev);
+                }}
+                size={25}
+              />
+            </button>
 
-        <div className="relative">
-          <button>
-            <BiDotsVerticalRounded
-              onClick={(e) => {
-                e.stopPropagation();
-                setOpenOptions((prev) => !prev);
-              }}
-              size={25}
-            />
-          </button>
-
-          {openOptions && (
-            <PostOptions
-              postId={postId}
-              setOpenOptions={setOpenOptions}
-              userId={userId}
-              commentId={commentId}
-            />
-          )}
+            {openOptions && (
+              <PostOptions
+                postId={postId}
+                setOpenOptions={setOpenOptions}
+                userId={userId}
+                commentId={commentId}
+              />
+            )}
+          </div>
         </div>
       </div>
 
