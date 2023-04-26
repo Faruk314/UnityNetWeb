@@ -65,15 +65,12 @@ const PostContent = ({
         createdAt={createdAt}
         type={type}
       />
-      <div className="p-3">
+      <div className="p-3 break-all">
         {!seeMore && postText?.length > 120 ? (
-          <p>
-            {postText.slice(1, 120)}
-            <button
-              className="block text-blue-600"
-              onClick={() => setSeeMore(true)}
-            >
-              ... SEE MORE
+          <p className="">
+            {postText.slice(1, 140)}
+            <button className=" text-blue-600" onClick={() => setSeeMore(true)}>
+              ... more
             </button>
           </p>
         ) : (
