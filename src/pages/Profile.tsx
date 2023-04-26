@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { User } from "../types/types";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Post from "../cards/Post";
-import { fetchUserPosts } from "../redux/postSlice";
+import { fetchUserPosts, postActions } from "../redux/postSlice";
 import Navbar from "../components/Navbar";
 import ProfileInfo from "../components/ProfileInfo";
 import ProfileFriends from "../components/ProfileFriends";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileButtons from "../components/ProfileButtons";
+import profileDefault from "../images/profile.jpg";
+import CreatePost from "../modals/CreatePost";
 
 const Profile = () => {
+  const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState<User>({
@@ -23,12 +26,24 @@ const Profile = () => {
   });
   const [friendStatus, setFriendStatus] = useState(false);
   const posts = useAppSelector((state) => state.post.userPosts);
-
   console.log(friendStatus);
-
   const { id } = useParams();
+  const [userId, setUserId] = useState(0);
+  const [openCreatePost, setOpenCreatePost] = useState(false);
 
-  const userId: number = id ? parseInt(id) : 0;
+  useEffect(() => {
+    if (id) {
+      setUserId(parseInt(id));
+      setPage(1);
+      dispatch(postActions.emptyPosts());
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchUserPosts({ userId, page }));
+    }
+  }, [page, dispatch, userId, id]);
 
   // const rejectRequestHandler = async () => {
   //   try {
@@ -49,10 +64,6 @@ const Profile = () => {
   }, [page]);
 
   useEffect(() => {
-    dispatch(fetchUserPosts({ userId, page }));
-  }, [page]);
-
-  useEffect(() => {
     const getUser = async () => {
       const response = await axios.get(
         `http://localhost:7000/api/users/getUserInfo/${userId}`
@@ -62,7 +73,7 @@ const Profile = () => {
     };
 
     getUser();
-  }, [userId]);
+  }, [userId, id]);
 
   return (
     <>
@@ -87,6 +98,29 @@ const Profile = () => {
           </div>
 
           <div className="mx-2">
+            {loggedUserInfo.id === userInfo.id && (
+              <div
+                onClick={(e) => {
+                  setOpenCreatePost(true);
+                }}
+                className="flex items-center space-x-2 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 mt-5 rounded-lg w-full"
+              >
+                <Link to={`/profile/${userInfo.id}`}>
+                  <img
+                    src={userInfo.image || profileDefault}
+                    alt=""
+                    className="rounded-full w-[2.5rem] h-[2rem]"
+                  />
+                </Link>
+                <input
+                  className="bg-gray-100 rounded-full px-3 py-2 w-full"
+                  placeholder="What is on your mind?"
+                />
+              </div>
+            )}
+
+            {openCreatePost && <CreatePost setOpen={setOpenCreatePost} />}
+
             {posts.length === 0 && (
               <span className="text-center text-blue-600">
                 There is no existing posts

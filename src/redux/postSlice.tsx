@@ -116,6 +116,9 @@ const postSlice = createSlice({
 
       state.userPosts = filteredUserPosts;
     },
+    emptyPosts(state) {
+      state.userPosts = [];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
