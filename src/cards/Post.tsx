@@ -14,7 +14,7 @@ interface Props {
   createdAt: Date | number;
   postPhoto: string | null;
   type: string;
-  edited: boolean;
+  edited: number;
 }
 
 const Post = ({

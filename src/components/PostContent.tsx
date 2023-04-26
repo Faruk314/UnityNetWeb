@@ -4,6 +4,7 @@ import CommentsAndLikes from "./CommentsAndLikes";
 import axios from "axios";
 import Post from "../cards/Post";
 import ImageSlider from "../modals/ImageSlider";
+import { AiFillEdit } from "react-icons/ai";
 
 interface Props {
   postId: number;
@@ -18,7 +19,7 @@ interface Props {
   setOpenComments: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
-  edited: boolean;
+  edited: number;
 }
 
 const PostContent = ({
@@ -77,6 +78,13 @@ const PostContent = ({
           </p>
         ) : (
           <p>{postText}</p>
+        )}
+
+        {edited !== 0 && (
+          <p className="mt-1 text-gray-400 flex items-center space-x-1">
+            <AiFillEdit />
+            <span>Edited</span>
+          </p>
         )}
       </div>
 

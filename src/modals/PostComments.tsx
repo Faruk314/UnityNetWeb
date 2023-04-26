@@ -13,7 +13,7 @@ interface Props {
   createdAt: Date | number;
   postPhoto: string | null;
   type: string | null;
-  edited: boolean;
+  edited: number;
   setOpenComments: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
