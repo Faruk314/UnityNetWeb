@@ -13,7 +13,6 @@ interface Props {
 }
 
 const CreatePost = ({ setOpen, profileId }: Props) => {
-  const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const [textContent, setTextContent] = useState("");
   const [message, setMessage] = useState("");
   const userInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -84,20 +83,6 @@ const CreatePost = ({ setOpen, profileId }: Props) => {
         </div>
 
         {message && <span className="text-red-500">{message}</span>}
-
-        <div className="relative flex space-x-2 my-4">
-          <button onClick={() => setOpenAddPhoto(true)}>
-            {" "}
-            <SlPicture size={25} />
-          </button>
-          <button>
-            <BsEmojiSmile size={25} />
-          </button>
-
-          {openAddPhoto && (
-            <AddPhoto setOpen={setOpen} setOpenAddPhoto={setOpenAddPhoto} />
-          )}
-        </div>
 
         <button
           type="submit"

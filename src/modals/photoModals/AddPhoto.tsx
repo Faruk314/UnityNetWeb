@@ -12,14 +12,12 @@ interface HTMLInputEvent extends Event {
 
 interface Props {
   setOpenAddPhoto: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   updateProfilePic?: boolean;
   updateCoverPic?: boolean;
 }
 
 const AddPhoto = ({
   setOpenAddPhoto,
-  setOpen,
   updateProfilePic,
   updateCoverPic,
 }: Props) => {
@@ -59,10 +57,6 @@ const AddPhoto = ({
           `http://localhost:7000/api/photos/uploadCoverPicture`,
           data
         );
-      }
-
-      if (setOpen) {
-        setOpen(false);
       }
 
       setOpenAddPhoto(false);

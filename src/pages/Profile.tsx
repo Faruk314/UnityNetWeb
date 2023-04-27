@@ -12,8 +12,11 @@ import ProfileHeader from "../components/ProfileHeader";
 import ProfileButtons from "../components/ProfileButtons";
 import profileDefault from "../images/profile.jpg";
 import CreatePost from "../modals/CreatePost";
+import { SlPicture } from "react-icons/sl";
+import AddPhoto from "../modals/photoModals/AddPhoto";
 
 const Profile = () => {
+  const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
@@ -100,26 +103,34 @@ const Profile = () => {
           </div>
 
           <div className="mx-2">
-            <div className="flex items-center space-x-2 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 mt-5 rounded-lg w-full">
-              <Link to={`/profile/${loggedUserInfo.id}`}>
-                <img
-                  src={loggedUserInfo.image || profileDefault}
-                  alt=""
-                  className="rounded-full w-[2.5rem] h-[2rem]"
+            <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-5 p-2 rounded-lg w-full">
+              <div
+                onClick={() => setOpenCreatePost(true)}
+                className="flex items-center space-x-2"
+              >
+                <Link to={`/profile/${loggedUserInfo.id}`}>
+                  <img
+                    src={loggedUserInfo.image || profileDefault}
+                    alt=""
+                    className="rounded-full w-[2.5rem] h-[2rem]"
+                  />
+                </Link>
+                <input
+                  className="bg-gray-100 rounded-full px-3 py-2 w-full"
+                  placeholder={
+                    loggedUserInfo.id === userId
+                      ? "What is on your mind?"
+                      : `Write to ${userInfo.first_name}`
+                  }
                 />
-              </Link>
-              <input
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOpenCreatePost(true);
-                }}
-                className="bg-gray-100 rounded-full px-3 py-2 w-full"
-                placeholder={
-                  loggedUserInfo.id === userId
-                    ? `What is on your mind?`
-                    : `Write something to ${userInfo.first_name}`
-                }
-              />
+              </div>
+              <div className="relative flex space-x-2 mt-2 hover:bg-gray-100 w-max p-1 rounded-md">
+                <button onClick={() => setOpenAddPhoto(true)}>
+                  <SlPicture size={25} />
+                </button>
+
+                {openAddPhoto && <AddPhoto setOpenAddPhoto={setOpenAddPhoto} />}
+              </div>
             </div>
 
             {openCreatePost && (

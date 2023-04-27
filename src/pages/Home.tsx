@@ -9,8 +9,11 @@ import Navbar from "../components/Navbar";
 import Chat from "../modals/messenger/Chat";
 import SideBar from "../components/SideBar";
 import ChatBubble from "../cards/ChatBubble";
+import { SlPicture } from "react-icons/sl";
+import AddPhoto from "../modals/photoModals/AddPhoto";
 
 const Home = () => {
+  const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -54,21 +57,30 @@ const Home = () => {
 
         {open && <CreatePost setOpen={setOpen} profileId={null} />}
         <main className="my-2 lg:w-[40rem]">
-          <div
-            onClick={() => setOpen(true)}
-            className="flex items-center space-x-2 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 mt-5 rounded-lg w-full"
-          >
-            <Link to={`/profile/${loggedUserInfo.id}`}>
-              <img
-                src={loggedUserInfo.image || profileDefault}
-                alt=""
-                className="rounded-full w-[2.5rem] h-[2rem]"
+          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-5 p-2 rounded-lg w-full">
+            <div
+              onClick={() => setOpen(true)}
+              className="flex items-center space-x-2"
+            >
+              <Link to={`/profile/${loggedUserInfo.id}`}>
+                <img
+                  src={loggedUserInfo.image || profileDefault}
+                  alt=""
+                  className="rounded-full w-[2.5rem] h-[2rem]"
+                />
+              </Link>
+              <input
+                className="bg-gray-100 rounded-full px-3 py-2 w-full"
+                placeholder="What is on your mind?"
               />
-            </Link>
-            <input
-              className="bg-gray-100 rounded-full px-3 py-2 w-full"
-              placeholder="What is on your mind?"
-            />
+            </div>
+            <div className="relative flex space-x-2 mt-2 hover:bg-gray-100 w-max p-1 rounded-md">
+              <button onClick={() => setOpenAddPhoto(true)}>
+                <SlPicture size={25} />
+              </button>
+
+              {openAddPhoto && <AddPhoto setOpenAddPhoto={setOpenAddPhoto} />}
+            </div>
           </div>
           {posts?.map((post: any) => (
             <Post
