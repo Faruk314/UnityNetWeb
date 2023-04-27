@@ -3,15 +3,16 @@ import { SlPicture } from "react-icons/sl";
 import { BsEmojiSmile } from "react-icons/bs";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { fetchPosts } from "../redux/postSlice";
+import { fetchPosts, fetchUserPosts } from "../redux/postSlice";
 import AddPhoto from "./photoModals/AddPhoto";
 import profileDefault from "../images/profile.jpg";
 
 interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  profileId: number | null;
 }
 
-const CreatePost = ({ setOpen }: Props) => {
+const CreatePost = ({ setOpen, profileId }: Props) => {
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const [textContent, setTextContent] = useState("");
   const [message, setMessage] = useState("");
@@ -25,14 +26,24 @@ const CreatePost = ({ setOpen }: Props) => {
       return;
     }
 
-    const formData = {
-      textContent,
-    };
-
     try {
-      await axios.post(`http://localhost:7000/api/posts/createPost`, formData);
+      if (!profileId) {
+        await axios.post(`http://localhost:7000/api/posts/createPost`, {
+          textContent,
+          profileId: null,
+        });
 
-      dispatch(fetchPosts(1));
+        dispatch(fetchPosts(1));
+      }
+
+      if (profileId) {
+        await axios.post(`http://localhost:7000/api/posts/createPost`, {
+          textContent,
+          profileId,
+        });
+        dispatch(fetchUserPosts({ userId: profileId, page: 1 }));
+      }
+
       setOpen(false);
     } catch (err) {
       console.log(err);

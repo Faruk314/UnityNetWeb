@@ -40,10 +40,8 @@ const Profile = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchUserPosts({ userId, page }));
-    }
-  }, [page, dispatch, userId, id]);
+    dispatch(fetchUserPosts({ userId, page }));
+  }, [page, dispatch, userId]);
 
   // const rejectRequestHandler = async () => {
   //   try {
@@ -73,7 +71,7 @@ const Profile = () => {
     };
 
     getUser();
-  }, [userId, id]);
+  }, [userId]);
 
   return (
     <>
@@ -98,28 +96,31 @@ const Profile = () => {
           </div>
 
           <div className="mx-2">
-            {loggedUserInfo.id === userInfo.id && (
-              <div
+            <div className="flex items-center space-x-2 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 mt-5 rounded-lg w-full">
+              <Link to={`/profile/${loggedUserInfo.id}`}>
+                <img
+                  src={loggedUserInfo.image || profileDefault}
+                  alt=""
+                  className="rounded-full w-[2.5rem] h-[2rem]"
+                />
+              </Link>
+              <input
                 onClick={(e) => {
+                  e.stopPropagation();
                   setOpenCreatePost(true);
                 }}
-                className="flex items-center space-x-2 bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 mt-5 rounded-lg w-full"
-              >
-                <Link to={`/profile/${userInfo.id}`}>
-                  <img
-                    src={userInfo.image || profileDefault}
-                    alt=""
-                    className="rounded-full w-[2.5rem] h-[2rem]"
-                  />
-                </Link>
-                <input
-                  className="bg-gray-100 rounded-full px-3 py-2 w-full"
-                  placeholder="What is on your mind?"
-                />
-              </div>
-            )}
+                className="bg-gray-100 rounded-full px-3 py-2 w-full"
+                placeholder={
+                  loggedUserInfo.id === userId
+                    ? `What is on your mind?`
+                    : `Write something to ${userInfo.first_name}`
+                }
+              />
+            </div>
 
-            {openCreatePost && <CreatePost setOpen={setOpenCreatePost} />}
+            {openCreatePost && (
+              <CreatePost setOpen={setOpenCreatePost} profileId={userId} />
+            )}
 
             {posts.length === 0 && (
               <span className="text-center text-blue-600">

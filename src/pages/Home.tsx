@@ -52,7 +52,7 @@ const Home = () => {
       <section className="relative  space-x-2 px-4 md:flex lg:grid lg:grid-cols-3 bg-gray-100">
         <SideBar />
 
-        {open && <CreatePost setOpen={setOpen} />}
+        {open && <CreatePost setOpen={setOpen} profileId={null} />}
         <main className="my-2 lg:w-[40rem]">
           <div
             onClick={() => setOpen(true)}
