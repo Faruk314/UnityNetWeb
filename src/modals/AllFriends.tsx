@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../types/types";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profileDefault from "../images/profile.jpg";
 
 interface Props {
@@ -29,40 +29,34 @@ const AllFriends = ({ id, setOpenAllFriends }: Props) => {
 
   return (
     <div className="flex items-center justify-center fixed top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
-      <div className=" bg-white w-[19rem] h-[20rem] p-2 rounded-md overflow-y-scroll">
+      <div className="bg-white w-[19rem] h-[20rem] p-3 rounded-md">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-bold">Friends</h2>
+          <h2 className="font-bold text-xl">Friends</h2>
           <button
-            onClick={() => setOpenAllFriends(false)}
-            className=" bg-gray-200 rounded-full flex items-center space-x-2 px-3 py-1 font-bold hover:bg-gray-300"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenAllFriends(false);
+            }}
+            className="font-bold bg-gray-200 rounded-full w-[2rem] h-[2rem] hover:bg-gray-300"
           >
             X
           </button>
         </div>
 
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-3">
           {friends.map((user) => (
-            <div key={user.id} className="flex flex-col space-y-">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => {
-                      setOpenAllFriends(false);
-                      navigate(`/profile/${user.id}`);
-                    }}
-                  >
-                    <img
-                      src={user.image || profileDefault}
-                      alt=""
-                      className="border-2 w-[3rem] h-[3rem] rounded-full"
-                    />
-                  </button>
+            <div key={user.id} className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Link to={`/profile/${user.id}`}>
+                  <img
+                    src={user.image}
+                    alt=""
+                    className="border-2 w-[3rem] h-[3rem] rounded-full"
+                  />
+                </Link>
 
-                  <h3 className="font-bold">
-                    <span>{user.first_name} </span>
-                    <span>{user.last_name}</span>
-                  </h3>
-                </div>
+                <span className="font-bold">{user.first_name}</span>
+                <span className="font-bold">{user.last_name}</span>
               </div>
             </div>
           ))}
