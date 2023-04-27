@@ -157,8 +157,8 @@ const Profile = () => {
                 edited={post.edited}
                 otherUserInfo={
                   post.profile_id &&
-                  post.profile_id !== loggedUserInfo.id &&
-                  post.profile_id === userInfo.id
+                  post.profile_id === userInfo.id &&
+                  userInfo.id !== post.user_id
                     ? {
                         firstName: userInfo.first_name,
                         lastName: userInfo.last_name,

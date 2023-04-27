@@ -111,7 +111,7 @@ function App() {
     };
 
     getLoginStatus();
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn]);
 
   return (
     <BrowserRouter>
