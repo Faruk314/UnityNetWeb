@@ -14,12 +14,14 @@ interface Props {
   setOpenAddPhoto: React.Dispatch<React.SetStateAction<boolean>>;
   updateProfilePic?: boolean;
   updateCoverPic?: boolean;
+  profileId?: number;
 }
 
 const AddPhoto = ({
   setOpenAddPhoto,
   updateProfilePic,
   updateCoverPic,
+  profileId,
 }: Props) => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -39,9 +41,16 @@ const AddPhoto = ({
 
     data.append("description", description);
     data.append("photo", photo);
+    if (profileId) {
+      data.append("profileId", String(profileId));
+    }
 
     try {
-      if (!updateProfilePic) {
+      if (profileId) {
+        await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
+      }
+
+      if (!profileId) {
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
       }
 

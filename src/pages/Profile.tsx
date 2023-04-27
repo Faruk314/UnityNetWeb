@@ -129,7 +129,12 @@ const Profile = () => {
                   <SlPicture size={25} />
                 </button>
 
-                {openAddPhoto && <AddPhoto setOpenAddPhoto={setOpenAddPhoto} />}
+                {openAddPhoto && (
+                  <AddPhoto
+                    profileId={userId}
+                    setOpenAddPhoto={setOpenAddPhoto}
+                  />
+                )}
               </div>
             </div>
 
