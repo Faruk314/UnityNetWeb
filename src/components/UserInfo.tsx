@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PostOptions from "../modals/PostOptions";
-import { User } from "../types/types";
+import { OtherUserInfo, User } from "../types/types";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
 import { useAppSelector } from "../redux/hooks";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import profileDefault from "../images/profile.jpg";
+import { MdArrowRight } from "react-icons/md";
 
 interface Props {
   userId: number;
@@ -17,6 +18,7 @@ interface Props {
   sharedPostId?: number | null;
   createdAt?: Date | number;
   type: string | null;
+  otherUserInfo?: OtherUserInfo;
 }
 
 const UserInfo = ({
@@ -28,9 +30,12 @@ const UserInfo = ({
   firstName,
   lastName,
   image,
+  otherUserInfo,
 }: Props) => {
   const [openOptions, setOpenOptions] = useState(false);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
+
+  console.log(otherUserInfo);
 
   return (
     <div className="flex items-center justify-between">
@@ -43,10 +48,22 @@ const UserInfo = ({
           />
         </Link>
         <div>
-          <h3 className="">
-            <span className="font-bold">
-              {firstName} {lastName}
-            </span>
+          <div className="flex space-x-1 items-center">
+            <div className="flex items-center">
+              <span className="font-bold">
+                {firstName} {lastName}
+              </span>
+              {otherUserInfo && (
+                <>
+                  <MdArrowRight size={25} />
+                  <span className="font-bold">
+                    {" "}
+                    {otherUserInfo.firstName} {otherUserInfo.lastName}
+                  </span>
+                </>
+              )}
+            </div>
+
             {type === "shared" && <span> shared a post</span>}
             {type === "profile" && (
               <span className="block text-[0.8rem]">
@@ -60,7 +77,7 @@ const UserInfo = ({
                 updated his cover picture
               </span>
             )}
-          </h3>
+          </div>
           <span className="text-[0.9rem]">
             {moment(createdAt).tz("Europe/Sarajevo").fromNow()}
           </span>

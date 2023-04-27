@@ -3,6 +3,7 @@ import PostComments from "../modals/PostComments";
 import UsersByLikes from "../modals/UsersByLikes";
 import PostContent from "../components/PostContent";
 import UsersByShares from "../modals/UsersByShares";
+import { OtherUserInfo } from "../types/types";
 
 interface Props {
   postId: number;
@@ -15,6 +16,7 @@ interface Props {
   postPhoto: string | null;
   type: string;
   edited: number;
+  otherUserInfo?: OtherUserInfo;
 }
 
 const Post = ({
@@ -28,6 +30,7 @@ const Post = ({
   image,
   type,
   edited,
+  otherUserInfo,
 }: Props) => {
   const [openLikes, setOpenLikes] = useState(false);
   const [openComments, setOpenComments] = useState(false);
@@ -49,6 +52,7 @@ const Post = ({
         postPhoto={postPhoto}
         type={type}
         edited={edited}
+        otherUserInfo={otherUserInfo}
       />
 
       {openComments && (

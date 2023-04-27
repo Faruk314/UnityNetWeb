@@ -40,7 +40,23 @@ const Profile = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
-    dispatch(fetchUserPosts({ userId, page }));
+    const getUser = async () => {
+      const response = await axios.get(
+        `http://localhost:7000/api/users/getUserInfo/${userId}`
+      );
+
+      setUserInfo(response.data);
+    };
+
+    if (userId) {
+      getUser();
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchUserPosts({ userId, page }));
+    }
   }, [page, dispatch, userId]);
 
   // const rejectRequestHandler = async () => {
@@ -60,18 +76,6 @@ const Profile = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [page]);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const response = await axios.get(
-        `http://localhost:7000/api/users/getUserInfo/${userId}`
-      );
-
-      setUserInfo(response.data);
-    };
-
-    getUser();
-  }, [userId]);
 
   return (
     <>
@@ -140,6 +144,16 @@ const Profile = () => {
                 lastName={post.last_name}
                 image={post.image}
                 edited={post.edited}
+                otherUserInfo={
+                  post.profile_id &&
+                  post.profile_id !== loggedUserInfo.id &&
+                  post.profile_id === userInfo.id
+                    ? {
+                        firstName: userInfo.first_name,
+                        lastName: userInfo.last_name,
+                      }
+                    : undefined
+                }
               />
             ))}
           </div>

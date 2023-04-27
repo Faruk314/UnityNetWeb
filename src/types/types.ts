@@ -16,6 +16,11 @@ export interface IPost {
 //   updated_at: new Date(),
 // };
 
+export interface OtherUserInfo {
+  firstName: string;
+  lastName: string;
+}
+
 export interface IPhoto {
   id: number;
   user_id: number;

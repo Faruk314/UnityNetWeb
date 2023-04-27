@@ -5,6 +5,7 @@ import axios from "axios";
 import Post from "../cards/Post";
 import ImageSlider from "../modals/ImageSlider";
 import { AiFillEdit } from "react-icons/ai";
+import { OtherUserInfo } from "../types/types";
 
 interface Props {
   postId: number;
@@ -20,6 +21,7 @@ interface Props {
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
   edited: number;
+  otherUserInfo?: OtherUserInfo;
 }
 
 const PostContent = ({
@@ -36,6 +38,7 @@ const PostContent = ({
   setOpenShares,
   type,
   edited,
+  otherUserInfo,
 }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
   const [sharedPost, setSharedPost] = useState<any>({});
@@ -67,6 +70,7 @@ const PostContent = ({
         postId={postId}
         createdAt={createdAt}
         type={type}
+        otherUserInfo={otherUserInfo}
       />
       <div className="p-3 break-all">
         {!seeMore && postText?.length > 120 ? (
