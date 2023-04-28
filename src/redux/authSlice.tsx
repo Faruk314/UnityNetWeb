@@ -3,9 +3,15 @@ import axios from "axios";
 import socket from "../services/socket";
 import { User } from "../types/types";
 
+interface LoggedUserInfo extends User {
+  last_active: number | null;
+  country: string | null;
+  city: string | null;
+}
+
 interface InitialState {
   isLoggedIn: boolean;
-  loggedUserInfo: User;
+  loggedUserInfo: LoggedUserInfo;
 }
 
 const initialState: InitialState = {
@@ -16,6 +22,9 @@ const initialState: InitialState = {
     last_name: "",
     image: "",
     cover_image: "",
+    last_active: null,
+    country: null,
+    city: null,
   },
 };
 
@@ -49,7 +58,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       getLoggedUserInfo.fulfilled,
-      (state, action: PayloadAction<User>) => {
+      (state, action: PayloadAction<LoggedUserInfo>) => {
         state.loggedUserInfo = action.payload;
       }
     );
