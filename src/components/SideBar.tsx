@@ -3,6 +3,7 @@ import { useAppSelector } from "../redux/hooks";
 import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import AllFriends from "../modals/AllFriends";
+import { AiFillEdit } from "react-icons/ai";
 
 const SideBar = () => {
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -50,6 +51,17 @@ const SideBar = () => {
               setOpenAllFriends={setOpenFriends}
             />
           )}
+        </div>
+
+        <div
+          onClick={() => navigate(`/editProfile/${loggedUserInfo.id}`)}
+          className="flex items-center justify-between hover:bg-gray-100 hover:cursor-pointer rounded-md p-2 mt-2"
+        >
+          <div className="flex items-center justify-center space-x-2">
+            <AiFillEdit size={30} className="text-blue-500" />
+            <span className="font-bold">Edit</span>
+            <span className="font-bold">profile</span>
+          </div>
         </div>
       </div>
     </div>
