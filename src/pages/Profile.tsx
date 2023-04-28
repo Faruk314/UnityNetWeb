@@ -15,17 +15,26 @@ import CreatePost from "../modals/CreatePost";
 import { SlPicture } from "react-icons/sl";
 import AddPhoto from "../modals/photoModals/AddPhoto";
 
+interface UserInfo extends User {
+  last_active: number | null;
+  country: string | null;
+  city: string | null;
+}
+
 const Profile = () => {
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [page, setPage] = useState(1);
   const dispatch = useAppDispatch();
-  const [userInfo, setUserInfo] = useState<User>({
+  const [userInfo, setUserInfo] = useState<UserInfo>({
     id: 0,
     first_name: "",
     last_name: "",
     image: "",
     cover_image: "",
+    last_active: null,
+    country: null,
+    city: null,
   });
   const [friendStatus, setFriendStatus] = useState(false);
   const posts = useAppSelector((state) => state.post.userPosts);
@@ -95,15 +104,17 @@ const Profile = () => {
             friendStatus={friendStatus}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="w-full mt-6">
-            <ProfileInfo />
+        <div className="grid grid-cols-1 md:grid md:grid-cols-2">
+          <div className="w-full">
+            {(userInfo.city || userInfo.country) && (
+              <ProfileInfo userInfo={userInfo} />
+            )}
 
             <ProfileFriends friendStatus={friendStatus} userId={userId} />
           </div>
 
           <div className="mx-2">
-            <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-5 p-2 rounded-lg w-full">
+            <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-2 rounded-lg w-full">
               <div
                 onClick={() => setOpenCreatePost(true)}
                 className="flex items-center space-x-2"

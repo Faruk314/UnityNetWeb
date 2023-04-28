@@ -171,7 +171,7 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
   // };
 
   return (
-    <div className="ml-5">
+    <div className="ml-5 mb-6">
       {loggedUserInfo.id !== userInfo.id &&
         !friendStatus &&
         friendReqStatus.status === false && (

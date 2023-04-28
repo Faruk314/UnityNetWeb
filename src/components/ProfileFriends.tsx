@@ -28,7 +28,7 @@ const ProfileFriends = ({ userId, friendStatus }: Props) => {
   }, [userId, friendStatus]);
 
   return (
-    <div className="p-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white mx-2 my-4 min-w-[20rem] max-w-[30rem] rounded-md">
+    <div className="p-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white mx-2 min-w-[20rem] max-w-[30rem] rounded-md">
       <div className="">
         <h3 className="font-bold text-[1.2rem]">Friends ({friends.length})</h3>
       </div>
