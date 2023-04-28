@@ -30,6 +30,7 @@ import {
 } from "./redux/notificationSlice";
 import PreviewPost from "./pages/PreviewPost";
 import { friendRequestActions } from "./redux/friendRequestSlice";
+import EditProfile from "./pages/EditProfile";
 
 axios.defaults.withCredentials = true;
 
@@ -121,6 +122,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/previewPost/:postId" element={<PreviewPost />} />
+        <Route path="/editProfile/:id" element={<EditProfile />} />
       </Routes>
     </BrowserRouter>
   );
