@@ -66,34 +66,35 @@ function App() {
   // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getFriendRequests());
-  }, [dispatch]);
+    isLoggedIn && dispatch(getFriendRequests());
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    dispatch(getNotifications());
-  }, [dispatch]);
+    isLoggedIn && dispatch(getNotifications());
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    dispatch(getNotificationsCount());
-  }, [dispatch, notifications]);
+    isLoggedIn && dispatch(getNotificationsCount());
+  }, [dispatch, notifications, isLoggedIn]);
 
   useEffect(() => {
-    dispatch(addUser(loggedUserInfo.id));
-  }, [dispatch, loggedUserInfo]);
+    isLoggedIn && dispatch(addUser(loggedUserInfo.id));
+  }, [dispatch, loggedUserInfo, isLoggedIn]);
 
   useEffect(() => {
-    dispatch(getSeen());
-    dispatch(subscribeToNotifications());
-    dispatch(subscribeToMessages());
-    dispatch(subscribeToFriendRequests());
-
+    if (isLoggedIn) {
+      dispatch(getSeen());
+      dispatch(subscribeToNotifications());
+      dispatch(subscribeToMessages());
+      dispatch(subscribeToFriendRequests());
+    }
     return () => {
       dispatch(unsubscribeFromMessages());
       dispatch(unsubscribeFromFriendRequests());
       dispatch(unsubscribeFromNotifications());
       socket.disconnect();
     };
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const getLoginStatus = async () => {
