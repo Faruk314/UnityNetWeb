@@ -41,9 +41,6 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
   const isRemovedFromFriends = useAppSelector(
     (state) => state.request.isRemovedFromFriends
   );
-  console.log("friendReuqests", friendRequests);
-
-  console.log(friendReqStatus, "friendReqStatus");
 
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
 

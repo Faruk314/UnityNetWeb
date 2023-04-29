@@ -35,8 +35,6 @@ const UserInfo = ({
   const [openOptions, setOpenOptions] = useState(false);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
 
-  console.log(otherUserInfo);
-
   return (
     <div className="flex items-center justify-between">
       <div className="flex space-x-2 p-3">

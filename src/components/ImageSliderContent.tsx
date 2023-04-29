@@ -17,8 +17,6 @@ const ImageSliderContent = ({ userId, photos }: Props) => {
   const [count, setCount] = useState(0);
   const [openShares, setOpenShares] = useState(false);
 
-  console.log(photos.length);
-
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 lg:overflow-hidden md:h-full">
       <div id="slider" className="lg:col-span-3">

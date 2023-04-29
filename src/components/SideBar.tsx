@@ -10,8 +10,6 @@ const SideBar = () => {
   const navigate = useNavigate();
   const [openFriends, setOpenFriends] = useState(false);
 
-  console.log(openFriends);
-
   return (
     <div className="hidden md:block md:w-[30rem] lg:w-[25rem] mt-5 font-bold bg-white rounded-md p-2 sticky top-[6rem] h-max shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
       <span className="text-2xl p-2">Profile</span>

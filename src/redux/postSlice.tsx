@@ -108,8 +108,6 @@ const postSlice = createSlice({
       );
       state.posts = filteredPosts;
 
-      console.log("redux", state.posts);
-
       let filteredUserPosts = state.userPosts.filter(
         (post) => post.id !== action.payload.id
       );

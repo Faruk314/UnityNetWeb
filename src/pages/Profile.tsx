@@ -38,7 +38,6 @@ const Profile = () => {
   });
   const [friendStatus, setFriendStatus] = useState(false);
   const posts = useAppSelector((state) => state.post.userPosts);
-  console.log(friendStatus);
   const { id } = useParams();
   const [userId, setUserId] = useState(0);
   const [openCreatePost, setOpenCreatePost] = useState(false);

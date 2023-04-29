@@ -91,7 +91,6 @@ const chatSlice = createSlice({
           return message.seen_at;
         }
       });
-      console.log("changed messages", JSON.stringify(state.messages));
     },
     saveReceivedMessages(state, action) {
       state.messages.push(action.payload);

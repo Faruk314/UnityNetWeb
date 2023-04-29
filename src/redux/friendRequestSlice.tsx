@@ -92,8 +92,6 @@ const friendRequestSlice = createSlice({
     },
     removeFromFriends(state, action) {
       state.isRemovedFromFriends = action.payload;
-
-      console.log("reduxIsRemoved", state.isRemovedFromFriends);
     },
   },
   extraReducers: (builder) => {
