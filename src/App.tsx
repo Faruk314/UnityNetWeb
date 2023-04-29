@@ -31,6 +31,8 @@ import {
 import PreviewPost from "./pages/PreviewPost";
 import { friendRequestActions } from "./redux/friendRequestSlice";
 import EditProfile from "./pages/EditProfile";
+import ChatBubble from "./cards/ChatBubble";
+import Chat from "./modals/messenger/Chat";
 
 axios.defaults.withCredentials = true;
 
@@ -46,6 +48,7 @@ function App() {
   const isRemovedFromFriends = useAppSelector(
     (state) => state.request.isRemovedFromFriends
   );
+  const chats = useAppSelector((state) => state.chat.chats);
 
   useEffect(() => {
     // dispatch(onRemovedFromFriends());
@@ -125,6 +128,30 @@ function App() {
         <Route path="/previewPost/:postId" element={<PreviewPost />} />
         <Route path="/editProfile/:id" element={<EditProfile />} />
       </Routes>
+      {isLoggedIn && (
+        <div>
+          {chats.map(
+            (chat) => chat.open && <Chat key={chat.userId} chatInfo={chat} />
+          )}
+          <div className="fixed bottom-0 right-0 w-[3rem] h-[50%]  my-4">
+            <div className="absolute bottom-0">
+              {chats.map(
+                (chat) =>
+                  chat.open === false && (
+                    <ChatBubble
+                      key={chat.userId}
+                      userId={chat.userId}
+                      firstName={chat.firstName}
+                      lastName={chat.lastName}
+                      image={chat.image}
+                      conversationId={chat.conversationId}
+                    />
+                  )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </BrowserRouter>
   );
 }
