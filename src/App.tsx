@@ -33,6 +33,7 @@ import { friendRequestActions } from "./redux/friendRequestSlice";
 import EditProfile from "./pages/EditProfile";
 import ChatBubble from "./cards/ChatBubble";
 import Chat from "./modals/messenger/Chat";
+import SearchPage from "./pages/SearchPage";
 
 axios.defaults.withCredentials = true;
 
@@ -127,6 +128,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/previewPost/:postId" element={<PreviewPost />} />
         <Route path="/editProfile/:id" element={<EditProfile />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
       {isLoggedIn && (
         <div>
