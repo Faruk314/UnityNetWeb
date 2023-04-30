@@ -12,6 +12,8 @@ interface LoggedUserInfo extends User {
 interface InitialState {
   isLoggedIn: boolean;
   loggedUserInfo: LoggedUserInfo;
+  searchResults: LoggedUserInfo[];
+  searchTerm: string | null;
 }
 
 const initialState: InitialState = {
@@ -26,6 +28,8 @@ const initialState: InitialState = {
     country: null,
     city: null,
   },
+  searchResults: [],
+  searchTerm: JSON.parse(localStorage.getItem("searchTerm") || "null"),
 };
 
 export const addUser = (userId: number) => (dispatch: any) => {
@@ -53,6 +57,16 @@ const authSlice = createSlice({
   reducers: {
     setLogin(state, action) {
       state.isLoggedIn = action.payload;
+    },
+    setSearchResults(state, action) {
+      state.searchResults = action.payload;
+
+      console.log(state.searchResults);
+    },
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+
+      localStorage.setItem("searchTerm", JSON.stringify(action.payload));
     },
   },
   extraReducers: (builder) => {

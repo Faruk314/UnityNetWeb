@@ -4,18 +4,8 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { User } from "../types/types";
 import profileDefault from "../images/profile.jpg";
-
-function debounce<T extends (...args: any[]) => any>(func: T, wait: number) {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  return function debounced(...args: Parameters<T>) {
-    const later = () => {
-      timeoutId = null;
-      func(...args);
-    };
-    clearTimeout(timeoutId!);
-    timeoutId = setTimeout(later, wait) as ReturnType<typeof setTimeout>;
-  };
-}
+import { useAppDispatch } from "../redux/hooks";
+import { authActions } from "../redux/authSlice";
 
 interface Props {
   setSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,37 +13,31 @@ interface Props {
 
 const Search = ({ setSearchOpen }: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<User[]>([]);
   const [searchSuggestions, setSearchSuggestions] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleSearch = useCallback(async (query: string) => {
+  const handleSearch = useCallback(async () => {
     setIsLoading(true);
 
     try {
       const response = await axios.get(
         `http://localhost:7000/api/users/searchUsers?q=${encodeURIComponent(
-          query
+          searchTerm
         )}`
       );
 
-      setSearchResults(response.data);
+      dispatch(authActions.setSearchTerm(searchTerm));
+      dispatch(authActions.setSearchResults(response.data));
     } catch (err) {
       console.log(err);
     }
-  }, []);
-
-  const debouncedSearch = useCallback(debounce(handleSearch, 500), []);
+  }, [dispatch, searchTerm]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchTerm(query);
-    if (query.length >= 2) {
-      debouncedSearch(query);
-    } else {
-      setSearchSuggestions([]);
-    }
   };
 
   useEffect(() => {
@@ -66,7 +50,7 @@ const Search = ({ setSearchOpen }: Props) => {
     const fetchSuggestions = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:7000/api/users/searchUsers?q=${encodeURIComponent(
+          `http://localhost:7000/api/users/searchSuggestions?q=${encodeURIComponent(
             searchTerm
           )}`
         );
@@ -96,7 +80,10 @@ const Search = ({ setSearchOpen }: Props) => {
       />
       {searchTerm.length > 0 && (
         <div
-          onClick={() => navigate(`/search`)}
+          onClick={() => {
+            handleSearch();
+            navigate(`/search`);
+          }}
           className="flex items-center space-x-2 hover:bg-gray-100 hover:cursor-pointer p-2 rounded-md"
         >
           <span className="rounded-full bg-blue-500 text-white w-[2rem] h-[2rem] flex items-center justify-center">
