@@ -78,20 +78,19 @@ const Search = ({ setSearchOpen }: Props) => {
         className="bg-gray-100 rounded-full focus:outline-none text-black px-2 py-[0.5rem] w-full"
         placeholder="search social media"
       />
-      {searchTerm.length > 0 && (
-        <div
-          onClick={() => {
-            handleSearch();
-            navigate(`/search`);
-          }}
-          className="flex items-center space-x-2 hover:bg-gray-100 hover:cursor-pointer p-2 rounded-md"
-        >
-          <span className="rounded-full bg-blue-500 text-white w-[2rem] h-[2rem] flex items-center justify-center">
-            <AiOutlineSearch size={20} />
-          </span>
-          <span className="text-blue-500">Search {searchTerm}</span>
-        </div>
-      )}
+
+      <div
+        onClick={() => {
+          handleSearch();
+          navigate(`/search`);
+        }}
+        className="flex items-center space-x-2 hover:bg-gray-100 hover:cursor-pointer p-2 rounded-md"
+      >
+        <span className="rounded-full bg-blue-500 text-white w-[2rem] h-[2rem] flex items-center justify-center">
+          <AiOutlineSearch size={20} />
+        </span>
+        <span className="text-blue-500">Search {searchTerm}</span>
+      </div>
 
       {searchSuggestions.map((suggestion) => (
         <div
