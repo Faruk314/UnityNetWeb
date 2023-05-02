@@ -137,35 +137,18 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
     } catch (err) {}
   }, [friendReqStatus, loggedUserInfo]);
 
-  // const acceptRequestHandler = async () => {
-  //   try {
-  //     await axios.get(
-  //       `http://localhost:7000/api/followers/acceptFriendRequest/${friendReqStatus.sender}`
-  //     );
-  //     dispatch(
-  //       sendNotification({
-  //         id: loggedUserInfo.id,
-  //         first_name: loggedUserInfo.first_name,
-  //         last_name: loggedUserInfo.last_name,
-  //         image: loggedUserInfo.image,
-  //         type: "friendRequest",
-  //         created_at: new Date(),
-  //         receiver_id: friendReqStatus.sender,
-  //         post_id: null,
-  //       })
-  //     );
-  //     dispatch(
-  //       createNotification({
-  //         receiverId: friendReqStatus.sender,
-  //         type: "friendRequest",
-  //       })
-  //     );
-
-  //     getFriendStatus();
-  //     setFriendReqStatus({ status: false, receiver: 0, sender: 0 });
-  //     dispatch(getFriendRequests());
-  //   } catch (err) {}
-  // };
+  const rejectRequestHandler = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:7000/api/followers/rejectFriendRequest/${friendReqStatus.sender}`
+      );
+      getFriendStatus();
+      setFriendReqStatus({ status: false, receiver: 0, sender: 0 });
+      dispatch(getFriendRequests());
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="ml-5 mb-6">
@@ -215,7 +198,10 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
               Accept
             </button>
 
-            <button className="border-2 border-blue-500 rounded-md text-blue-600 p-1">
+            <button
+              onClick={rejectRequestHandler}
+              className="border-2 border-blue-500 rounded-md text-blue-600 p-1"
+            >
               Reject
             </button>
           </div>
