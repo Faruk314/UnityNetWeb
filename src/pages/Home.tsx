@@ -18,7 +18,6 @@ const Home = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.post.posts);
-  const chats = useAppSelector((state) => state.chat.chats);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const notifications = useAppSelector(
     (state) => state.notification.notifications
@@ -27,6 +26,8 @@ const Home = () => {
     (state) => state.request.isRemovedFromFriends
   );
 
+  console.log("page", page);
+
   useEffect(() => {
     let ignore = false;
     !ignore && dispatch(fetchPosts(page));
@@ -34,7 +35,7 @@ const Home = () => {
     return () => {
       ignore = true;
     };
-  }, [dispatch, page, notifications, isRemovedFromFriends]);
+  }, [dispatch, page, isRemovedFromFriends]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,9 +51,9 @@ const Home = () => {
   }, [page]);
 
   return (
-    <>
+    <div className="">
       <Navbar />
-      <section className="relative  space-x-2 px-4 md:flex lg:grid lg:grid-cols-3 bg-gray-100">
+      <section className="relative space-x-2 px-4 md:flex lg:grid lg:grid-cols-3">
         <SideBar />
 
         {open && <CreatePost setOpen={setOpen} profileId={null} />}
@@ -82,6 +83,12 @@ const Home = () => {
               {openAddPhoto && <AddPhoto setOpenAddPhoto={setOpenAddPhoto} />}
             </div>
           </div>
+
+          {posts.length === 0 && (
+            <p className="text-center mt-5 text-blue-500">
+              There is no existing posts
+            </p>
+          )}
           {posts?.map((post: any) => (
             <Post
               key={post.id}
@@ -98,29 +105,8 @@ const Home = () => {
             />
           ))}
         </main>
-
-        {chats.map(
-          (chat) => chat.open && <Chat key={chat.userId} chatInfo={chat} />
-        )}
-        <div className="fixed bottom-0 right-0 w-[3rem] h-[50%]  my-4">
-          <div className="absolute bottom-0">
-            {chats.map(
-              (chat) =>
-                chat.open === false && (
-                  <ChatBubble
-                    key={chat.userId}
-                    userId={chat.userId}
-                    firstName={chat.firstName}
-                    lastName={chat.lastName}
-                    image={chat.image}
-                    conversationId={chat.conversationId}
-                  />
-                )
-            )}
-          </div>
-        </div>
       </section>
-    </>
+    </div>
   );
 };
 
