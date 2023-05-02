@@ -41,6 +41,23 @@ const Login = () => {
     }
   };
 
+  const loginAsGuest = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:7000/api/auth/login`,
+        { email: "guest@gmail.com", password: "guest123" }
+      );
+
+      dispatch(authActions.setLogin(true));
+
+      onLoginSuccess(response.data);
+
+      navigate("/home");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <section className="flex flex-col justify-center items-center h-[100vh]">
       <div className="md:mb-5">
@@ -71,6 +88,8 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
+        {message && <span className="text-center text-red-500">{message}</span>}
+
         <button
           type="submit"
           className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600"
@@ -78,7 +97,13 @@ const Login = () => {
           Log in
         </button>
 
-        {message && <span className="text-center text-red-500">{message}</span>}
+        <button
+          onClick={loginAsGuest}
+          type="button"
+          className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600"
+        >
+          Login as Guest
+        </button>
 
         <Link
           className="mx-auto text-[0.9rem] text-blue-600 hover:underline"
