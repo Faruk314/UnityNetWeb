@@ -17,6 +17,8 @@ const PostOptions = ({ setOpenOptions, postId, userId, commentId }: Props) => {
   const [commentEdit, setCommentEdit] = useState(false);
   const [postEdit, setPostEdit] = useState(false);
 
+  console.log(postEdit);
+
   const deletePostHandler = async () => {
     try {
       await axios.delete(

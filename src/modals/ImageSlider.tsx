@@ -14,6 +14,9 @@ interface Props {
 const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
   const [photos, setPhotos] = useState<any[]>([]);
 
+  console.log(userId);
+  console.log(photoId);
+
   useEffect(() => {
     const getPhotos = async () => {
       try {
