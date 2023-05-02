@@ -44,6 +44,18 @@ const FriendRequests = ({ setReqOpen }: Props) => {
     }
   };
 
+  const rejectRequestHandler = async (requestId: number) => {
+    try {
+      await axios.delete(
+        `http://localhost:7000/api/followers/rejectFriendRequest/${requestId}`
+      );
+
+      dispatch(getFriendRequests());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("click", () => {
       setReqOpen(false);
@@ -85,7 +97,10 @@ const FriendRequests = ({ setReqOpen }: Props) => {
                 >
                   Confirm
                 </button>
-                <button className="border-2 border-blue-500 text-[1rem] rounded-md text-blue-500 hover:bg-gray-200 px-2">
+                <button
+                  onClick={() => rejectRequestHandler(request.id)}
+                  className="border-2 border-blue-500 text-[1rem] rounded-md text-blue-500 hover:bg-gray-200 px-2"
+                >
                   Reject
                 </button>
               </div>
