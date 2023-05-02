@@ -19,7 +19,6 @@ const FriendRequests = ({ setReqOpen }: Props) => {
 
   const acceptRequestHandler = async (requestId: number) => {
     try {
-      console.log("requestId", requestId);
       await axios.get(
         `http://localhost:7000/api/followers/acceptFriendRequest/${requestId}`
       );
@@ -56,7 +55,7 @@ const FriendRequests = ({ setReqOpen }: Props) => {
       <h2 className="text-[1.2rem] text-center font-bold mb-3">
         Friend Requests
       </h2>
-      <div className="flex flex-col space-y-3 overflow-y-scroll h-[10rem] w-[15rem]">
+      <div className="flex flex-col space-y-3 overflow-y-auto h-[15rem] w-[17rem] py-2">
         {requests.length === 0 && (
           <p className="text-[0.9rem] text-center text-blue-500">
             You dont have any friend requests
