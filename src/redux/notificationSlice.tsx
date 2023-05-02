@@ -104,7 +104,7 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     saveReceivedNotifications(state, action) {
-      state.notifications.push(action.payload);
+      state.notifications.unshift(action.payload);
     },
     markNotificationsAsRead(state) {
       state.notificationCount = 0;
