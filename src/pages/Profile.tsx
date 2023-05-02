@@ -91,7 +91,7 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <section className="max-w-5xl mx-auto shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-gray-100">
+      <section className="max-w-5xl mx-auto shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-gray-100 h-[100vh]">
         <ProfileHeader userInfo={userInfo} />
         <div className="my-4 mt-20 w-max text-center">
           <h2 className="text-2xl font-bold ml-5">
@@ -153,9 +153,9 @@ const Profile = () => {
             )}
 
             {posts.length === 0 && (
-              <span className="text-center text-blue-600">
+              <p className="text-center text-blue-600 mt-5">
                 There is no existing posts
-              </span>
+              </p>
             )}
             {posts.map((post: any) => (
               <Post
