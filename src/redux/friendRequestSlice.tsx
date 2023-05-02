@@ -24,11 +24,13 @@ export const getFriendRequests = createAsyncThunk(
 interface InitialState {
   requests: User[];
   isRemovedFromFriends: boolean;
+  isFriendRequestRejected: boolean;
 }
 
 const initialState: InitialState = {
   requests: [],
   isRemovedFromFriends: false,
+  isFriendRequestRejected: false,
 };
 
 // export const sendFriendRequest = createAsyncThunk(
@@ -52,6 +54,16 @@ export const removeFromFriendsList =
 export const onRemovedFromFriends = () => (dispatch: any) => {
   socket.on("removedFromFriends", (data) => {
     dispatch(friendRequestActions.removeFromFriends(data));
+  });
+};
+
+export const rejectFriendRequest = (receiverId: number) => (dispatch: any) => {
+  socket.emit("rejectFriendRequest", receiverId);
+};
+
+export const onRejectedFriendRequest = () => (dispatch: any) => {
+  socket.on("rejectedFriendRequest", (data) => {
+    dispatch(friendRequestActions.rejectFriendRequest(data));
   });
 };
 
@@ -92,6 +104,18 @@ const friendRequestSlice = createSlice({
     },
     removeFromFriends(state, action) {
       state.isRemovedFromFriends = action.payload;
+      console.log("removeFromF", state.isRemovedFromFriends);
+    },
+    rejectFriendRequest(state, action) {
+      state.isFriendRequestRejected = action.payload;
+
+      console.log("rejectedFReq", state.isFriendRequestRejected);
+    },
+    setRejectFriendRequest(state) {
+      state.isFriendRequestRejected = false;
+    },
+    setRemovedFromFriends(state) {
+      state.isRemovedFromFriends = false;
     },
   },
   extraReducers: (builder) => {

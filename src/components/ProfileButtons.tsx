@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
+  friendRequestActions,
   getFriendRequests,
   onRemovedFromFriends,
+  rejectFriendRequest,
   removeFromFriendsList,
   sendFriendRequest,
 } from "../redux/friendRequestSlice";
@@ -40,6 +42,10 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
   );
   const isRemovedFromFriends = useAppSelector(
     (state) => state.request.isRemovedFromFriends
+  );
+
+  const isFriendRequestRejected = useAppSelector(
+    (state) => state.request.isFriendRequestRejected
   );
 
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -98,14 +104,16 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
   useEffect(() => {
     if (userInfo) {
       getFriendReqStatus();
+      dispatch(friendRequestActions.setRejectFriendRequest());
     }
-  }, [friendRequests, notifications]);
+  }, [friendRequests, notifications, isFriendRequestRejected, dispatch]);
 
   useEffect(() => {
     if (userInfo) {
       getFriendStatus();
+      dispatch(friendRequestActions.setRemovedFromFriends());
     }
-  }, [userInfo, notifications, isRemovedFromFriends]);
+  }, [userInfo, notifications, isRemovedFromFriends, dispatch]);
 
   const acceptRequestHandler = useCallback(async () => {
     try {
@@ -142,6 +150,7 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
       await axios.delete(
         `http://localhost:7000/api/followers/rejectFriendRequest/${friendReqStatus.sender}`
       );
+      dispatch(rejectFriendRequest(friendReqStatus.sender));
       getFriendStatus();
       setFriendReqStatus({ status: false, receiver: 0, sender: 0 });
       dispatch(getFriendRequests());

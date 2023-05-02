@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import { getLoggedUserInfo } from "./redux/authSlice";
 import {
   getFriendRequests,
-  onRemovedFromFriends,
+  onRejectedFriendRequest,
   subscribeToFriendRequests,
   unsubscribeFromFriendRequests,
 } from "./redux/friendRequestSlice";
@@ -50,18 +50,33 @@ function App() {
     (state) => state.request.isRemovedFromFriends
   );
   const chats = useAppSelector((state) => state.chat.chats);
+  const isFriendRequestRejected = useAppSelector(
+    (state) => state.request.isFriendRequestRejected
+  );
 
   useEffect(() => {
     // dispatch(onRemovedFromFriends());
 
-    socket.on("removedFromFriends", (data) => {
-      dispatch(friendRequestActions.removeFromFriends(data));
-    });
+    isLoggedIn &&
+      socket.on("removedFromFriends", (data) => {
+        dispatch(friendRequestActions.removeFromFriends(data));
+      });
 
     return () => {
       socket.off("removedFromFriends");
     };
-  }, [isRemovedFromFriends, dispatch]);
+  }, [isRemovedFromFriends, dispatch, isLoggedIn]);
+
+  useEffect(() => {
+    isLoggedIn &&
+      socket.on("rejectedFriendRequest", (data) => {
+        dispatch(friendRequestActions.rejectFriendRequest(data));
+      });
+
+    return () => {
+      socket.off("rejectedFriendRequest");
+    };
+  }, [dispatch, isFriendRequestRejected, isLoggedIn]);
 
   // useEffect(() => {
   //   dispatch(getSeen());

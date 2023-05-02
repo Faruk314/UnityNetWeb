@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getFriendRequests } from "../redux/friendRequestSlice";
+import {
+  getFriendRequests,
+  rejectFriendRequest,
+} from "../redux/friendRequestSlice";
 import {
   createNotification,
   sendNotification,
@@ -50,6 +53,7 @@ const FriendRequests = ({ setReqOpen }: Props) => {
         `http://localhost:7000/api/followers/rejectFriendRequest/${requestId}`
       );
 
+      dispatch(rejectFriendRequest(requestId));
       dispatch(getFriendRequests());
     } catch (err) {
       console.log(err);
