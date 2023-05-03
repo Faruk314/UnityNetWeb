@@ -85,7 +85,15 @@ const AddPhoto = ({
   return (
     <div className="flex items-center justify-center fixed top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
       <div className="relative bg-white rounded-md mx-3 p-3">
-        <h2 className="text-2xl font-bold text-center">Add photo</h2>
+        {!updateCoverPic && !updateProfilePic && (
+          <h2 className="text-2xl font-bold text-center">Add photo</h2>
+        )}
+        {updateProfilePic && (
+          <h2 className="text-2xl font-bold text-center">Add profile photo</h2>
+        )}
+        {updateCoverPic && (
+          <h2 className="text-2xl font-bold text-center">Add cover photo</h2>
+        )}
         <button
           onClick={() => {
             setOpenAddPhoto(false);
