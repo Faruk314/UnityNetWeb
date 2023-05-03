@@ -137,7 +137,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={!isLoggedIn && <Login />} />
+        <Route path="/" element={!isLoggedIn && <Login />} />
         <Route path="/register" element={!isLoggedIn && <Register />} />
         <Route path="/home" element={isLoggedIn && <Home />} />
         <Route path="/profile/:id" element={isLoggedIn && <Profile />} />
