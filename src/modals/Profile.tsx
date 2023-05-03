@@ -25,7 +25,7 @@ const Profile = ({ setProfileOpen }: Props) => {
     try {
       await axios.get(`http://localhost:7000/api/auth/logout`);
       dispatch(authActions.setLogin(false));
-      navigate("/");
+      navigate("/login");
     } catch (err) {}
   };
 
