@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import axios from "axios";
+import { fetchPost, fetchPosts } from "../redux/postSlice";
 
 interface Props {
   setOpenSharePost: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +12,7 @@ interface Props {
 const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [description, setDescription] = useState("");
+  const dispatch = useAppDispatch();
 
   const sharePostHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +25,10 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
             description,
           }
         );
+
         setDescription("");
+        dispatch(fetchPosts(1));
+        setOpenSharePost(false);
         return;
       }
 
@@ -32,6 +37,8 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
       });
 
       setDescription("");
+      dispatch(fetchPosts(1));
+      setOpenSharePost(false);
     } catch (err) {}
   };
 
