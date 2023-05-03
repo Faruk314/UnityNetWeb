@@ -1,28 +1,30 @@
 import React, { useState } from "react";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { AiFillEdit, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { IPhoto } from "../types/types";
 import UserInfo from "./UserInfo";
 import UsersByLikes from "../modals/UsersByLikes";
 import CommentsAndLikes from "./CommentsAndLikes";
 import CommentsContent from "./CommentsContent";
 import UsersByShares from "../modals/UsersByShares";
+import { useAppSelector } from "../redux/hooks";
 
 interface Props {
-  photos: any[];
   userId: number;
 }
 
-const ImageSliderContent = ({ userId, photos }: Props) => {
+const ImageSliderContent = ({ userId }: Props) => {
+  const photos = useAppSelector((state) => state.post.photos);
   const [openLikes, setOpenLikes] = useState(false);
   const [count, setCount] = useState(0);
   const [openShares, setOpenShares] = useState(false);
+  const [seeMore, setSeeMore] = useState(false);
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 lg:overflow-hidden md:h-full">
       <div id="slider" className="lg:col-span-3">
         <div className="relative bg-black h-[30rem] md:h-full flex items-center">
           <img
-            src={photos[count]?.photo}
+            src={photos[count]?.photo || ""}
             alt=""
             className="object-contain w-full h-full max-h-[50rem]"
           />
@@ -72,7 +74,28 @@ const ImageSliderContent = ({ userId, photos }: Props) => {
           type={photos[count]?.type}
         />
 
-        <p className="px-4 py-2">{photos[count]?.description}</p>
+        <div className="p-3 break-all">
+          {!seeMore && photos[count]?.text_content?.length > 120 ? (
+            <p className="">
+              {photos[count]?.text_content.slice(1, 140)}
+              <button
+                className=" text-blue-600"
+                onClick={() => setSeeMore(true)}
+              >
+                ... more
+              </button>
+            </p>
+          ) : (
+            <p>{photos[count]?.text_content}</p>
+          )}
+
+          {photos[count]?.edited !== 0 && (
+            <p className="mt-1 text-gray-400 flex items-center space-x-1">
+              <AiFillEdit />
+              <span>Edited</span>
+            </p>
+          )}
+        </div>
 
         <div className="px-4">
           <CommentsAndLikes
