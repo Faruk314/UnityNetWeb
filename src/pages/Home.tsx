@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CreatePost from "../modals/CreatePost";
 import { fetchPosts } from "../redux/postSlice";
 import Post from "../cards/Post";
@@ -6,9 +6,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Link } from "react-router-dom";
 import profileDefault from "../images/profile.jpg";
 import Navbar from "../components/Navbar";
-import Chat from "../modals/messenger/Chat";
 import SideBar from "../components/SideBar";
-import ChatBubble from "../cards/ChatBubble";
 import { SlPicture } from "react-icons/sl";
 import AddPhoto from "../modals/photoModals/AddPhoto";
 
@@ -19,28 +17,25 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.post.posts);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const notifications = useAppSelector(
-    (state) => state.notification.notifications
-  );
   const isRemovedFromFriends = useAppSelector(
     (state) => state.request.isRemovedFromFriends
   );
+  const isMounted = useRef(false);
 
   console.log("page", page);
 
   useEffect(() => {
-    let ignore = false;
-    !ignore && dispatch(fetchPosts(page));
-
-    return () => {
-      ignore = true;
-    };
+    if (!isMounted.current) {
+      dispatch(fetchPosts(page));
+      isMounted.current = true;
+    }
   }, [dispatch, page, isRemovedFromFriends]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
         setPage(page + 1);
+        isMounted.current = false;
       }
     };
 
