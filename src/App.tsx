@@ -137,13 +137,19 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/previewPost/:postId" element={<PreviewPost />} />
-        <Route path="/editProfile/:id" element={<EditProfile />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/login" element={!isLoggedIn && <Login />} />
+        <Route path="/register" element={!isLoggedIn && <Register />} />
+        <Route path="/home" element={isLoggedIn && <Home />} />
+        <Route path="/profile/:id" element={isLoggedIn && <Profile />} />
+        <Route
+          path="/previewPost/:postId"
+          element={isLoggedIn && <PreviewPost />}
+        />
+        <Route
+          path="/editProfile/:id"
+          element={isLoggedIn && <EditProfile />}
+        />
+        <Route path="/search" element={isLoggedIn && <SearchPage />} />
       </Routes>
       {isLoggedIn && (
         <div>
