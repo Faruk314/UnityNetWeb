@@ -105,13 +105,6 @@ const Login = () => {
           Login as Guest
         </button>
 
-        <Link
-          className="mx-auto text-[0.9rem] text-blue-600 hover:underline"
-          to="/forgotpass"
-        >
-          Forgot Password ?
-        </Link>
-
         <Link to="/register" className="mx-auto">
           <button className="bg-green-600 p-2 rounded-md text-white font-bold hover:bg-green-700">
             Create new account
