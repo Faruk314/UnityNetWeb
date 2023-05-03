@@ -50,7 +50,7 @@ const AddPhoto = ({
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
       }
 
-      if (!profileId) {
+      if (!profileId && !updateProfilePic && !updateCoverPic) {
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
       }
 
