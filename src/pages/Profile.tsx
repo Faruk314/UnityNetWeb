@@ -89,9 +89,9 @@ const Profile = () => {
   }, [page]);
 
   return (
-    <>
+    <div className="h-[100vh]">
       <Navbar />
-      <section className="max-w-5xl mx-auto shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-gray-100 h-[100vh]">
+      <section className="max-w-5xl mx-auto shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-gray-100">
         <ProfileHeader userInfo={userInfo} />
         <div className="my-4 mt-20 w-max text-center">
           <h2 className="text-2xl font-bold ml-5">
@@ -185,7 +185,7 @@ const Profile = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
