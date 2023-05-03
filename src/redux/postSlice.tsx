@@ -130,10 +130,12 @@ const postSlice = createSlice({
 
       if (postIdx !== -1) {
         state.posts[postIdx].text_content = action.payload.textContent;
+        state.posts[postIdx].edited = 1;
       }
 
       if (userPostIdx !== -1) {
         state.userPosts[userPostIdx].text_content = action.payload.textContent;
+        state.userPosts[userPostIdx].edited = 1;
       }
     },
   },
