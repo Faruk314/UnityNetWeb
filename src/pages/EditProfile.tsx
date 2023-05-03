@@ -90,7 +90,7 @@ const EditProfile = () => {
       <Navbar />
 
       <div className="mx-4">
-        <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] mx-auto mt-20 max-w-3xl px-4">
+        <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mx-auto mt-20 max-w-3xl px-4">
           <div className="text-center font-bold text-2xl py-2 border-b">
             Edit Profile
           </div>
