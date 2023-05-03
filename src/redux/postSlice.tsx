@@ -131,6 +131,17 @@ const postSlice = createSlice({
 
           if (index === -1) {
             state.posts.push(fetchedPost);
+            state.posts.sort((a, b) => {
+              const dateA = new Date(a.created_at);
+              const dateB = new Date(b.created_at);
+
+              if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+                // If either date is not valid, return 0 to leave the order unchanged.
+                return 0;
+              }
+
+              return dateB.getTime() - dateA.getTime();
+            });
           }
         });
       }
@@ -148,6 +159,17 @@ const postSlice = createSlice({
 
           if (index === -1) {
             state.userPosts.push(fetchedPost);
+            state.userPosts.sort((a, b) => {
+              const dateA = new Date(a.created_at);
+              const dateB = new Date(b.created_at);
+
+              if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+                // If either date is not valid, return 0 to leave the order unchanged.
+                return 0;
+              }
+
+              return dateB.getTime() - dateA.getTime();
+            });
           }
         });
       }
