@@ -4,6 +4,7 @@ import AddPhoto from "../modals/photoModals/AddPhoto";
 import AllFriends from "../modals/AllFriends";
 import ImageSlider from "../modals/ImageSlider";
 import { User } from "../types/types";
+import { useAppSelector } from "../redux/hooks";
 const profileDefault = require("../images/profile.jpg");
 
 interface Props {
@@ -15,6 +16,7 @@ const ProfileHeader = ({ userInfo }: Props) => {
   const [openAddCoverPhoto, setOpenAddCoverPhoto] = useState(false);
   const [coverPhotoOpen, setOpenCoverPhoto] = useState(false);
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
+  const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
 
   return (
     <div className="relative h-[17rem] md:h-[30rem]">
@@ -37,12 +39,14 @@ const ProfileHeader = ({ userInfo }: Props) => {
         />
       )}
 
-      <button
-        onClick={() => setOpenAddCoverPhoto(true)}
-        className="absolute right-2 bottom-2 bg-white border-2 w-[3rem] rounded-md h-[2.5rem] flex items-center justify-center hover:bg-gray-200"
-      >
-        <MdOutlinePhotoCamera size={25} className="text-black" />
-      </button>
+      {loggedUserInfo.id === userInfo.id && (
+        <button
+          onClick={() => setOpenAddCoverPhoto(true)}
+          className="absolute right-2 bottom-2 bg-white border-2 w-[3rem] rounded-md h-[2.5rem] flex items-center justify-center hover:bg-gray-200"
+        >
+          <MdOutlinePhotoCamera size={25} className="text-black" />
+        </button>
+      )}
 
       {openAddCoverPhoto && (
         <AddPhoto
@@ -62,12 +66,14 @@ const ProfileHeader = ({ userInfo }: Props) => {
         />
       </div>
 
-      <button
-        onClick={() => setOpenAddPhoto(true)}
-        className="relative left-[7rem] bottom-[-1rem] bg-white border-2 w-[2.5rem] rounded-full h-[2.5rem] flex items-center justify-center hover:bg-gray-200"
-      >
-        <MdOutlinePhotoCamera size={25} className="text-black" />
-      </button>
+      {loggedUserInfo.id === userInfo.id && (
+        <button
+          onClick={() => setOpenAddPhoto(true)}
+          className="relative left-[7rem] bottom-[-1rem] bg-white border-2 w-[2.5rem] rounded-full h-[2.5rem] flex items-center justify-center hover:bg-gray-200"
+        >
+          <MdOutlinePhotoCamera size={25} className="text-black" />
+        </button>
+      )}
 
       {imageOpen && userInfo.image && (
         <ImageSlider
