@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserInfo from "../components/UserInfo";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { fetchPost, fetchPosts } from "../redux/postSlice";
+import { fetchPost, fetchPosts, postActions } from "../redux/postSlice";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
 import profileDefault from "../images/profile.jpg";
@@ -23,7 +23,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
         textContent,
       });
 
-      dispatch(fetchPosts(1));
+      dispatch(postActions.editPost({ id: postId, textContent }));
       setPostEdit(false);
     } catch (err) {
       console.log(err);

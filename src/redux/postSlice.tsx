@@ -117,6 +117,25 @@ const postSlice = createSlice({
     emptyPosts(state) {
       state.userPosts = [];
     },
+    editPost(state, action) {
+      console.log(action.payload);
+
+      let postIdx = state.posts.findIndex(
+        (post) => post.id === action.payload.id
+      );
+
+      let userPostIdx = state.userPosts.findIndex(
+        (post) => post.id === action.payload.id
+      );
+
+      if (postIdx !== -1) {
+        state.posts[postIdx].text_content = action.payload.textContent;
+      }
+
+      if (userPostIdx !== -1) {
+        state.userPosts[userPostIdx].text_content = action.payload.textContent;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
