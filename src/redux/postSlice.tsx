@@ -21,6 +21,7 @@ interface InitialState {
   post: Post;
   userPosts: Post[];
   postComments: IPostComment[];
+  photos: Post[];
 }
 
 const initialState: InitialState = {
@@ -40,6 +41,7 @@ const initialState: InitialState = {
   },
   userPosts: [],
   postComments: [],
+  photos: [],
 };
 
 export const fetchPostComments = createAsyncThunk(
@@ -109,10 +111,16 @@ const postSlice = createSlice({
       state.posts = filteredPosts;
 
       let filteredUserPosts = state.userPosts.filter(
-        (post) => post.id !== action.payload.id
+        (post) => post.id !== action.payload
       );
 
       state.userPosts = filteredUserPosts;
+
+      let filteredPhotos = state.photos.filter(
+        (post) => post.id !== action.payload
+      );
+
+      state.photos = filteredPhotos;
     },
     emptyPosts(state) {
       state.userPosts = [];
@@ -128,6 +136,10 @@ const postSlice = createSlice({
         (post) => post.id === action.payload.id
       );
 
+      let photoPostIdx = state.userPosts.findIndex(
+        (post) => post.id === action.payload.id
+      );
+
       if (postIdx !== -1) {
         state.posts[postIdx].text_content = action.payload.textContent;
         state.posts[postIdx].edited = 1;
@@ -137,6 +149,14 @@ const postSlice = createSlice({
         state.userPosts[userPostIdx].text_content = action.payload.textContent;
         state.userPosts[userPostIdx].edited = 1;
       }
+
+      if (photoPostIdx !== -1) {
+        state.photos[photoPostIdx].text_content = action.payload.textContent;
+        state.photos[photoPostIdx].edited = 1;
+      }
+    },
+    setPhotos(state, action) {
+      state.photos = action.payload;
     },
   },
   extraReducers: (builder) => {

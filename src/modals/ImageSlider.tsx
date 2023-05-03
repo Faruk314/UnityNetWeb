@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { IPhoto } from "../types/types";
 import ImageSliderContent from "../components/ImageSliderContent";
 import Navbar from "../components/Navbar";
+import { useAppDispatch } from "../redux/hooks";
+import { postActions } from "../redux/postSlice";
 
 interface Props {
   userId: number;
@@ -12,7 +14,7 @@ interface Props {
 }
 
 const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
-  const [photos, setPhotos] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
 
   console.log(userId);
   console.log(photoId);
@@ -25,21 +27,21 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
             `http://localhost:7000/api/photos/getPhoto/${userId}/${photoId}`
           );
 
-          setPhotos(response.data);
+          dispatch(postActions.setPhotos(response.data));
         }
 
         if (type === "profile") {
           const response = await axios.get(
             `http://localhost:7000/api/photos/getUserProfilePhotos/${userId}`
           );
-          setPhotos(response.data);
+          dispatch(postActions.setPhotos(response.data));
         }
 
         if (type === "cover") {
           const response = await axios.get(
             `http://localhost:7000/api/photos/getUserCoverPhotos/${userId}`
           );
-          setPhotos(response.data);
+          dispatch(postActions.setPhotos(response.data));
         }
       } catch (err) {
         console.log(err);
@@ -47,7 +49,7 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
     };
 
     getPhotos();
-  }, [userId, photoId, type]);
+  }, [userId, photoId, type, dispatch]);
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 z-30">
@@ -58,7 +60,7 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
         X
       </button>
 
-      <ImageSliderContent photos={photos} userId={userId} />
+      <ImageSliderContent userId={userId} />
     </div>
   );
 };
