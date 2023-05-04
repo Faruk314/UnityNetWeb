@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchPosts, fetchUserPosts } from "../../redux/postSlice";
 import profileDefault from "../../images/profile.jpg";
+import Confirmation from "../Confirmation";
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -30,6 +31,7 @@ const AddPhoto = ({
   const [imagePreview, setImagePreview] = useState("");
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [photo, setPhoto] = useState<any>("");
+  const [confirmation, setConfirmation] = useState(false);
 
   const addPhotoHandler = async () => {
     // if (!imagePreview) {
@@ -76,7 +78,7 @@ const AddPhoto = ({
         dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
       }
 
-      setOpenAddPhoto(false);
+      setConfirmation(true);
     } catch (err) {
       console.log(err);
     }
@@ -158,6 +160,12 @@ const AddPhoto = ({
           Confirm
         </button>
       </div>
+      {confirmation && (
+        <Confirmation
+          message="Photo successfully uploaded"
+          setOpen={setOpenAddPhoto}
+        />
+      )}
     </div>
   );
 };
