@@ -136,7 +136,7 @@ const postSlice = createSlice({
         (post) => post.id === action.payload.id
       );
 
-      let photoPostIdx = state.userPosts.findIndex(
+      let photoPostIdx = state.photos.findIndex(
         (post) => post.id === action.payload.id
       );
 
