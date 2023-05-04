@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IPhoto } from "../types/types";
 import ImageSliderContent from "../components/ImageSliderContent";
 import Navbar from "../components/Navbar";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { postActions } from "../redux/postSlice";
 
 interface Props {
@@ -15,9 +15,8 @@ interface Props {
 
 const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
   const dispatch = useAppDispatch();
-
-  console.log(userId);
-  console.log(photoId);
+  const numberOfPhotos = useAppSelector((state) => state.post.photos).length;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getPhotos = async () => {
@@ -43,6 +42,8 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
           );
           dispatch(postActions.setPhotos(response.data));
         }
+
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -50,6 +51,16 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
 
     getPhotos();
   }, [userId, photoId, type, dispatch]);
+
+  useEffect(() => {
+    const closePhotos = () => {
+      setImageOpen(false);
+    };
+
+    if (!loading && numberOfPhotos === 0) {
+      closePhotos();
+    }
+  }, [numberOfPhotos, setImageOpen, loading]);
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 z-30">
