@@ -71,7 +71,7 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
         X
       </button>
 
-      <ImageSliderContent userId={userId} />
+      <ImageSliderContent userId={userId} type={type} />
     </div>
   );
 };

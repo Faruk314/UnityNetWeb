@@ -11,6 +11,7 @@ interface Props {
   userId: number;
   commentId?: number;
   type?: string | null;
+  imageType?: string;
 }
 
 const PostOptions = ({
@@ -19,6 +20,7 @@ const PostOptions = ({
   userId,
   commentId,
   type,
+  imageType,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [commentEdit, setCommentEdit] = useState(false);
@@ -28,9 +30,9 @@ const PostOptions = ({
 
   const deletePostHandler = async () => {
     try {
-      await axios.delete(
-        `http://localhost:7000/api/posts/deletePost/${postId}`
-      );
+      await axios.put(`http://localhost:7000/api/posts/deletePost/${postId}`, {
+        type: imageType,
+      });
 
       dispatch(postActions.deletePost(postId));
     } catch (err) {}

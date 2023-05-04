@@ -10,9 +10,10 @@ import { useAppSelector } from "../redux/hooks";
 
 interface Props {
   userId: number;
+  type: string;
 }
 
-const ImageSliderContent = ({ userId }: Props) => {
+const ImageSliderContent = ({ userId, type }: Props) => {
   const photos = useAppSelector((state) => state.post.photos);
   const [openLikes, setOpenLikes] = useState(false);
   const [count, setCount] = useState(0);
@@ -72,6 +73,13 @@ const ImageSliderContent = ({ userId }: Props) => {
           postId={photos[count]?.id}
           createdAt={photos[count]?.created_at}
           type={photos[count]?.type}
+          imageType={
+            type === "cover"
+              ? "cover"
+              : type === "profile"
+              ? "profile"
+              : undefined
+          }
         />
 
         <div className="p-3 break-all">

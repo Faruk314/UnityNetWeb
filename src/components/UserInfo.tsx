@@ -17,8 +17,9 @@ interface Props {
   postId: number;
   sharedPostId?: number | null;
   createdAt?: Date | number;
-  type: string | null;
+  type?: string | null;
   otherUserInfo?: OtherUserInfo;
+  imageType?: string;
 }
 
 const UserInfo = ({
@@ -31,6 +32,7 @@ const UserInfo = ({
   lastName,
   image,
   otherUserInfo,
+  imageType,
 }: Props) => {
   const [openOptions, setOpenOptions] = useState(false);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -101,6 +103,7 @@ const UserInfo = ({
               postId={postId}
               userId={userId}
               type={type}
+              imageType={imageType}
             />
           )}
         </div>
