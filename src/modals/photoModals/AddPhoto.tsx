@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { fetchPosts } from "../../redux/postSlice";
+import { fetchPosts, fetchUserPosts } from "../../redux/postSlice";
 import profileDefault from "../../images/profile.jpg";
 
 interface HTMLInputEvent extends Event {
@@ -28,7 +28,7 @@ const AddPhoto = ({
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
-
+  const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [photo, setPhoto] = useState<any>("");
 
   const addPhotoHandler = async () => {
@@ -48,10 +48,14 @@ const AddPhoto = ({
     try {
       if (profileId) {
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
+
+        dispatch(fetchUserPosts({ userId: profileId, page: 1 }));
       }
 
       if (!profileId && !updateProfilePic && !updateCoverPic) {
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
+
+        dispatch(fetchPosts(1));
       }
 
       if (updateProfilePic) {
@@ -59,6 +63,8 @@ const AddPhoto = ({
           `http://localhost:7000/api/photos/uploadProfilePicture`,
           data
         );
+
+        dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
       }
 
       if (updateCoverPic) {
@@ -66,10 +72,11 @@ const AddPhoto = ({
           `http://localhost:7000/api/photos/uploadCoverPicture`,
           data
         );
+
+        dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
       }
 
       setOpenAddPhoto(false);
-      dispatch(fetchPosts(1));
     } catch (err) {
       console.log(err);
     }
