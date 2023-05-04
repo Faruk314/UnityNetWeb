@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { fetchPosts, fetchUserPosts } from "../../redux/postSlice";
+import { fetchPosts, fetchUserPosts, postActions } from "../../redux/postSlice";
 import profileDefault from "../../images/profile.jpg";
 import Confirmation from "../Confirmation";
 
@@ -66,6 +66,7 @@ const AddPhoto = ({
           data
         );
 
+        dispatch(postActions.setPhotoUploaded(true));
         dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
       }
 
@@ -75,6 +76,7 @@ const AddPhoto = ({
           data
         );
 
+        dispatch(postActions.setPhotoUploaded(true));
         dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
       }
 

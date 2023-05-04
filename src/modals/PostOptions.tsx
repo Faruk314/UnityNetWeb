@@ -34,6 +34,7 @@ const PostOptions = ({
         type: imageType,
       });
 
+      dispatch(postActions.setPhotoDeleted(true));
       dispatch(postActions.deletePost(postId));
     } catch (err) {}
   };

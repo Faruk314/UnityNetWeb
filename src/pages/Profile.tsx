@@ -41,6 +41,8 @@ const Profile = () => {
   const { id } = useParams();
   const [userId, setUserId] = useState(0);
   const [openCreatePost, setOpenCreatePost] = useState(false);
+  const photoDeleted = useAppSelector((state) => state.post.photoDeleted);
+  const photoUploaded = useAppSelector((state) => state.post.photoUploaded);
 
   useEffect(() => {
     if (id) {
@@ -56,13 +58,15 @@ const Profile = () => {
         `http://localhost:7000/api/users/getUserInfo/${userId}`
       );
 
+      dispatch(postActions.setPhotoUploaded(false));
+      dispatch(postActions.setPhotoDeleted(false));
       setUserInfo(response.data);
     };
 
     if (userId) {
       getUser();
     }
-  }, [userId]);
+  }, [userId, photoDeleted, photoUploaded, dispatch]);
 
   useEffect(() => {
     if (userId) {
