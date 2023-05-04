@@ -100,6 +100,7 @@ const UserInfo = ({
               setOpenOptions={setOpenOptions}
               postId={postId}
               userId={userId}
+              type={type}
             />
           )}
         </div>

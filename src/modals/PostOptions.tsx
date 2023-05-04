@@ -10,9 +10,16 @@ interface Props {
   postId: number;
   userId: number;
   commentId?: number;
+  type?: string | null;
 }
 
-const PostOptions = ({ setOpenOptions, postId, userId, commentId }: Props) => {
+const PostOptions = ({
+  setOpenOptions,
+  postId,
+  userId,
+  commentId,
+  type,
+}: Props) => {
   const dispatch = useAppDispatch();
   const [commentEdit, setCommentEdit] = useState(false);
   const [postEdit, setPostEdit] = useState(false);
@@ -54,15 +61,17 @@ const PostOptions = ({ setOpenOptions, postId, userId, commentId }: Props) => {
   return (
     <div className="absolute right-2 top-7 w-[12rem] bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-2 rounded-md z-20">
       <div className="flex flex-col space-y-2">
-        <button
-          onClick={
-            postId && commentId ? deletePostCommentHandler : deletePostHandler
-          }
-          className="flex items-center space-x-2 hover:text-red-500"
-        >
-          <AiFillDelete />
-          <span>Delete {postId && commentId ? "comment" : "post"}</span>
-        </button>
+        {type !== "profile" && type !== "cover" && (
+          <button
+            onClick={
+              postId && commentId ? deletePostCommentHandler : deletePostHandler
+            }
+            className="flex items-center space-x-2 hover:text-red-500"
+          >
+            <AiFillDelete />
+            <span>Delete {postId && commentId ? "comment" : "post"}</span>
+          </button>
+        )}
 
         <button
           onClick={(e) => {
