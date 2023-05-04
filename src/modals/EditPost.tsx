@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import moment from "moment-timezone";
 import profileDefault from "../images/profile.jpg";
 import axios from "axios";
+import Confirmation from "./Confirmation";
 
 interface Props {
   setPostEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
   const dispatch = useAppDispatch();
   const post = useAppSelector((state) => state.post.post);
   const [textContent, setTextContent] = useState("");
+  const [confirmation, setConfirmation] = useState(false);
 
   const editPostHandler = async () => {
     try {
@@ -24,7 +26,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
       });
 
       dispatch(postActions.editPost({ id: postId, textContent }));
-      setPostEdit(false);
+      setConfirmation(true);
     } catch (err) {
       console.log(err);
     }
@@ -116,6 +118,12 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
           </button>
         </div>
       </div>
+      {confirmation && (
+        <Confirmation
+          message="Post was successfully edited"
+          setOpen={setPostEdit}
+        />
+      )}
     </div>
   );
 };
