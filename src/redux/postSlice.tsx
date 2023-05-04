@@ -22,6 +22,8 @@ interface InitialState {
   userPosts: Post[];
   postComments: IPostComment[];
   photos: Post[];
+  photoDeleted: boolean;
+  photoUploaded: boolean;
 }
 
 const initialState: InitialState = {
@@ -42,6 +44,8 @@ const initialState: InitialState = {
   userPosts: [],
   postComments: [],
   photos: [],
+  photoDeleted: false,
+  photoUploaded: false,
 };
 
 export const fetchPostComments = createAsyncThunk(
@@ -157,6 +161,13 @@ const postSlice = createSlice({
     },
     setPhotos(state, action) {
       state.photos = action.payload;
+    },
+
+    setPhotoUploaded(state, action) {
+      state.photoUploaded = action.payload;
+    },
+    setPhotoDeleted(state, action) {
+      state.photoDeleted = action.payload;
     },
   },
   extraReducers: (builder) => {
