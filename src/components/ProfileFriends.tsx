@@ -48,7 +48,7 @@ const ProfileFriends = ({ userId, friendStatus }: Props) => {
       <button
         onClick={() => setOpenAllFriends(true)}
         type="submit"
-        className="bg-blue-500 w-full text-white p-2 rounded-md font-bold hover:bg-blue-600"
+        className="w-full p-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
       >
         See all friends
       </button>

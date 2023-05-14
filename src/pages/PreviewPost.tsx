@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Post from "../cards/Post";
 import Navbar from "../components/Navbar";
@@ -19,7 +19,7 @@ const PreviewPost = () => {
   return (
     <>
       <Navbar />
-      <section className="p-2 max-w-5xl flex justify-center mx-auto mt-10">
+      <section className="flex justify-center max-w-5xl p-2 mx-auto mt-10">
         <div className="w-[30rem]">
           <Post
             postId={post.id}

@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   friendRequestActions,
   getFriendRequests,
-  onRemovedFromFriends,
   rejectFriendRequest,
   removeFromFriendsList,
   sendFriendRequest,
@@ -143,7 +142,7 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
       setFriendReqStatus({ status: false, receiver: 0, sender: 0 });
       dispatch(getFriendRequests());
     } catch (err) {}
-  }, [friendReqStatus, loggedUserInfo]);
+  }, [dispatch, friendReqStatus, loggedUserInfo]);
 
   const rejectRequestHandler = async () => {
     try {
@@ -160,14 +159,14 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
   };
 
   return (
-    <div className="ml-5 mb-6">
+    <div className="mb-6 ml-5">
       {loggedUserInfo.id !== userInfo.id &&
         !friendStatus &&
         friendReqStatus.status === false && (
           <button
             onClick={friendRequestHandler} //
             type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600"
+            className="p-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
           >
             Add to friends
           </button>
@@ -180,7 +179,7 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
           <button
             onClick={unfriendHandler}
             type="submit"
-            className="bg-blue-500 text-white p-1 rounded-md font-bold hover:bg-blue-600"
+            className="p-1 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
           >
             Unfriend
           </button>
@@ -202,14 +201,14 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
             <button
               onClick={acceptRequestHandler}
               type="submit"
-              className="bg-blue-500 text-white p-1 rounded-md font-bold hover:bg-blue-600"
+              className="p-1 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
             >
               Accept
             </button>
 
             <button
               onClick={rejectRequestHandler}
-              className="border-2 border-blue-500 rounded-md text-blue-600 p-1"
+              className="p-1 text-blue-600 border-2 border-blue-500 rounded-md"
             >
               Reject
             </button>

@@ -129,7 +129,7 @@ const CommentsAndLikes = ({
   }, [postId, liked]);
 
   return (
-    <div className="flex items-center space-x-2 mt-2">
+    <div className="flex items-center mt-2 space-x-2">
       <button onClick={likePostHandler}>
         {" "}
         <AiFillHeart

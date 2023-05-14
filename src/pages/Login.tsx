@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { authActions } from "../redux/authSlice";
 import { useAppDispatch } from "../redux/hooks";
-import socket, { onLoginSuccess } from "../services/socket";
+import { onLoginSuccess } from "../services/socket";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -92,7 +92,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600"
+          className="p-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
           Log in
         </button>
@@ -100,13 +100,13 @@ const Login = () => {
         <button
           onClick={loginAsGuest}
           type="button"
-          className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600"
+          className="p-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
           Login as Guest
         </button>
 
         <Link to="/register" className="mx-auto">
-          <button className="bg-green-600 p-2 rounded-md text-white font-bold hover:bg-green-700">
+          <button className="p-2 font-bold text-white bg-green-600 rounded-md hover:bg-green-700">
             Create new account
           </button>
         </Link>

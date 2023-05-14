@@ -26,9 +26,9 @@ const Navbar = () => {
   const arrivedMessages = useAppSelector((state) => state.chat.arrivedMessages);
 
   return (
-    <div className="flex items-center justify-between border bg-white text-white p-3 sticky top-0 z-20">
+    <div className="sticky top-0 z-20 flex items-center justify-between p-3 text-white bg-white border">
       <div className="relative flex items-center space-x-2">
-        <Link className="text-2xl text-blue-500 font-bold" to="/home">
+        <Link className="text-2xl font-bold text-blue-500" to="/home">
           UN
         </Link>
 

@@ -78,7 +78,7 @@ const CommentsContent = ({ postId, image, userId }: Props) => {
         />
 
         <textarea
-          className="bg-gray-100 rounded-full outline-none w-full p-2"
+          className="w-full p-2 bg-gray-100 rounded-full outline-none"
           placeholder="Write a comment"
           rows={1}
           onChange={(e) => setComment(e.target.value)}

@@ -97,8 +97,8 @@ const Profile = () => {
       <Navbar />
       <section className="max-w-5xl mx-auto shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-gray-100">
         <ProfileHeader userInfo={userInfo} />
-        <div className="my-4 mt-20 w-max text-center">
-          <h2 className="text-2xl font-bold ml-5">
+        <div className="my-4 mt-20 text-center w-max">
+          <h2 className="ml-5 text-2xl font-bold">
             {userInfo.first_name} {userInfo.last_name}
           </h2>
           <ProfileButtons
@@ -130,7 +130,7 @@ const Profile = () => {
                   />
                 </Link>
                 <input
-                  className="bg-gray-100 rounded-full px-3 py-2 w-full"
+                  className="w-full px-3 py-2 bg-gray-100 rounded-full"
                   placeholder={
                     loggedUserInfo.id === userId
                       ? "What is on your mind?"
@@ -138,7 +138,7 @@ const Profile = () => {
                   }
                 />
               </div>
-              <div className="relative flex space-x-2 mt-2 hover:bg-gray-100 w-max p-1 rounded-md">
+              <div className="relative flex p-1 mt-2 space-x-2 rounded-md hover:bg-gray-100 w-max">
                 <button onClick={() => setOpenAddPhoto(true)}>
                   <SlPicture size={25} />
                 </button>
@@ -157,7 +157,7 @@ const Profile = () => {
             )}
 
             {posts.length === 0 && (
-              <p className="text-center text-blue-600 mt-5">
+              <p className="mt-5 text-center text-blue-600">
                 There is no existing posts
               </p>
             )}

@@ -4,11 +4,8 @@ import profileDefault from "../../images/profile.jpg";
 import { IoMdSend } from "react-icons/io";
 import Message from "../../cards/Message";
 import axios from "axios";
-import { User } from "../../types/types";
 import { chatActions, fetchMessages, sendMessage } from "../../redux/chatSlice";
-import { Message as Msg } from "../../types/types";
 import { Chat as Ch } from "../../types/types";
-import ChatBubble from "../../cards/ChatBubble";
 
 interface Props {
   chatInfo: Ch;
@@ -19,7 +16,6 @@ const Chat = ({ chatInfo }: Props) => {
   const [message, setMessage] = useState("");
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const messages = useAppSelector((state) => state.chat.messages);
-  const chats = useAppSelector((state) => state.chat.chats);
   const [messageSent, setMessageSent] = useState(false);
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
@@ -134,13 +130,13 @@ const Chat = ({ chatInfo }: Props) => {
             messageHandler(e);
           }
         }}
-        className="absolute bottom-0 flex items-center space-x-2 my-2"
+        className="absolute bottom-0 flex items-center my-2 space-x-2"
       >
         <textarea
           placeholder="write something"
           onChange={(e) => setMessage(e.target.value)}
           rows={1}
-          className="bg-gray-200 focus:outline-none p-2 overflow-y-auto rounded-full"
+          className="p-2 overflow-y-auto bg-gray-200 rounded-full focus:outline-none"
           value={message}
         />
 

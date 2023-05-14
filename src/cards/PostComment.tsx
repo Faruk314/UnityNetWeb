@@ -107,7 +107,7 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
     <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md p-2 max-w-[30rem]">
       <div className="flex items-center justify-between">
         <div className="flex items-start justify-between w-full space-x-2">
-          <div className="flex space-x-2 w-full">
+          <div className="flex w-full space-x-2">
             <Link to={`/profile/${userId}`}>
               <img
                 src={user.image}
@@ -146,7 +146,7 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
         </div>
       </div>
 
-      <div className="flex items-center space-x-2 mt-2">
+      <div className="flex items-center mt-2 space-x-2">
         <button onClick={likePostCommentHandler}>
           <AiFillHeart
             size={25}

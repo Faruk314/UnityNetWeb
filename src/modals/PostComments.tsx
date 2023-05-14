@@ -1,6 +1,5 @@
 import React from "react";
 import CommentsContent from "../components/CommentsContent";
-
 import PostContent from "../components/PostContent";
 
 interface Props {
@@ -17,7 +16,6 @@ interface Props {
   setOpenComments: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenLikes: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenShares: React.Dispatch<React.SetStateAction<boolean>>;
-  // getCommAndLikesCount: () => void;
 }
 
 const PostComments = ({
@@ -38,7 +36,7 @@ const PostComments = ({
   return (
     <div className="fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
       <div className="w-[40rem] mx-4">
-        <div className="bg-white p-2 border">
+        <div className="p-2 bg-white border">
           <button
             onClick={(e) => {
               e.stopPropagation();

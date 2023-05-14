@@ -48,7 +48,7 @@ const Home = () => {
   return (
     <div className="">
       <Navbar />
-      <section className="relative space-x-2 px-4 md:flex lg:grid lg:grid-cols-3">
+      <section className="relative px-4 space-x-2 md:flex lg:grid lg:grid-cols-3">
         <SideBar />
 
         {open && <CreatePost setOpen={setOpen} profileId={null} />}
@@ -66,11 +66,11 @@ const Home = () => {
                 />
               </Link>
               <input
-                className="bg-gray-100 rounded-full px-3 py-2 w-full"
+                className="w-full px-3 py-2 bg-gray-100 rounded-full"
                 placeholder="What is on your mind?"
               />
             </div>
-            <div className="relative flex space-x-2 mt-2 hover:bg-gray-100 w-max p-1 rounded-md">
+            <div className="relative flex p-1 mt-2 space-x-2 rounded-md hover:bg-gray-100 w-max">
               <button onClick={() => setOpenAddPhoto(true)}>
                 <SlPicture size={25} />
               </button>
@@ -80,7 +80,7 @@ const Home = () => {
           </div>
 
           {posts.length === 0 && (
-            <p className="text-center mt-5 text-blue-500">
+            <p className="mt-5 text-center text-blue-500">
               There is no existing posts
             </p>
           )}

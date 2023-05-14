@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { authActions } from "../redux/authSlice";
@@ -34,7 +34,7 @@ const SearchPage = () => {
     <section className="bg-gray-100 h-[100vh]">
       <Navbar />
 
-      <div className="mx-auto flex flex-col space-y-6 py-10 items-center justify-center">
+      <div className="flex flex-col items-center justify-center py-10 mx-auto space-y-6">
         {search.map((result) => (
           <div
             key={result.id}

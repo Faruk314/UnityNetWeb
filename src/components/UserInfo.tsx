@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PostOptions from "../modals/PostOptions";
-import { OtherUserInfo, User } from "../types/types";
-import axios from "axios";
+import { OtherUserInfo } from "../types/types";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
 import { useAppSelector } from "../redux/hooks";
@@ -39,7 +38,7 @@ const UserInfo = ({
 
   return (
     <div className="flex items-center justify-between">
-      <div className="flex space-x-2 p-3">
+      <div className="flex p-3 space-x-2">
         <Link to={`/profile/${userId}`}>
           <img
             src={image || profileDefault}
@@ -48,7 +47,7 @@ const UserInfo = ({
           />
         </Link>
         <div>
-          <div className="flex space-x-1 items-center">
+          <div className="flex items-center space-x-1">
             <div className="flex items-center">
               <span className="font-bold">
                 {firstName} {lastName}

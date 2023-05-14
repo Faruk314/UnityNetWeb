@@ -1,7 +1,4 @@
 import React from "react";
-import { AiFillHome } from "react-icons/ai";
-import { MdLocationPin } from "react-icons/md";
-import { BsThreeDots } from "react-icons/bs";
 import { useAppSelector } from "../redux/hooks";
 import { User } from "../types/types";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +32,7 @@ const ProfileInfo = ({ userInfo }: Props) => {
       {loggedUserInfo.id === userInfo.id && (
         <button
           onClick={() => navigate(`/editProfile/${loggedUserInfo.id}`)}
-          className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600 w-max"
+          className="p-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600 w-max"
         >
           Edit profile
         </button>

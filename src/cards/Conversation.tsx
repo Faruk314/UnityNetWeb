@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RxDotFilled } from "react-icons/rx";
 import profileDefault from "../images/profile.jpg";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-
-import { Message } from "../types/types";
 import { chatActions } from "../redux/chatSlice";
 import { BiCheckDouble } from "react-icons/bi";
 import moment from "moment-timezone";
@@ -31,7 +29,6 @@ const Conversation = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const messages = useAppSelector((state) => state.chat.messages);
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
@@ -58,7 +55,7 @@ const Conversation = ({
         );
       }}
       key={id}
-      className="flex justify-between items-center space-x-4 hover:bg-gray-100 rounded-md p-1 hover:cursor-pointer"
+      className="flex items-center justify-between p-1 space-x-4 rounded-md hover:bg-gray-100 hover:cursor-pointer"
     >
       <div className="flex space-x-3">
         <div className="relative">

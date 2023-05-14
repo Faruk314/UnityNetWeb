@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AiFillEdit, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
 import Navbar from "../components/Navbar";
 import Confirmation from "../modals/Confirmation";
 import { useAppSelector } from "../redux/hooks";
@@ -91,10 +91,10 @@ const EditProfile = () => {
 
       <div className="mx-4">
         <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] mx-auto mt-20 max-w-3xl px-4">
-          <div className="text-center font-bold text-2xl py-2 border-b">
+          <div className="py-2 text-2xl font-bold text-center border-b">
             Edit Profile
           </div>
-          <div className="text-gray-500 p-4">
+          <div className="p-4 text-gray-500">
             {options.map((option, index) => (
               <div key={option.id} className="">
                 <span className="block mt-2">{option.desc}</span>
@@ -115,7 +115,7 @@ const EditProfile = () => {
                       option.enabled ? { border: "1px solid #3b82f6" } : {}
                     }
                     disabled={option.enabled === false ? true : false}
-                    className="bg-gray-100 rounded-md px-3 py-2 w-full outline-none"
+                    className="w-full px-3 py-2 bg-gray-100 rounded-md outline-none"
                     placeholder=""
                   />
 
@@ -133,14 +133,14 @@ const EditProfile = () => {
               </div>
             ))}
 
-            {msg && <p className="text-red-500 mt-2">{msg}</p>}
+            {msg && <p className="mt-2 text-red-500">{msg}</p>}
 
             <button
               onClick={handleConfirm}
               disabled={
                 options.some((option) => option.enabled === true) && true
               }
-              className="bg-blue-500 text-white p-2 mt-4 rounded-md font-bold hover:bg-blue-600 disabled:bg-gray-200"
+              className="p-2 mt-4 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600 disabled:bg-gray-200"
             >
               Confirm
             </button>

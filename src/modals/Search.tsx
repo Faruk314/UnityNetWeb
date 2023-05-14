@@ -84,7 +84,7 @@ const Search = ({ setSearchOpen }: Props) => {
           handleSearch();
           navigate(`/search`);
         }}
-        className="flex items-center space-x-2 hover:bg-gray-100 hover:cursor-pointer p-2 rounded-md"
+        className="flex items-center p-2 space-x-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
       >
         <span className="rounded-full bg-blue-500 text-white w-[2rem] h-[2rem] flex items-center justify-center">
           <AiOutlineSearch size={20} />
@@ -96,7 +96,7 @@ const Search = ({ setSearchOpen }: Props) => {
         <div
           onClick={() => navigate(`/profile/${suggestion.id}`)}
           key={suggestion.id}
-          className="flex items-center space-x-4 hover:bg-gray-100 p-1 rounded-md hover:cursor-pointer mt-2"
+          className="flex items-center p-1 mt-2 space-x-4 rounded-md hover:bg-gray-100 hover:cursor-pointer"
         >
           <img
             src={suggestion.image || profileDefault}

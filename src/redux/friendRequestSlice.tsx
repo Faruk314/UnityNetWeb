@@ -33,13 +33,6 @@ const initialState: InitialState = {
   isFriendRequestRejected: false,
 };
 
-// export const sendFriendRequest = createAsyncThunk(
-//   "sendFriendRequest",
-//   async function ({ request, receiverId }: Request, { dispatch }) {
-//     window.socketClient.emit("sendFriendRequest", { request, receiverId });
-//   }
-// );
-
 export const sendFriendRequest =
   ({ senderId, receiverId }: Request) =>
   (dispatch: any) => {

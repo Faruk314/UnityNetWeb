@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { AiFillEdit, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { IPhoto } from "../types/types";
 import UserInfo from "./UserInfo";
 import UsersByLikes from "../modals/UsersByLikes";
 import CommentsAndLikes from "./CommentsAndLikes";
@@ -87,7 +86,7 @@ const ImageSliderContent = ({ userId, type }: Props) => {
             <p className="">
               {photos[count]?.text_content.slice(1, 140)}
               <button
-                className=" text-blue-600"
+                className="text-blue-600 "
                 onClick={() => setSeeMore(true)}
               >
                 ... more
@@ -98,7 +97,7 @@ const ImageSliderContent = ({ userId, type }: Props) => {
           )}
 
           {photos[count]?.edited !== 0 && (
-            <p className="mt-1 text-gray-400 flex items-center space-x-1">
+            <p className="flex items-center mt-1 space-x-1 text-gray-400">
               <AiFillEdit />
               <span>Edited</span>
             </p>

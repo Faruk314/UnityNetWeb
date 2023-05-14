@@ -3,7 +3,6 @@ import profileDefault from "../images/profile.jpg";
 import { AiOutlineClose } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { chatActions } from "../redux/chatSlice";
-import moment from "moment-timezone";
 import { Message } from "../types/types";
 
 interface Props {

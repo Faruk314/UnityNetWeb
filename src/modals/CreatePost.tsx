@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { SlPicture } from "react-icons/sl";
-import { BsEmojiSmile } from "react-icons/bs";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchPosts, fetchUserPosts } from "../redux/postSlice";
-import AddPhoto from "./photoModals/AddPhoto";
 import profileDefault from "../images/profile.jpg";
 
 interface Props {
@@ -62,7 +59,7 @@ const CreatePost = ({ setOpen, profileId }: Props) => {
         >
           X
         </button>
-        <div className="flex items-center space-x-2 my-4">
+        <div className="flex items-center my-4 space-x-2">
           <img
             alt=""
             src={userInfo.image || profileDefault}
@@ -76,7 +73,7 @@ const CreatePost = ({ setOpen, profileId }: Props) => {
         <div className="my-4">
           <textarea
             onChange={(e) => setTextContent(e.target.value)}
-            className="bg-gray-100 rounded-lg outline-none w-full p-2"
+            className="w-full p-2 bg-gray-100 rounded-lg outline-none"
             value={textContent}
             placeholder="Whats on your mind?"
           />
@@ -86,7 +83,7 @@ const CreatePost = ({ setOpen, profileId }: Props) => {
 
         <button
           type="submit"
-          className="bg-gray-200 rounded-md flex items-center space-x-2 px-3 py-1 hover:bg-gray-300"
+          className="flex items-center px-3 py-1 space-x-2 bg-gray-200 rounded-md hover:bg-gray-300"
         >
           Create Post
         </button>

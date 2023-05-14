@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { create } from "domain";
 import { Notification } from "../types/types";
 import socket from "../services/socket";
-import { useAppSelector } from "./hooks";
 
 interface Args {
   receiverId: number;

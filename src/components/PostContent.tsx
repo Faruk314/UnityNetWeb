@@ -76,7 +76,7 @@ const PostContent = ({
         {!seeMore && postText?.length > 120 ? (
           <p className="">
             {postText.slice(1, 140)}
-            <button className=" text-blue-600" onClick={() => setSeeMore(true)}>
+            <button className="text-blue-600 " onClick={() => setSeeMore(true)}>
               ... more
             </button>
           </p>
@@ -85,7 +85,7 @@ const PostContent = ({
         )}
 
         {edited !== 0 && (
-          <p className="mt-1 text-gray-400 flex items-center space-x-1">
+          <p className="flex items-center mt-1 space-x-1 text-gray-400">
             <AiFillEdit />
             <span>Edited</span>
           </p>

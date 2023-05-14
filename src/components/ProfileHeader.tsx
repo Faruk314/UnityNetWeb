@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import AddPhoto from "../modals/photoModals/AddPhoto";
-import AllFriends from "../modals/AllFriends";
 import ImageSlider from "../modals/ImageSlider";
 import { User } from "../types/types";
 import { useAppSelector } from "../redux/hooks";
@@ -28,7 +27,7 @@ const ProfileHeader = ({ userInfo }: Props) => {
         }}
         src={userInfo.cover_image || ""}
         alt=""
-        className="h-full w-full hover:cursor-pointer"
+        className="w-full h-full hover:cursor-pointer"
       />
 
       {coverPhotoOpen && userInfo.cover_image !== null && (

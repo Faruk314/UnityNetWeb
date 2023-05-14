@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import UserInfo from "../components/UserInfo";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { fetchPost, fetchPosts, postActions } from "../redux/postSlice";
+import { fetchPost, postActions } from "../redux/postSlice";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
 import profileDefault from "../images/profile.jpg";
@@ -45,7 +44,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
   return (
     <div className="fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
       <div className="w-[40rem] mx-4 rounded bg-white">
-        <div className="bg-white p-2 border flex items-center space-x-2">
+        <div className="flex items-center p-2 space-x-2 bg-white border">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -57,21 +56,21 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
           </button>
 
           {post.type === "profile" && (
-            <span className="font-bold text-xl">PROFILE PHOTO</span>
+            <span className="text-xl font-bold">PROFILE PHOTO</span>
           )}
           {post.type === "shared" && (
-            <span className="font-bold text-xl">SHARED POST</span>
+            <span className="text-xl font-bold">SHARED POST</span>
           )}
           {post.type === "cover" && (
-            <span className="font-bold text-xl">COVER PHOTO</span>
+            <span className="text-xl font-bold">COVER PHOTO</span>
           )}
 
-          {!post.type && <span className="font-bold text-xl">POST</span>}
+          {!post.type && <span className="text-xl font-bold">POST</span>}
         </div>
 
         <div className="h-[40rem] overflow-auto p-5">
           <div className=" bg-white rounded-md w-full shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-            <div className="flex space-x-2 p-3">
+            <div className="flex p-3 space-x-2">
               <Link to={`/profile/${post.user_id}`}>
                 <img
                   src={post.image || profileDefault}
@@ -96,7 +95,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
                 placeholder="Add your text"
                 value={textContent}
                 rows={5}
-                className="border w-full p-2 outline-blue-500"
+                className="w-full p-2 border outline-blue-500"
               ></textarea>
             </div>
 
@@ -112,7 +111,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
           </div>
           <button
             onClick={editPostHandler}
-            className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600 mt-2"
+            className="p-2 mt-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
           >
             Confirm
           </button>

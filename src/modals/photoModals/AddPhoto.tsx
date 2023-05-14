@@ -7,10 +7,6 @@ import { fetchPosts, fetchUserPosts, postActions } from "../../redux/postSlice";
 import profileDefault from "../../images/profile.jpg";
 import Confirmation from "../Confirmation";
 
-interface HTMLInputEvent extends Event {
-  target: HTMLInputElement & EventTarget;
-}
-
 interface Props {
   setOpenAddPhoto: React.Dispatch<React.SetStateAction<boolean>>;
   updateProfilePic?: boolean;
@@ -27,7 +23,6 @@ const AddPhoto = ({
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [description, setDescription] = useState("");
-  const [message, setMessage] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [photo, setPhoto] = useState<any>("");
@@ -95,7 +90,7 @@ const AddPhoto = ({
 
   return (
     <div className="flex items-center justify-center fixed top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
-      <div className="relative bg-white rounded-md mx-3 p-3">
+      <div className="relative p-3 mx-3 bg-white rounded-md">
         {!updateCoverPic && !updateProfilePic && (
           <h2 className="text-2xl font-bold text-center">Add photo</h2>
         )}
@@ -113,7 +108,7 @@ const AddPhoto = ({
         >
           X
         </button>
-        <div className="flex items-center space-x-2 my-4">
+        <div className="flex items-center my-4 space-x-2">
           <Link to={`/profile/${userInfo.id}`}>
             <img
               alt=""
@@ -129,7 +124,7 @@ const AddPhoto = ({
         <div className="my-4">
           <textarea
             onChange={(e) => setDescription(e.target.value)}
-            className="bg-gray-100 rounded-md p-2 outline-none w-full"
+            className="w-full p-2 bg-gray-100 rounded-md outline-none"
             value={description}
             placeholder="add description"
           />
@@ -157,7 +152,7 @@ const AddPhoto = ({
         <button
           onClick={addPhotoHandler}
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded-md font-bold hover:bg-blue-600"
+          className="p-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
           Confirm
         </button>

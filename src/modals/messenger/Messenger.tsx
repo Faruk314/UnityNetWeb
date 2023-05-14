@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Message, User } from "../../types/types";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Conversation from "../../cards/Conversation";
-import { chatActions, fetchMessages } from "../../redux/chatSlice";
+import { chatActions } from "../../redux/chatSlice";
 import { Conversation as Conv } from "../../types/types";
 
 interface Props {
@@ -43,12 +42,12 @@ const Messenger = ({ setOpenMessages }: Props) => {
         onChange={(e) => setSearchTerm(e.target.value)}
         type="text"
         placeholder="Search conversations"
-        className="w-full rounded-full px-2 py-2 bg-gray-100 focus:outline-none my-4"
+        className="w-full px-2 py-2 my-4 bg-gray-100 rounded-full focus:outline-none"
       />
 
       <div className="flex flex-col space-y-2 overflow-y-auto h-[20rem]">
         {conversations.length === 0 && (
-          <p className="text-center mt-2 text-blue-500">
+          <p className="mt-2 text-center text-blue-500">
             You dont have any conversations
           </p>
         )}

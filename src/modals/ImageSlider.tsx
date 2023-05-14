@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { IPhoto } from "../types/types";
 import ImageSliderContent from "../components/ImageSliderContent";
-import Navbar from "../components/Navbar";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { postActions } from "../redux/postSlice";
 
@@ -63,7 +61,7 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
   }, [numberOfPhotos, setImageOpen, loading]);
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 z-30">
+    <div className="fixed top-0 bottom-0 left-0 right-0 z-30">
       <button
         onClick={() => setImageOpen(false)}
         className="absolute top-0 z-40 bg-gray-300 rounded-full w-[2rem] h-[2rem] hover:bg-gray-200 m-2"

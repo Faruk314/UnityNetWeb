@@ -12,10 +12,10 @@ const SideBar = () => {
 
   return (
     <div className="hidden md:block md:w-[30rem] lg:w-[25rem] mt-5 font-bold bg-white rounded-md p-2 sticky top-[6rem] h-max shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
-      <span className="text-2xl p-2">Profile</span>
+      <span className="p-2 text-2xl">Profile</span>
 
       <div className="mt-5">
-        <div className="flex items-center justify-between hover:bg-gray-100 hover:cursor-pointer rounded-md p-2 mt-2">
+        <div className="flex items-center justify-between p-2 mt-2 rounded-md hover:bg-gray-100 hover:cursor-pointer">
           <div
             onClick={() => navigate(`/profile/${loggedUserInfo.id}`)}
             className="flex items-center justify-center space-x-2"
@@ -35,7 +35,7 @@ const SideBar = () => {
             e.stopPropagation();
             setOpenFriends(true);
           }}
-          className="flex items-center justify-between hover:bg-gray-100 hover:cursor-pointer rounded-md p-2 mt-2"
+          className="flex items-center justify-between p-2 mt-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
         >
           <div className="flex items-center justify-center space-x-2">
             <FaUserFriends size={30} className="text-blue-500" />
@@ -53,7 +53,7 @@ const SideBar = () => {
 
         <div
           onClick={() => navigate(`/editProfile/${loggedUserInfo.id}`)}
-          className="flex items-center justify-between hover:bg-gray-100 hover:cursor-pointer rounded-md p-2 mt-2"
+          className="flex items-center justify-between p-2 mt-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
         >
           <div className="flex items-center justify-center space-x-2">
             <AiFillEdit size={30} className="text-blue-500" />

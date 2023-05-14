@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import profileDefault from "../images/profile.jpg";
-import { useAppSelector } from "../redux/hooks";
 
 interface Props {
   firstName: string;
@@ -20,7 +19,6 @@ const Notification = ({
   receiverId,
   postId,
 }: Props) => {
-  const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const navigate = useNavigate();
 
   return (

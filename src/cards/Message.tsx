@@ -29,8 +29,6 @@ const Message = ({
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [isHovering, setIsHovering] = useState(false);
   const dispatch = useAppDispatch();
-  const messages = useAppSelector((state) => state.chat.messages);
-  const messageSeen = useAppSelector((state) => state.chat.messageSeen);
 
   const handleMouseOver = () => {
     setIsHovering(true);

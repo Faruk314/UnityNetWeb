@@ -12,7 +12,7 @@ const Confirmation = ({ message, setOpen }: Props) => {
         <p>{message}</p>
         <button
           onClick={() => setOpen(false)}
-          className="bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 disabled:bg-gray-200 mt-4 p-2"
+          className="p-2 mt-4 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600 disabled:bg-gray-200"
         >
           Continue
         </button>

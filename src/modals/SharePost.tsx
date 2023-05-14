@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import axios from "axios";
-import { fetchPost, fetchPosts } from "../redux/postSlice";
+import { fetchPosts } from "../redux/postSlice";
 
 interface Props {
   setOpenSharePost: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,7 +55,7 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
         >
           X
         </button>
-        <div className="flex items-center space-x-2 my-4">
+        <div className="flex items-center my-4 space-x-2">
           <img
             alt=""
             src=""
@@ -69,7 +69,7 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
         <div className="my-4">
           <textarea
             onChange={(e) => setDescription(e.target.value)}
-            className="bg-gray-100 rounded-lg outline-none w-full p-2"
+            className="w-full p-2 bg-gray-100 rounded-lg outline-none"
             value={description}
             placeholder="Add description"
           />
@@ -77,7 +77,7 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
 
         <button
           type="submit"
-          className="bg-gray-200 rounded-md flex items-center space-x-2 px-3 py-1 hover:bg-gray-300"
+          className="flex items-center px-3 py-1 space-x-2 bg-gray-200 rounded-md hover:bg-gray-300"
         >
           Share Post
         </button>
