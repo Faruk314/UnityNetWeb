@@ -4,6 +4,7 @@ import { FaUserFriends } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import AllFriends from "../modals/AllFriends";
 import { AiFillEdit } from "react-icons/ai";
+import profileDefault from "../images/profile.jpg";
 
 const SideBar = () => {
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -21,7 +22,7 @@ const SideBar = () => {
             className="flex items-center justify-center space-x-2"
           >
             <img
-              src={""}
+              src={loggedUserInfo.image || profileDefault}
               alt=""
               className="rounded-full border-2 w-[2.5rem] h-[2.2rem]"
             />
