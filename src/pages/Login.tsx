@@ -36,8 +36,8 @@ const Login = () => {
       onLoginSuccess(response.data);
 
       navigate("/home");
-    } catch (err) {
-      console.log(err);
+    } catch (error: any) {
+      setMessage(error.response.data.message);
     }
   };
 
@@ -53,7 +53,7 @@ const Login = () => {
       onLoginSuccess(response.data);
 
       navigate("/home");
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
     }
   };

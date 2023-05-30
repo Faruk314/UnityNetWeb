@@ -29,8 +29,8 @@ const Register = () => {
     try {
       await axios.post(`http://localhost:7000/api/auth/register`, formData);
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setMessage(error.response.data.message);
     }
   };
 
