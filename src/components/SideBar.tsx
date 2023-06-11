@@ -45,10 +45,12 @@ const SideBar = () => {
             <span className="font-bold">Friends</span>
           </div>
           {openFriends && (
-            <AllFriends
-              id={loggedUserInfo.id}
-              setOpenAllFriends={setOpenFriends}
-            />
+            <div className="">
+              <AllFriends
+                id={loggedUserInfo.id}
+                setOpenAllFriends={setOpenFriends}
+              />
+            </div>
           )}
         </div>
 

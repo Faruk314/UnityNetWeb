@@ -31,7 +31,7 @@ const Notifications = () => {
         )}
         {notifications.map((notification) => (
           <Notification
-            key={notification.notification_id}
+            key={notification.id}
             receiverId={notification.id}
             firstName={notification.first_name}
             lastName={notification.last_name}
