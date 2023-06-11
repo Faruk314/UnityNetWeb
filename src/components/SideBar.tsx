@@ -12,7 +12,7 @@ const SideBar = () => {
   const [openFriends, setOpenFriends] = useState(false);
 
   return (
-    <div className="hidden md:block md:w-[30rem] lg:w-[25rem] mt-5 font-bold bg-white rounded-md p-2 sticky top-[6rem] h-max shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
+    <div className="hidden md:block md:w-[30rem] lg:w-[25rem] mt-5 font-bold bg-white rounded-md p-2 sticky top-[6rem] h-max shadow-[0_3px_10px_rgb(0,0,0,0.2)] z-10">
       <span className="p-2 text-2xl">Profile</span>
 
       <div className="mt-5">
@@ -44,13 +44,12 @@ const SideBar = () => {
             <span className="font-bold">View</span>
             <span className="font-bold">Friends</span>
           </div>
+
           {openFriends && (
-            <div className="">
-              <AllFriends
-                id={loggedUserInfo.id}
-                setOpenAllFriends={setOpenFriends}
-              />
-            </div>
+            <AllFriends
+              id={loggedUserInfo.id}
+              setOpenAllFriends={setOpenFriends}
+            />
           )}
         </div>
 
