@@ -34,6 +34,8 @@ import EditProfile from "./pages/EditProfile";
 import ChatBubble from "./cards/ChatBubble";
 import Chat from "./modals/messenger/Chat";
 import SearchPage from "./pages/SearchPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthProtection from "./components/AuthProtection";
 
 axios.defaults.withCredentials = true;
 
@@ -53,6 +55,8 @@ function App() {
   const isFriendRequestRejected = useAppSelector(
     (state) => state.request.isFriendRequestRejected
   );
+
+  console.log(isLoggedIn);
 
   useEffect(() => {
     // dispatch(onRemovedFromFriends());
@@ -128,28 +132,73 @@ function App() {
           onLoginSuccess(response.data.token);
           dispatch(getLoggedUserInfo());
         }
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getLoginStatus();
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={!isLoggedIn && <Login />} />
-        <Route path="/register" element={!isLoggedIn && <Register />} />
-        <Route path="/home" element={isLoggedIn && <Home />} />
-        <Route path="/profile/:id" element={isLoggedIn && <Profile />} />
+        <Route
+          path="/"
+          element={
+            <AuthProtection isLoggedIn={isLoggedIn}>
+              <Login />
+            </AuthProtection>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <AuthProtection isLoggedIn={isLoggedIn}>
+              <Register />
+            </AuthProtection>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/previewPost/:postId"
-          element={isLoggedIn && <PreviewPost />}
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <PreviewPost />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/editProfile/:id"
-          element={isLoggedIn && <EditProfile />}
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <EditProfile />
+            </ProtectedRoute>
+          }
         />
-        <Route path="/search" element={isLoggedIn && <SearchPage />} />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <SearchPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       {isLoggedIn && (
         <div>
