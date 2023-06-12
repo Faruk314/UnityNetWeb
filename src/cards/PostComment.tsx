@@ -11,6 +11,7 @@ import {
   createNotification,
   sendNotification,
 } from "../redux/notificationSlice";
+import profileDefault from "../images/profile.jpg";
 
 interface Props {
   commentId: number;
@@ -110,7 +111,7 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
           <div className="flex w-full space-x-2">
             <Link to={`/profile/${userId}`}>
               <img
-                src={user.image}
+                src={user.image || profileDefault}
                 alt=""
                 className="border-2 w-[3rem] h-[3rem] rounded-full"
               />

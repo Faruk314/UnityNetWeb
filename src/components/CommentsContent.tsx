@@ -9,6 +9,7 @@ import {
   createNotification,
   sendNotification,
 } from "../redux/notificationSlice";
+import profileDefault from "../images/profile.jpg";
 
 interface Props {
   userId: number;
@@ -72,7 +73,7 @@ const CommentsContent = ({ postId, image, userId }: Props) => {
     <>
       <div className="flex space-x-2 items-center justify-between py-5 max-w-[30rem]">
         <img
-          src=""
+          src={loggedUserInfo.image || profileDefault}
           alt=""
           className="border-2 w-[3.5rem] h-[2.5rem] rounded-full"
         />

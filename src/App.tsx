@@ -91,7 +91,9 @@ function App() {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    isLoggedIn && dispatch(getNotifications());
+    if (isLoggedIn) {
+      dispatch(getNotifications());
+    }
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {

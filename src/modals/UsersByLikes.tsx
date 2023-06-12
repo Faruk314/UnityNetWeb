@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { User } from "../types/types";
+import profileDefault from "../images/profile.jpg";
 
 interface Props {
   postId: number;
@@ -44,7 +45,7 @@ const UsersByLikes = ({ postId, setOpenLikes }: Props) => {
               <div className="flex items-center space-x-2">
                 <Link to={`/profile/${user.id}`}>
                   <img
-                    src={user.image}
+                    src={user.image || profileDefault}
                     alt=""
                     className="border-2 w-[3rem] h-[3rem] rounded-full"
                   />

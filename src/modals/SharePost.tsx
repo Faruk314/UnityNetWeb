@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import axios from "axios";
 import { fetchPosts } from "../redux/postSlice";
+import profileDefault from "../images/profile.jpg";
 
 interface Props {
   setOpenSharePost: React.Dispatch<React.SetStateAction<boolean>>;
@@ -58,7 +59,7 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
         <div className="flex items-center my-4 space-x-2">
           <img
             alt=""
-            src=""
+            src={loggedUserInfo.image || profileDefault}
             className="w-[3rem] h-[3rem] rounded-full border-2"
           />
           <h3 className="font-bold">
