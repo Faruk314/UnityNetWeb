@@ -109,14 +109,12 @@ const Profile = () => {
         </div>
         <div className="grid grid-cols-1 md:grid md:grid-cols-2">
           <div className="w-full">
-            {(userInfo.city || userInfo.country) && (
-              <ProfileInfo userInfo={userInfo} />
-            )}
+            <ProfileInfo userInfo={userInfo} />
 
             <ProfileFriends friendStatus={friendStatus} userId={userId} />
           </div>
 
-          <div className="mx-2">
+          <div className="mx-2 mt-2 md:mt-0">
             <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-2 rounded-lg w-full">
               <div
                 onClick={() => setOpenCreatePost(true)}

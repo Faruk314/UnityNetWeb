@@ -43,13 +43,13 @@ const UserInfo = ({
           <img
             src={image || profileDefault}
             alt=""
-            className="border-2 w-[3rem] h-[3rem] rounded-full"
+            className="border-2  w-[3rem] h-[3rem] rounded-full"
           />
         </Link>
         <div>
           <div className="flex items-center space-x-1">
             <div className="flex items-center">
-              <span className="font-bold">
+              <span className="font-bold text-[0.9rem]">
                 {firstName} {lastName}
               </span>
               {otherUserInfo && (
@@ -63,15 +63,17 @@ const UserInfo = ({
               )}
             </div>
 
-            {type === "shared" && <span> shared a post</span>}
+            {type === "shared" && (
+              <span className="hidden md:block"> shared a post</span>
+            )}
             {type === "profile" && (
-              <span className="block text-[0.8rem]">
+              <span className="hidden md:block text-[0.6rem] md:text-[0.9rem]">
                 {" "}
                 updated his profile picture
               </span>
             )}
             {type === "cover" && (
-              <span className="block text-[0.9rem]">
+              <span className="hidden md:block text-[0.6rem] md:text-[0.9rem]">
                 {" "}
                 updated his cover picture
               </span>
