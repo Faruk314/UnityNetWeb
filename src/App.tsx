@@ -56,8 +56,6 @@ function App() {
     (state) => state.request.isFriendRequestRejected
   );
 
-  console.log(isLoggedIn);
-
   useEffect(() => {
     // dispatch(onRemovedFromFriends());
 
@@ -138,7 +136,7 @@ function App() {
     };
 
     getLoginStatus();
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn]);
 
   return (
     <BrowserRouter>

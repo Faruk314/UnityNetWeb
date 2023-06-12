@@ -130,8 +130,6 @@ const postSlice = createSlice({
       state.userPosts = [];
     },
     editPost(state, action) {
-      console.log(action.payload);
-
       let postIdx = state.posts.findIndex(
         (post) => post.id === action.payload.id
       );

@@ -26,8 +26,6 @@ const PostOptions = ({
   const [commentEdit, setCommentEdit] = useState(false);
   const [postEdit, setPostEdit] = useState(false);
 
-  console.log(postEdit);
-
   const deletePostHandler = async () => {
     try {
       await axios.put(`http://localhost:7000/api/posts/deletePost/${postId}`, {

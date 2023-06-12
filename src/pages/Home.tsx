@@ -22,8 +22,6 @@ const Home = () => {
   );
   const isMounted = useRef(false);
 
-  console.log("page", page);
-
   useEffect(() => {
     if (!isMounted.current) {
       dispatch(fetchPosts(page));

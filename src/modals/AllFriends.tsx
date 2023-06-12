@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { User } from "../types/types";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import profileDefault from "../images/profile.jpg";
 
 interface Props {
   id: number;
@@ -44,10 +45,10 @@ const AllFriends = ({ id, setOpenAllFriends }: Props) => {
         <div className="flex flex-col space-y-3">
           {friends.map((user) => (
             <div key={user.id} className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center w-full p-1 space-x-2">
                 <Link to={`/profile/${user.id}`}>
                   <img
-                    src={user.image}
+                    src={user.image || profileDefault}
                     alt=""
                     className="border-2 w-[3rem] h-[3rem] rounded-full"
                   />

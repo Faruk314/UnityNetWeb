@@ -97,12 +97,9 @@ const friendRequestSlice = createSlice({
     },
     removeFromFriends(state, action) {
       state.isRemovedFromFriends = action.payload;
-      console.log("removeFromF", state.isRemovedFromFriends);
     },
     rejectFriendRequest(state, action) {
       state.isFriendRequestRejected = action.payload;
-
-      console.log("rejectedFReq", state.isFriendRequestRejected);
     },
     setRejectFriendRequest(state) {
       state.isFriendRequestRejected = false;

@@ -60,8 +60,6 @@ const authSlice = createSlice({
     },
     setSearchResults(state, action) {
       state.searchResults = action.payload;
-
-      console.log(state.searchResults);
     },
     setSearchTerm(state, action) {
       state.searchTerm = action.payload;
