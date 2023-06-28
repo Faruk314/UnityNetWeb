@@ -165,7 +165,8 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
 
   return (
     <div className="mb-6 ml-5">
-      {friendStatusFetched &&
+      {userInfo &&
+        friendStatusFetched &&
         loggedUserInfo.id !== userInfo.id &&
         !friendStatus &&
         friendReqStatus.status === false && (
@@ -178,7 +179,8 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
           </button>
         )}
 
-      {friendStatusFetched &&
+      {userInfo &&
+        friendStatusFetched &&
         friendStatus &&
         loggedUserInfo.id !== userInfo.id && (
           <div className="flex items-center space-x-2">
@@ -194,7 +196,8 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
           </div>
         )}
 
-      {friendReqStatusFetched &&
+      {userInfo &&
+        friendReqStatusFetched &&
         friendReqStatus.status &&
         friendReqStatus.sender === loggedUserInfo.id && (
           <div className="flex items-center space-x-1">
@@ -204,7 +207,8 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
           </div>
         )}
 
-      {friendReqStatusFetched &&
+      {userInfo &&
+        friendReqStatusFetched &&
         friendReqStatus.status &&
         friendReqStatus.receiver === loggedUserInfo.id && (
           <div className="flex space-x-2">

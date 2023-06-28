@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { User } from "../types/types";
 import axios from "axios";
@@ -43,7 +43,6 @@ const Profile = () => {
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const photoDeleted = useAppSelector((state) => state.post.photoDeleted);
   const photoUploaded = useAppSelector((state) => state.post.photoUploaded);
-  const [postsFetched, setPostsFetched] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -70,11 +69,10 @@ const Profile = () => {
   }, [userId, photoDeleted, photoUploaded, dispatch]);
 
   useEffect(() => {
-    if (userId && !postsFetched) {
+    if (userId && posts.length === 0) {
       dispatch(fetchUserPosts({ userId, page }));
-      setPostsFetched(true);
     }
-  }, [page, dispatch, userId, postsFetched]);
+  }, [page, dispatch, userId, posts]);
 
   // const rejectRequestHandler = async () => {
   //   try {
@@ -103,17 +101,21 @@ const Profile = () => {
           <h2 className="ml-5 text-2xl font-bold">
             {userInfo.first_name} {userInfo.last_name}
           </h2>
+
           <ProfileButtons
             userInfo={userInfo}
             setFriendStatus={setFriendStatus}
             friendStatus={friendStatus}
           />
         </div>
+
         <div className="grid grid-cols-1 md:grid md:grid-cols-2">
           <div className="w-full">
             <ProfileInfo userInfo={userInfo} />
 
-            <ProfileFriends friendStatus={friendStatus} userId={userId} />
+            {friendStatus && userId && (
+              <ProfileFriends friendStatus={friendStatus} userId={userId} />
+            )}
           </div>
 
           <div className="mx-2 mt-2 md:mt-0">
@@ -161,7 +163,7 @@ const Profile = () => {
                 There is no existing posts
               </p>
             )}
-            {postsFetched &&
+            {posts.length > 0 &&
               posts.map((post: any) => (
                 <Post
                   key={post.id}
