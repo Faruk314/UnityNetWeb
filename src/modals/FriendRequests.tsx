@@ -9,6 +9,8 @@ import {
   createNotification,
   sendNotification,
 } from "../redux/notificationSlice";
+import profileDefault from "../images/profile.jpg";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   setReqOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +20,7 @@ const FriendRequests = ({ setReqOpen }: Props) => {
   const requests = useAppSelector((state) => state.request.requests);
   const dispatch = useAppDispatch();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
+  const navigate = useNavigate();
 
   const acceptRequestHandler = async (requestId: number) => {
     try {
@@ -82,9 +85,10 @@ const FriendRequests = ({ setReqOpen }: Props) => {
             className="flex items-center space-x-2 w-[15rem]"
           >
             <img
-              src=""
+              onClick={() => navigate(`/profile/${request.id}`)}
+              src={request.image || profileDefault}
               alt=""
-              className="border-2 w-[3rem] h-[3rem] rounded-full"
+              className="border-2 w-[3rem] h-[3rem] rounded-full cursor-pointer"
             />
 
             <div className="flex flex-col">
@@ -96,13 +100,13 @@ const FriendRequests = ({ setReqOpen }: Props) => {
                 <button
                   onClick={() => acceptRequestHandler(request.id)}
                   type="submit"
-                  className="bg-blue-500 text-[1rem] text-white rounded-md font-bold hover:bg-blue-600 px-2"
+                  className="bg-blue-500 text-[1rem] text-white rounded-md font-bold hover:bg-blue-600 px-2 py-1"
                 >
                   Confirm
                 </button>
                 <button
                   onClick={() => rejectRequestHandler(request.id)}
-                  className="border-2 border-blue-500 text-[1rem] rounded-md text-blue-500 hover:bg-gray-200 px-2"
+                  className="border-2 border-blue-500 text-[1rem] rounded-md text-blue-500 hover:bg-gray-200 px-2 py-1"
                 >
                   Reject
                 </button>

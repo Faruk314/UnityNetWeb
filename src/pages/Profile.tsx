@@ -46,7 +46,8 @@ const Profile = () => {
 
   useEffect(() => {
     if (id) {
-      setUserId(parseInt(id));
+      let userId = parseInt(id);
+      setUserId(userId);
       setPage(1);
       dispatch(postActions.emptyPosts());
     }
@@ -69,15 +70,10 @@ const Profile = () => {
   }, [userId, photoDeleted, photoUploaded, dispatch]);
 
   useEffect(() => {
-    if (userId && posts.length === 0) {
+    if (userId) {
       dispatch(fetchUserPosts({ userId, page }));
     }
-  }, [page, dispatch, userId, posts]);
-
-  // const rejectRequestHandler = async () => {
-  //   try {
-  //   } catch (err) {}
-  // };
+  }, [page, dispatch, userId]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,6 +91,7 @@ const Profile = () => {
   return (
     <div className="h-[100vh]">
       <Navbar />
+
       <section className="max-w-5xl mx-auto shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-gray-100">
         <ProfileHeader userInfo={userInfo} />
         <div className="my-4 mt-20 text-center w-max">
@@ -164,6 +161,7 @@ const Profile = () => {
               </p>
             )}
             {posts.length > 0 &&
+              userId &&
               posts.map((post: any) => (
                 <Post
                   key={post.id}
