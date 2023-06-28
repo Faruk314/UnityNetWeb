@@ -43,6 +43,7 @@ const Profile = () => {
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const photoDeleted = useAppSelector((state) => state.post.photoDeleted);
   const photoUploaded = useAppSelector((state) => state.post.photoUploaded);
+  const [postsFetched, setPostsFetched] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -69,10 +70,11 @@ const Profile = () => {
   }, [userId, photoDeleted, photoUploaded, dispatch]);
 
   useEffect(() => {
-    if (userId) {
+    if (userId && !postsFetched) {
       dispatch(fetchUserPosts({ userId, page }));
+      setPostsFetched(true);
     }
-  }, [page, dispatch, userId]);
+  }, [page, dispatch, userId, postsFetched]);
 
   // const rejectRequestHandler = async () => {
   //   try {
@@ -159,31 +161,32 @@ const Profile = () => {
                 There is no existing posts
               </p>
             )}
-            {posts.map((post: any) => (
-              <Post
-                key={post.id}
-                postText={post.text_content}
-                type={post.type}
-                postPhoto={post.photo}
-                postId={post.id}
-                userId={post.user_id}
-                createdAt={post.created_at}
-                firstName={post.first_name}
-                lastName={post.last_name}
-                image={post.image}
-                edited={post.edited}
-                otherUserInfo={
-                  post.profile_id &&
-                  post.profile_id === userInfo.id &&
-                  userInfo.id !== post.user_id
-                    ? {
-                        firstName: userInfo.first_name,
-                        lastName: userInfo.last_name,
-                      }
-                    : undefined
-                }
-              />
-            ))}
+            {postsFetched &&
+              posts.map((post: any) => (
+                <Post
+                  key={post.id}
+                  postText={post.text_content}
+                  type={post.type}
+                  postPhoto={post.photo}
+                  postId={post.id}
+                  userId={post.user_id}
+                  createdAt={post.created_at}
+                  firstName={post.first_name}
+                  lastName={post.last_name}
+                  image={post.image}
+                  edited={post.edited}
+                  otherUserInfo={
+                    post.profile_id &&
+                    post.profile_id === userInfo.id &&
+                    userInfo.id !== post.user_id
+                      ? {
+                          firstName: userInfo.first_name,
+                          lastName: userInfo.last_name,
+                        }
+                      : undefined
+                  }
+                />
+              ))}
           </div>
         </div>
       </section>

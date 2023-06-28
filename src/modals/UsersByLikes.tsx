@@ -40,6 +40,11 @@ const UsersByLikes = ({ postId, setOpenLikes }: Props) => {
         </div>
 
         <div className="flex flex-col space-y-3">
+          {users.length === 0 && (
+            <p className="text-center text-blue-500">
+              Be the first to like this post!
+            </p>
+          )}
           {users.map((user) => (
             <div key={user.id} className="flex items-center justify-between">
               <div className="flex items-center space-x-2">

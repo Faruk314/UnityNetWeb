@@ -16,11 +16,11 @@ const SideBar = () => {
       <span className="p-2 text-2xl">Profile</span>
 
       <div className="mt-5">
-        <div className="flex items-center justify-between p-2 mt-2 rounded-md hover:bg-gray-100 hover:cursor-pointer">
-          <div
-            onClick={() => navigate(`/profile/${loggedUserInfo.id}`)}
-            className="flex items-center justify-center space-x-2"
-          >
+        <div
+          onClick={() => navigate(`/profile/${loggedUserInfo.id}`)}
+          className="flex items-center justify-between p-2 mt-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
+        >
+          <div className="flex items-center justify-center space-x-2">
             <img
               src={loggedUserInfo.image || profileDefault}
               alt=""

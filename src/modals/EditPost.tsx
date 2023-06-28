@@ -41,6 +41,8 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
     }
   }, [post]);
 
+  console.log(post);
+
   return (
     <div className="fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
       <div className="w-[40rem] mx-4 rounded bg-white">
@@ -100,7 +102,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
             </div>
 
             {post.photo && (
-              <div className="relative bg-black">
+              <div className="relative">
                 <img
                   className="h-[28rem] md:h-[38rem] hover:cursor-pointer w-full object-contain"
                   src={post.photo}
@@ -117,6 +119,7 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
           </button>
         </div>
       </div>
+
       {confirmation && (
         <Confirmation
           message="Post was successfully edited"

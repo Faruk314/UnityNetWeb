@@ -4,6 +4,7 @@ import AddPhoto from "../modals/photoModals/AddPhoto";
 import ImageSlider from "../modals/ImageSlider";
 import { User } from "../types/types";
 import { useAppSelector } from "../redux/hooks";
+import coverDefault from "../images/cover.jpg";
 const profileDefault = require("../images/profile.jpg");
 
 interface Props {
@@ -25,7 +26,7 @@ const ProfileHeader = ({ userInfo }: Props) => {
             ? setOpenCoverPhoto(true)
             : setOpenCoverPhoto(false);
         }}
-        src={userInfo.cover_image || ""}
+        src={userInfo.cover_image || coverDefault}
         alt=""
         className="w-full h-full hover:cursor-pointer"
       />

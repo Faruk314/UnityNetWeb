@@ -75,11 +75,11 @@ const CommentsContent = ({ postId, image, userId }: Props) => {
         <img
           src={loggedUserInfo.image || profileDefault}
           alt=""
-          className="border-2 w-[3.5rem] h-[2.5rem] rounded-full"
+          className="border-2 w-[3rem] h-[2.5rem] rounded-full"
         />
 
         <textarea
-          className="w-full p-2 bg-gray-100 rounded-full outline-none"
+          className="w-full px-3 py-2 bg-gray-100 rounded-full outline-none"
           placeholder="Write a comment"
           rows={1}
           onChange={(e) => setComment(e.target.value)}

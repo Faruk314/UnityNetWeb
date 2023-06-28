@@ -113,7 +113,7 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
               <img
                 src={user.image || profileDefault}
                 alt=""
-                className="border-2 w-[3rem] h-[3rem] rounded-full"
+                className="border-2 w-[3rem] h-[2.5rem] rounded-full"
               />
             </Link>
             <div className="w-full">

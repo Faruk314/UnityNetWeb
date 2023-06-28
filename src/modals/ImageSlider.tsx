@@ -69,7 +69,7 @@ const ImageSlider = ({ userId, setImageOpen, photoId, type }: Props) => {
         X
       </button>
 
-      <ImageSliderContent userId={userId} type={type} />
+      {!loading && <ImageSliderContent userId={userId} type={type} />}
     </div>
   );
 };

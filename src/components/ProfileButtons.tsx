@@ -49,12 +49,16 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
 
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
 
+  const [friendStatusFetched, setFriendStatusFetched] = useState(false);
+  const [friendReqStatusFetched, setFriendReqStatusFetched] = useState(false);
+
   const getFriendStatus = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:7000/api/followers/checkFriendsStatus/${userInfo.id}`
       );
       setFriendStatus(response.data);
+      setFriendStatusFetched(true);
     } catch (err) {
       console.log(err);
     }
@@ -95,6 +99,7 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
         `http://localhost:7000/api/followers/checkFriendRequestStatus/${userInfo.id}`
       );
       setFriendReqStatus(response.data);
+      setFriendReqStatusFetched(true);
     } catch (err) {
       console.log(err);
     }
@@ -160,7 +165,8 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
 
   return (
     <div className="mb-6 ml-5">
-      {loggedUserInfo.id !== userInfo.id &&
+      {friendStatusFetched &&
+        loggedUserInfo.id !== userInfo.id &&
         !friendStatus &&
         friendReqStatus.status === false && (
           <button
@@ -172,21 +178,24 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
           </button>
         )}
 
-      {friendStatus && loggedUserInfo.id !== userInfo.id && (
-        <div className="flex items-center space-x-2">
-          <GrFormCheckmark />
-          <span>Friends</span>
-          <button
-            onClick={unfriendHandler}
-            type="submit"
-            className="p-1 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
-          >
-            Unfriend
-          </button>
-        </div>
-      )}
+      {friendStatusFetched &&
+        friendStatus &&
+        loggedUserInfo.id !== userInfo.id && (
+          <div className="flex items-center space-x-2">
+            <GrFormCheckmark />
+            <span>Friends</span>
+            <button
+              onClick={unfriendHandler}
+              type="submit"
+              className="p-1 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
+            >
+              Unfriend
+            </button>
+          </div>
+        )}
 
-      {friendReqStatus.status &&
+      {friendReqStatusFetched &&
+        friendReqStatus.status &&
         friendReqStatus.sender === loggedUserInfo.id && (
           <div className="flex items-center space-x-1">
             {" "}
@@ -195,7 +204,8 @@ const ProfileButtons = ({ setFriendStatus, friendStatus, userInfo }: Props) => {
           </div>
         )}
 
-      {friendReqStatus.status &&
+      {friendReqStatusFetched &&
+        friendReqStatus.status &&
         friendReqStatus.receiver === loggedUserInfo.id && (
           <div className="flex space-x-2">
             <button

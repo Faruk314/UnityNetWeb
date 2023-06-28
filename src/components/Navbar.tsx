@@ -50,13 +50,13 @@ const Navbar = () => {
       <div className="relative flex items-center space-x-2">
         <div className="relative">
           <button
-            className="bg-gray-200 w-[2.5rem] h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
+            className="bg-gray-200 w-[2.3rem] h-[2.2rem] md:w-[2.5rem] text-xl  md:text-2xl md:h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
             onClick={(e) => {
               e.stopPropagation();
               setOpenNotification((prev) => !prev);
             }}
           >
-            <IoIosNotifications size={25} className="text-blue-500" />
+            <IoIosNotifications className="text-blue-500" />
           </button>
 
           {notificationsCount !== 0 && (
@@ -70,13 +70,13 @@ const Navbar = () => {
 
         <div className="relative">
           <button
-            className="bg-gray-200 w-[2.5rem] h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
+            className="bg-gray-200 w-[2.3rem] h-[2.2rem] md:w-[2.5rem] text-xl  md:text-2xl md:h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
             onClick={(e) => {
               e.stopPropagation();
               setReqOpen((prev) => !prev);
             }}
           >
-            <FaUserFriends size={22} className="text-blue-500" />
+            <FaUserFriends className="text-blue-500" />
           </button>
 
           {requestsCount.length !== 0 && (
@@ -90,10 +90,10 @@ const Navbar = () => {
 
         <div className="relative">
           <button
-            className="bg-gray-200 w-[2.5rem] h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
+            className="bg-gray-200 w-[2.3rem] h-[2.2rem] md:w-[2.5rem] text-xl  md:text-md md:h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
             onClick={() => setOpenMessages((prev) => !prev)}
           >
-            <BsMessenger size={19} className="text-blue-500" />
+            <BsMessenger className="text-blue-500" />
           </button>
 
           {arrivedMessages?.length !== 0 &&

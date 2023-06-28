@@ -18,7 +18,7 @@ const Friend = ({ id, firstName, lastName, photo }: Props) => {
       className="text-center hover:cursor-pointer shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md"
     >
       <img
-        className=" h-[7rem] w-full rounded-md"
+        className=" md:h-[7rem] w-full rounded-md"
         src={photo || profileDefault}
         alt=""
       ></img>

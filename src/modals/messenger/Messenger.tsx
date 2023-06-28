@@ -35,7 +35,7 @@ const Messenger = ({ setOpenMessages }: Props) => {
   }, [loggedUserInfo, messages]);
 
   return (
-    <div className="absolute top-[3.2rem] right-[-3rem] w-[20rem] bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md z-20 text-black">
+    <div className="absolute top-[3.2rem] right-[-3.5rem] w-[20rem] bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md z-20 text-black">
       <h2 className="font-bold text-[1.2rem]">Conversations</h2>
       <input
         value={searchTerm}

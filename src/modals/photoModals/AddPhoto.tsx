@@ -128,9 +128,6 @@ const AddPhoto = ({
             value={description}
             placeholder="add description"
           />
-          <button>
-            <BsEmojiSmile size={30} />
-          </button>
         </div>
 
         <div>

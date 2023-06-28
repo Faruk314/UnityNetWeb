@@ -38,7 +38,7 @@ const SearchPage = () => {
         {search.map((result) => (
           <div
             key={result.id}
-            className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white md:w-[35rem] flex items-center space-x-2 px-4 py-5 rounded-md"
+            className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white w-[19rem] md:w-[35rem] flex items-center space-x-2 px-4 py-5 rounded-md"
           >
             <Link to={`/profile/${result.id}`}>
               <img
