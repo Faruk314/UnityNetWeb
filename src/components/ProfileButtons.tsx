@@ -41,8 +41,6 @@ const ProfileButtons = ({ friendStatus, userInfo, setFriendStatus }: Props) => {
     const friendReqStatusHandler = async () => {
       const friendReqData = await getFriendReqStatus(userInfo.id);
 
-      console.log(friendReqData, "data");
-
       if (friendReqData) {
         setLoader(false);
         setFriendReqStatus(friendReqData);

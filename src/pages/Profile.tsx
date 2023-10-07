@@ -74,8 +74,6 @@ const Profile = () => {
     const friendStatusHandler = async () => {
       const isFriend = await getFriendStatus(userId);
 
-      console.log(isFriend, "isFriend");
-
       setFriendStatus(isFriend);
     };
 

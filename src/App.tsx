@@ -33,17 +33,10 @@ function App() {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const messages = useAppSelector((state) => state.chat.messages);
   const notifications = useAppSelector(
     (state) => state.notification.notifications
   );
   const chats = useAppSelector((state) => state.chat.chats);
-
-  // useEffect(() => {
-  //   dispatch(getSeen());
-
-  //   return () => dispatch(unsubscribeFromSeen());
-  // }, [dispatch]);
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -111,8 +104,6 @@ function App() {
 
   useEffect(() => {
     socket?.on("removedFromFriends", (userId) => {
-      console.log("removedFromFriends", userId);
-
       dispatch(friendRequestActions.removeFromFriends(userId));
     });
 
@@ -133,7 +124,6 @@ function App() {
 
   useEffect(() => {
     socket?.on("getMessage", (data) => {
-      console.log(data, "message");
       dispatch(chatActions.saveReceivedMessages(data));
     });
 

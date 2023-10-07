@@ -41,8 +41,6 @@ const EditPost = ({ setPostEdit, postId }: Props) => {
     }
   }, [post]);
 
-  console.log(post);
-
   return (
     <div className="fixed flex justify-center items-center top-0 bottom-0 left-0 right-0 bg-[rgb(0,0,0,0.5)] z-20">
       <div className="w-[40rem] mx-4 rounded bg-white">

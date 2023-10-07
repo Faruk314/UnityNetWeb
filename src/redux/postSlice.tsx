@@ -199,8 +199,6 @@ const postSlice = createSlice({
             (post) => post.id === fetchedPost.id
           );
 
-          console.log(fetchPosts, "fetchedPosts");
-
           if (index === -1) {
             state.userPosts.push(fetchedPost);
             state.userPosts.sort((a, b) => {

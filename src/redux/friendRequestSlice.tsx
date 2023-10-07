@@ -56,8 +56,6 @@ const friendRequestSlice = createSlice({
         (friend) => friend.id !== action.payload
       );
 
-      console.log(updatedFriends, "updatedFriends");
-
       state.friends = updatedFriends;
     },
     updateFriends(state, action) {

@@ -33,7 +33,6 @@ export const SocketContextProvider = ({
       if (cookie.startsWith(name + "=")) {
         const value = cookie.substring(name.length + 1);
 
-        console.log(value);
         return decodeURIComponent(value);
       }
     }
