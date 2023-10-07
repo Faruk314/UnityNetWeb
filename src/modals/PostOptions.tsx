@@ -74,16 +74,18 @@ const PostOptions = ({
           </button>
         )}
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            postId && commentId ? setCommentEdit(true) : setPostEdit(true);
-          }}
-          className="flex items-center space-x-2 hover:text-green-500"
-        >
-          <AiFillEdit />
-          <span>Edit {postId && commentId ? "comment" : "post"}</span>
-        </button>
+        {!commentId && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              postId && setPostEdit(true);
+            }}
+            className="flex items-center space-x-2 hover:text-green-500"
+          >
+            <AiFillEdit />
+            <span>Edit post</span>
+          </button>
+        )}
       </div>
       {postEdit === true && (
         <EditPost setPostEdit={setPostEdit} postId={postId} />

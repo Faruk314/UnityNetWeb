@@ -111,7 +111,7 @@ const PostContent = ({
         </div>
       )}
 
-      {type === "shared" && (
+      {type === "shared" && sharedPost.id && (
         <div className="px-2 pb-5">
           <Post
             postId={sharedPost.id}
@@ -125,6 +125,12 @@ const PostContent = ({
             type={sharedPost.likes}
             edited={edited}
           />
+        </div>
+      )}
+
+      {type === "shared" && !sharedPost.id && (
+        <div className="p-4 text-blue-500 border">
+          This post is no longer available
         </div>
       )}
 

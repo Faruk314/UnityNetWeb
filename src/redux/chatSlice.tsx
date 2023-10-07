@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Chat, Message, Seen } from "../types/types";
-import socket from "../services/socket";
+import { Chat, Message } from "../types/types";
 
 interface ArrivalMessage {
   id: number;
@@ -46,34 +45,6 @@ export const fetchMessages = createAsyncThunk(
     }
   }
 );
-
-export const subscribeToMessages = () => (dispatch: any) => {
-  socket.on("getMessage", (data) => {
-    dispatch(chatActions.saveReceivedMessages(data));
-  });
-};
-
-export const unsubscribeFromMessages = () => (dispatch: any) => {
-  socket.off("getMessage");
-};
-
-export const sendMessage = (message: Message) => (dispatch: any) => {
-  socket.emit("sendMessage", message);
-};
-
-export const emitSeen = (data: Seen) => () => {
-  socket.emit("emitSeen", data);
-};
-
-export const getSeen = () => (dispatch: any) => {
-  socket.on("getSeen", (data: Seen) => {
-    dispatch(chatActions.markMessageAsSeen(data));
-  });
-};
-
-export const unsubscribeFromSeen = () => () => {
-  socket.off("getSeen");
-};
 
 const chatSlice = createSlice({
   name: "chat",

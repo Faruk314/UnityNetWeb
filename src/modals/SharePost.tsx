@@ -28,7 +28,7 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
         );
 
         setDescription("");
-        dispatch(fetchPosts(1));
+        dispatch(fetchPosts());
         setOpenSharePost(false);
         return;
       }
@@ -38,7 +38,7 @@ const SharePost = ({ setOpenSharePost, postId, sharedPostId }: Props) => {
       });
 
       setDescription("");
-      dispatch(fetchPosts(1));
+      dispatch(fetchPosts());
       setOpenSharePost(false);
     } catch (err) {}
   };

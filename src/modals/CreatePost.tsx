@@ -29,7 +29,7 @@ const CreatePost = ({ setOpen, profileId }: Props) => {
           profileId: null,
         });
 
-        dispatch(fetchPosts(1));
+        dispatch(fetchPosts());
       }
 
       if (profileId) {
@@ -37,7 +37,7 @@ const CreatePost = ({ setOpen, profileId }: Props) => {
           textContent,
           profileId,
         });
-        dispatch(fetchUserPosts({ userId: profileId, page: 1 }));
+        dispatch(fetchUserPosts(profileId));
       }
 
       setOpen(false);

@@ -79,7 +79,7 @@ const Navbar = () => {
             <FaUserFriends className="text-blue-500" />
           </button>
 
-          {requestsCount.length !== 0 && (
+          {requestsCount && requestsCount.length !== 0 && (
             <span className="flex items-center justify-center absolute top-[-0.4rem] right-[-0.5rem] text-[0.8rem] w-[1rem] h-[1rem] bg-red-600 rounded-full">
               {requestsCount.length}
             </span>

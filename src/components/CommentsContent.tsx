@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { IoMdSend } from "react-icons/io";
 import PostComment from "../cards/PostComment";
 import { useAppSelector } from "../redux/hooks";
 import { useAppDispatch } from "../redux/hooks";
 import { fetchPostComments } from "../redux/postSlice";
 import axios from "axios";
-import {
-  createNotification,
-  sendNotification,
-} from "../redux/notificationSlice";
+import { createNotification } from "../redux/notificationSlice";
 import profileDefault from "../images/profile.jpg";
+import { SocketContext } from "../context/SocketContext";
 
 interface Props {
   userId: number;
@@ -22,6 +20,7 @@ const CommentsContent = ({ postId, image, userId }: Props) => {
   const [comment, setComment] = useState("");
   const dispatch = useAppDispatch();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     dispatch(fetchPostComments(postId));
@@ -43,18 +42,19 @@ const CommentsContent = ({ postId, image, userId }: Props) => {
       );
 
       if (loggedUserInfo.id !== userId) {
-        dispatch(
-          sendNotification({
-            id: loggedUserInfo.id,
-            first_name: loggedUserInfo.first_name,
-            last_name: loggedUserInfo.last_name,
-            image: loggedUserInfo.image,
-            type: "comment",
-            created_at: new Date(),
-            receiver_id: userId,
-            post_id: postId,
-          })
-        );
+        const notification = {
+          id: loggedUserInfo.id,
+          first_name: loggedUserInfo.first_name,
+          last_name: loggedUserInfo.last_name,
+          image: loggedUserInfo.image,
+          type: "comment",
+          created_at: new Date(),
+          receiver_id: userId,
+          post_id: postId,
+        };
+
+        socket?.emit("sendNotification", notification);
+
         dispatch(
           createNotification({
             receiverId: userId,

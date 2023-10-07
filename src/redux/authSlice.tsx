@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import socket from "../services/socket";
 import { User } from "../types/types";
 
 interface LoggedUserInfo extends User {
@@ -33,7 +32,7 @@ const initialState: InitialState = {
 };
 
 export const addUser = (userId: number) => (dispatch: any) => {
-  socket.emit("addUser", userId);
+  // socket.emit("addUser", userId);
 };
 
 export const getLoggedUserInfo = createAsyncThunk(

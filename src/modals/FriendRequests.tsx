@@ -1,16 +1,14 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React, { useContext, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import {
-  getFriendRequests,
-  rejectFriendRequest,
-} from "../redux/friendRequestSlice";
-import {
-  createNotification,
-  sendNotification,
-} from "../redux/notificationSlice";
 import profileDefault from "../images/profile.jpg";
 import { useNavigate } from "react-router-dom";
+import {
+  rejectFriendRequest,
+  acceptFriendRequest,
+} from "../services/FriendServices";
+import { createNotification } from "../redux/notificationSlice";
+import { friendRequestActions } from "../redux/friendRequestSlice";
+import { SocketContext } from "../context/SocketContext";
 
 interface Props {
   setReqOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,44 +19,44 @@ const FriendRequests = ({ setReqOpen }: Props) => {
   const dispatch = useAppDispatch();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const navigate = useNavigate();
+  const { socket } = useContext(SocketContext);
 
-  const acceptRequestHandler = async (requestId: number) => {
-    try {
-      await axios.get(
-        `http://localhost:7000/api/followers/acceptFriendRequest/${requestId}`
+  const acceptRequestHandler = async (userId: number) => {
+    const reqAccepted = await acceptFriendRequest(userId);
+
+    if (reqAccepted) {
+      dispatch(
+        createNotification({ receiverId: userId, type: "friendRequest" })
       );
 
-      dispatch(
-        sendNotification({
-          id: loggedUserInfo.id,
-          first_name: loggedUserInfo.first_name,
-          last_name: loggedUserInfo.last_name,
-          image: loggedUserInfo.image,
-          type: "friendRequest",
-          created_at: new Date(),
-          receiver_id: requestId,
-          post_id: null,
-        })
-      );
-      dispatch(
-        createNotification({ receiverId: requestId, type: "friendRequest" })
-      );
-      dispatch(getFriendRequests());
-    } catch (err) {
-      console.log(err);
+      dispatch(friendRequestActions.deleteFriendRequest(userId));
+
+      socket?.emit("acceptFriendRequest", {
+        senderInfo: loggedUserInfo,
+        receiverId: userId,
+      });
+
+      const notification = {
+        id: loggedUserInfo.id,
+        first_name: loggedUserInfo.first_name,
+        last_name: loggedUserInfo.last_name,
+        image: loggedUserInfo.image,
+        type: "friendRequest",
+        created_at: new Date(),
+        receiver_id: userId,
+        post_id: null,
+      };
+
+      socket?.emit("sendNotification", notification);
     }
   };
 
-  const rejectRequestHandler = async (requestId: number) => {
-    try {
-      await axios.delete(
-        `http://localhost:7000/api/followers/rejectFriendRequest/${requestId}`
-      );
+  const rejectRequestHandler = async (userId: number) => {
+    const reqRejected = await rejectFriendRequest(userId);
 
-      dispatch(rejectFriendRequest(requestId));
-      dispatch(getFriendRequests());
-    } catch (err) {
-      console.log(err);
+    if (reqRejected) {
+      socket?.emit("rejectFriendRequest", userId);
+      dispatch(friendRequestActions.deleteFriendRequest(userId));
     }
   };
 

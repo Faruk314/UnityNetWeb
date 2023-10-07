@@ -1,32 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { addUser, authActions } from "./redux/authSlice";
+import { authActions } from "./redux/authSlice";
 import Profile from "./pages/Profile";
 import { getLoggedUserInfo } from "./redux/authSlice";
-import {
-  getFriendRequests,
-  onRejectedFriendRequest,
-  subscribeToFriendRequests,
-  unsubscribeFromFriendRequests,
-} from "./redux/friendRequestSlice";
-
-import {
-  getSeen,
-  subscribeToMessages,
-  unsubscribeFromMessages,
-  unsubscribeFromSeen,
-} from "./redux/chatSlice";
-import socket, { onLoginSuccess } from "./services/socket";
+import { getFriendRequests } from "./redux/friendRequestSlice";
 import {
   getNotifications,
   getNotificationsCount,
-  subscribeToNotifications,
-  unsubscribeFromNotifications,
+  notificationsActions,
 } from "./redux/notificationSlice";
 import PreviewPost from "./pages/PreviewPost";
 import { friendRequestActions } from "./redux/friendRequestSlice";
@@ -34,12 +20,16 @@ import EditProfile from "./pages/EditProfile";
 import ChatBubble from "./cards/ChatBubble";
 import Chat from "./modals/messenger/Chat";
 import SearchPage from "./pages/SearchPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AuthProtection from "./components/AuthProtection";
+import { SocketContext } from "./context/SocketContext";
+import ProtectedAuthPages from "./protection/ProtectedAuthPages";
+import ProtectedRoutes from "./protection/ProtectedRoutes";
+import { getFriends } from "./services/FriendServices";
+import { chatActions } from "./redux/chatSlice";
 
 axios.defaults.withCredentials = true;
 
 function App() {
+  const { socket } = useContext(SocketContext);
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -47,77 +37,13 @@ function App() {
   const notifications = useAppSelector(
     (state) => state.notification.notifications
   );
-  const requests = useAppSelector((state) => state.request.requests);
-  const isRemovedFromFriends = useAppSelector(
-    (state) => state.request.isRemovedFromFriends
-  );
   const chats = useAppSelector((state) => state.chat.chats);
-  const isFriendRequestRejected = useAppSelector(
-    (state) => state.request.isFriendRequestRejected
-  );
-
-  useEffect(() => {
-    // dispatch(onRemovedFromFriends());
-
-    isLoggedIn &&
-      socket.on("removedFromFriends", (data) => {
-        dispatch(friendRequestActions.removeFromFriends(data));
-      });
-
-    return () => {
-      socket.off("removedFromFriends");
-    };
-  }, [isRemovedFromFriends, dispatch, isLoggedIn]);
-
-  useEffect(() => {
-    isLoggedIn &&
-      socket.on("rejectedFriendRequest", (data) => {
-        dispatch(friendRequestActions.rejectFriendRequest(data));
-      });
-
-    return () => {
-      socket.off("rejectedFriendRequest");
-    };
-  }, [dispatch, isFriendRequestRejected, isLoggedIn]);
 
   // useEffect(() => {
   //   dispatch(getSeen());
 
   //   return () => dispatch(unsubscribeFromSeen());
   // }, [dispatch]);
-
-  useEffect(() => {
-    isLoggedIn && dispatch(getFriendRequests());
-  }, [dispatch, isLoggedIn]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getNotifications());
-    }
-  }, [dispatch, isLoggedIn]);
-
-  useEffect(() => {
-    isLoggedIn && dispatch(getNotificationsCount());
-  }, [dispatch, notifications, isLoggedIn]);
-
-  useEffect(() => {
-    isLoggedIn && dispatch(addUser(loggedUserInfo.id));
-  }, [dispatch, loggedUserInfo, isLoggedIn]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getSeen());
-      dispatch(subscribeToNotifications());
-      dispatch(subscribeToMessages());
-      dispatch(subscribeToFriendRequests());
-    }
-    return () => {
-      dispatch(unsubscribeFromMessages());
-      dispatch(unsubscribeFromFriendRequests());
-      dispatch(unsubscribeFromNotifications());
-      socket.disconnect();
-    };
-  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -129,8 +55,7 @@ function App() {
         dispatch(authActions.setLogin(response.data.status));
 
         if (response.data.status) {
-          onLoginSuccess(response.data.token);
-          dispatch(getLoggedUserInfo());
+          await dispatch(getLoggedUserInfo());
         }
       } catch (err) {
         console.log(err);
@@ -140,65 +65,118 @@ function App() {
     getLoginStatus();
   }, [dispatch, isLoggedIn]);
 
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const friends = await getFriends(loggedUserInfo.id);
+
+      if (friends) dispatch(friendRequestActions.saveFriends(friends));
+    };
+
+    if (isLoggedIn) {
+      fetchFriends();
+    }
+  }, [isLoggedIn, loggedUserInfo.id, dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn) dispatch(getFriendRequests());
+  }, [isLoggedIn, dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn) dispatch(getNotifications());
+  }, [dispatch, isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) dispatch(getNotificationsCount());
+  }, [dispatch, notifications, isLoggedIn]);
+
+  useEffect(() => {
+    socket?.on("getFriendRequest", (userInfo) => {
+      dispatch(friendRequestActions.saveReceivedRequest(userInfo));
+    });
+
+    return () => {
+      socket?.off("getFriendRequest");
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on("friendRequestAccepted", (userInfo) => {
+      dispatch(friendRequestActions.updateFriends(userInfo));
+    });
+
+    return () => {
+      socket?.off("friendRequestAccepted");
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on("removedFromFriends", (userId) => {
+      console.log("removedFromFriends", userId);
+
+      dispatch(friendRequestActions.removeFromFriends(userId));
+    });
+
+    return () => {
+      socket?.off("removedFromFriends");
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on("rejectedFriendRequest", (userId) => {
+      dispatch(friendRequestActions.deleteFriendRequest(userId));
+    });
+
+    return () => {
+      socket?.off("rejectedFriendRequest");
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on("getMessage", (data) => {
+      console.log(data, "message");
+      dispatch(chatActions.saveReceivedMessages(data));
+    });
+
+    return () => {
+      socket?.off("getMessage");
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on("getSeen", (data) => {
+      dispatch(chatActions.markMessageAsSeen(data));
+    });
+
+    return () => {
+      socket?.off("getSeen");
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on("getNotification", (data) => {
+      dispatch(notificationsActions.saveReceivedNotifications(data));
+    });
+
+    return () => {
+      socket?.off("getNotification");
+    };
+  }, [socket, dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <AuthProtection isLoggedIn={isLoggedIn}>
-              <Login />
-            </AuthProtection>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <AuthProtection isLoggedIn={isLoggedIn}>
-              <Register />
-            </AuthProtection>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile/:id"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/previewPost/:postId"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <PreviewPost />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/editProfile/:id"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <EditProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <SearchPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedAuthPages />}>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/previewPost/:postId" element={<PreviewPost />} />
+          <Route path="/editProfile/:id" element={<EditProfile />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Route>
       </Routes>
       {isLoggedIn && (
         <div>

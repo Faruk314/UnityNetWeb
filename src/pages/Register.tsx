@@ -90,7 +90,7 @@ const Register = () => {
         {message && <span className="text-center text-red-500">{message}</span>}
 
         <Link
-          to="/login"
+          to="/"
           className="mx-auto text-[0.9rem] text-blue-600 hover:underline"
         >
           Already have an account?

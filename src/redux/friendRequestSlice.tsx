@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import socket from "../services/socket";
-import { User } from "../types/types";
 
-interface Request {
-  senderId: number;
-  receiverId: number;
-}
+import { User } from "../types/types";
 
 export const getFriendRequests = createAsyncThunk(
   "auth/getFriendRequests",
@@ -25,87 +20,52 @@ interface InitialState {
   requests: User[];
   isRemovedFromFriends: boolean;
   isFriendRequestRejected: boolean;
+  friends: User[];
 }
 
 const initialState: InitialState = {
   requests: [],
   isRemovedFromFriends: false,
   isFriendRequestRejected: false,
+  friends: [],
 };
-
-export const sendFriendRequest =
-  ({ senderId, receiverId }: Request) =>
-  (dispatch: any) => {
-    socket.emit("sendFriendRequest", { senderId, receiverId });
-  };
-
-export const removeFromFriendsList =
-  (receiverId: number) => (dispatch: any) => {
-    socket.emit("removeFromFriends", receiverId);
-  };
-
-export const onRemovedFromFriends = () => (dispatch: any) => {
-  socket.on("removedFromFriends", (data) => {
-    dispatch(friendRequestActions.removeFromFriends(data));
-  });
-};
-
-export const rejectFriendRequest = (receiverId: number) => (dispatch: any) => {
-  socket.emit("rejectFriendRequest", receiverId);
-};
-
-export const onRejectedFriendRequest = () => (dispatch: any) => {
-  socket.on("rejectedFriendRequest", (data) => {
-    dispatch(friendRequestActions.rejectFriendRequest(data));
-  });
-};
-
-// export const subscribeToFriendRequests = createAsyncThunk(
-//   "subscribeToFriendRequests",
-//   async function () {
-//     window.socketClient.on("getFriendRequest");
-//   }
-// );
-
-export const subscribeToFriendRequests = () => (dispatch: any) => {
-  socket.on("getFriendRequest", (data) => {
-    dispatch(friendRequestActions.saveReceivedRequest(data));
-  });
-};
-
-// export const unsubscribeFromFriendRequests = createAsyncThunk(
-//   "subscribeToFriendRequests",
-//   async function () {
-//     window.socketClient.off("getFriendRequest");
-//   }
-// );
-
-export const unsubscribeFromFriendRequests = () => () => {
-  socket.off("getFriendRequest");
-};
-
-// export const createFriendRequestNotification = ({senderId, receiverId, }) => () => {
-
-// }
 
 const friendRequestSlice = createSlice({
   name: "request",
   initialState,
   reducers: {
     saveReceivedRequest(state, action) {
-      state.requests.push(action.payload);
+      const requestExists = state.requests.some(
+        (request) => request.id === action.payload.id
+      );
+
+      if (!requestExists) state.requests.push(action.payload);
+    },
+    deleteFriendRequest(state, action) {
+      let updatedRequests = state.requests.filter(
+        (request) => request.id !== action.payload
+      );
+
+      state.requests = updatedRequests;
+    },
+    saveFriends(state, action) {
+      state.friends = action.payload;
     },
     removeFromFriends(state, action) {
-      state.isRemovedFromFriends = action.payload;
+      const updatedFriends = state.friends.filter(
+        (friend) => friend.id !== action.payload
+      );
+
+      console.log(updatedFriends, "updatedFriends");
+
+      state.friends = updatedFriends;
     },
-    rejectFriendRequest(state, action) {
-      state.isFriendRequestRejected = action.payload;
-    },
-    setRejectFriendRequest(state) {
-      state.isFriendRequestRejected = false;
-    },
-    setRemovedFromFriends(state) {
-      state.isRemovedFromFriends = false;
+    updateFriends(state, action) {
+      const friendExists = state.friends.some(
+        (friend) => friend.id === action.payload.id
+      );
+
+      if (!friendExists) state.friends.push(action.payload);
     },
   },
   extraReducers: (builder) => {

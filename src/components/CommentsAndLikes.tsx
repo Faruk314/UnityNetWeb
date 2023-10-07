@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
 import { VscComment } from "react-icons/vsc";
 import { BsShare } from "react-icons/bs";
 import SharePost from "../modals/SharePost";
-import { sendNotification } from "../redux/notificationSlice";
 import { createNotification } from "../redux/notificationSlice";
+import { SocketContext } from "../context/SocketContext";
 
 interface Props {
   userId: number;
@@ -35,6 +35,7 @@ const CommentsAndLikes = ({
   const [sharesCount, setSharesCount] = useState(0);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const postComments = useAppSelector((state) => state.post.postComments);
+  const { socket } = useContext(SocketContext);
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
@@ -55,18 +56,19 @@ const CommentsAndLikes = ({
       await axios.get(`http://localhost:7000/api/posts/likePost/${postId}`);
 
       if (!liked && loggedUserInfo.id !== userId) {
-        dispatch(
-          sendNotification({
-            id: loggedUserInfo.id,
-            first_name: loggedUserInfo.first_name,
-            last_name: loggedUserInfo.last_name,
-            image: loggedUserInfo.image,
-            type: "like",
-            created_at: new Date(),
-            receiver_id: userId,
-            post_id: postId,
-          })
-        );
+        const notification = {
+          id: loggedUserInfo.id,
+          first_name: loggedUserInfo.first_name,
+          last_name: loggedUserInfo.last_name,
+          image: loggedUserInfo.image,
+          type: "like",
+          created_at: new Date(),
+          receiver_id: userId,
+          post_id: postId,
+        };
+
+        socket?.emit("sendNotification", notification);
+
         dispatch(
           createNotification({
             receiverId: userId,

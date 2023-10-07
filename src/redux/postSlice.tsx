@@ -3,11 +3,6 @@ import axios from "axios";
 import { IPost } from "../types/types";
 import { IPostComment } from "../types/types";
 
-interface UserPostsArgs {
-  userId: number;
-  page?: number;
-}
-
 interface Post extends IPost {
   user_id: number;
   first_name: string;
@@ -76,10 +71,10 @@ export const fetchPost = createAsyncThunk(
 
 export const fetchUserPosts = createAsyncThunk(
   "post/fetchUsersPosts",
-  async ({ userId, page }: UserPostsArgs) => {
+  async (userId: number) => {
     try {
       const response = await axios.get(
-        `http://localhost:7000/api/posts/getUserPosts/${userId}/${page}`
+        `http://localhost:7000/api/posts/getUserPosts/${userId}`
       );
 
       return response.data;
@@ -89,20 +84,17 @@ export const fetchUserPosts = createAsyncThunk(
   }
 );
 
-export const fetchPosts = createAsyncThunk(
-  "post/fetchPosts",
-  async (page: number) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:7000/api/posts/getPosts/${page}`
-      );
+export const fetchPosts = createAsyncThunk("post/fetchPosts", async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:7000/api/posts/getPosts`
+    );
 
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 const postSlice = createSlice({
   name: "post",
@@ -206,6 +198,8 @@ const postSlice = createSlice({
           const index = state.userPosts.findIndex(
             (post) => post.id === fetchedPost.id
           );
+
+          console.log(fetchPosts, "fetchedPosts");
 
           if (index === -1) {
             state.userPosts.push(fetchedPost);

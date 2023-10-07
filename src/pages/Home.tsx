@@ -12,36 +12,14 @@ import AddPhoto from "../modals/photoModals/AddPhoto";
 
 const Home = () => {
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
-  const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.post.posts);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const isRemovedFromFriends = useAppSelector(
-    (state) => state.request.isRemovedFromFriends
-  );
-  const isMounted = useRef(false);
 
   useEffect(() => {
-    if (!isMounted.current) {
-      dispatch(fetchPosts(page));
-      isMounted.current = true;
-    }
-  }, [dispatch, page, isRemovedFromFriends]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        setPage(page + 1);
-        isMounted.current = false;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [page]);
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   return (
     <div className="">

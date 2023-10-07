@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { BsEmojiSmile } from "react-icons/bs";
+import uploadPhoto from "../../images/uploadPhoto.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchPosts, fetchUserPosts, postActions } from "../../redux/postSlice";
@@ -46,13 +46,13 @@ const AddPhoto = ({
       if (profileId) {
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
 
-        dispatch(fetchUserPosts({ userId: profileId, page: 1 }));
+        dispatch(fetchUserPosts(profileId));
       }
 
       if (!profileId && !updateProfilePic && !updateCoverPic) {
         await axios.post(`http://localhost:7000/api/posts/addPhoto`, data);
 
-        dispatch(fetchPosts(1));
+        dispatch(fetchPosts());
       }
 
       if (updateProfilePic) {
@@ -62,7 +62,7 @@ const AddPhoto = ({
         );
 
         dispatch(postActions.setPhotoUploaded(true));
-        dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
+        dispatch(fetchUserPosts(loggedUserInfo.id));
       }
 
       if (updateCoverPic) {
@@ -72,7 +72,7 @@ const AddPhoto = ({
         );
 
         dispatch(postActions.setPhotoUploaded(true));
-        dispatch(fetchUserPosts({ userId: loggedUserInfo.id, page: 1 }));
+        dispatch(fetchUserPosts(loggedUserInfo.id));
       }
 
       setConfirmation(true);
@@ -133,7 +133,7 @@ const AddPhoto = ({
         <div>
           <span className="font-bold">Upload your photo</span>
           <img
-            src={imagePreview}
+            src={imagePreview || uploadPhoto}
             alt=""
             className="bg-gray-100 w-full h-[10rem]"
           />

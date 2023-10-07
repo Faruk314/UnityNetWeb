@@ -29,9 +29,9 @@ const Notifications = () => {
             You dont have any notifications
           </span>
         )}
-        {notifications.map((notification) => (
+        {notifications.map((notification, index) => (
           <Notification
-            key={notification.id}
+            key={index}
             receiverId={notification.id}
             firstName={notification.first_name}
             lastName={notification.last_name}

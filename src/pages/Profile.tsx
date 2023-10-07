@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { User } from "../types/types";
 import axios from "axios";
@@ -14,6 +14,7 @@ import profileDefault from "../images/profile.jpg";
 import CreatePost from "../modals/CreatePost";
 import { SlPicture } from "react-icons/sl";
 import AddPhoto from "../modals/photoModals/AddPhoto";
+import { getFriendStatus } from "../services/FriendServices";
 
 interface UserInfo extends User {
   last_active: number | null;
@@ -24,7 +25,8 @@ interface UserInfo extends User {
 const Profile = () => {
   const [openAddPhoto, setOpenAddPhoto] = useState(false);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const [page, setPage] = useState(1);
+  const friends = useAppSelector((state) => state.request.friends);
+  const friendRequests = useAppSelector((state) => state.request.requests);
   const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState<UserInfo>({
     id: 0,
@@ -39,19 +41,14 @@ const Profile = () => {
   const [friendStatus, setFriendStatus] = useState(false);
   const posts = useAppSelector((state) => state.post.userPosts);
   const { id } = useParams();
-  const [userId, setUserId] = useState(0);
+  const userId = parseInt(id!);
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const photoDeleted = useAppSelector((state) => state.post.photoDeleted);
   const photoUploaded = useAppSelector((state) => state.post.photoUploaded);
 
   useEffect(() => {
-    if (id) {
-      let userId = parseInt(id);
-      setUserId(userId);
-      setPage(1);
-      dispatch(postActions.emptyPosts());
-    }
-  }, [id, dispatch]);
+    dispatch(postActions.emptyPosts());
+  }, [dispatch]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -70,23 +67,20 @@ const Profile = () => {
   }, [userId, photoDeleted, photoUploaded, dispatch]);
 
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchUserPosts({ userId, page }));
-    }
-  }, [page, dispatch, userId]);
+    if (userId) dispatch(fetchUserPosts(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-        setPage(page + 1);
-      }
+    const friendStatusHandler = async () => {
+      const isFriend = await getFriendStatus(userId);
+
+      console.log(isFriend, "isFriend");
+
+      setFriendStatus(isFriend);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [page]);
+    friendStatusHandler();
+  }, [userId, friends, friendRequests]);
 
   return (
     <div className="h-[100vh]">

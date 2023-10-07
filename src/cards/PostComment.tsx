@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import axios from "axios";
@@ -7,11 +7,9 @@ import { getUserInfo } from "../services/services";
 import { Link } from "react-router-dom";
 import PostOptions from "../modals/PostOptions";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import {
-  createNotification,
-  sendNotification,
-} from "../redux/notificationSlice";
+import { createNotification } from "../redux/notificationSlice";
 import profileDefault from "../images/profile.jpg";
+import { SocketContext } from "../context/SocketContext";
 
 interface Props {
   commentId: number;
@@ -36,6 +34,7 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
   const [count, setCount] = useState<Count>({ likes: 0 });
   const dispatch = useAppDispatch();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
+  const { socket } = useContext(SocketContext);
 
   const likePostCommentHandler = async () => {
     try {
@@ -44,18 +43,19 @@ const PostComment = ({ userId, postId, commentId, comment }: Props) => {
       );
 
       if (!liked && loggedUserInfo.id !== userId) {
-        dispatch(
-          sendNotification({
-            id: loggedUserInfo.id,
-            first_name: loggedUserInfo.first_name,
-            last_name: loggedUserInfo.last_name,
-            image: loggedUserInfo.image,
-            type: "commentLike",
-            created_at: new Date(),
-            receiver_id: userId,
-            post_id: postId,
-          })
-        );
+        const notification = {
+          id: loggedUserInfo.id,
+          first_name: loggedUserInfo.first_name,
+          last_name: loggedUserInfo.last_name,
+          image: loggedUserInfo.image,
+          type: "commentLike",
+          created_at: new Date(),
+          receiver_id: userId,
+          post_id: postId,
+        };
+
+        socket?.emit("sendNotification", notification);
+
         dispatch(
           createNotification({
             receiverId: userId,

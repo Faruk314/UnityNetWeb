@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { authActions } from "../redux/authSlice";
 import { useAppDispatch } from "../redux/hooks";
-import { onLoginSuccess } from "../services/socket";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,8 +32,6 @@ const Login = () => {
       );
       dispatch(authActions.setLogin(true));
 
-      onLoginSuccess(response.data);
-
       navigate("/home");
     } catch (error: any) {
       setMessage(error.response.data.message);
@@ -49,8 +46,6 @@ const Login = () => {
       );
 
       dispatch(authActions.setLogin(true));
-
-      onLoginSuccess(response.data);
 
       navigate("/home");
     } catch (err: any) {

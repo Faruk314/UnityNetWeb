@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Notification } from "../types/types";
-import socket from "../services/socket";
 
 interface Args {
   receiverId: number;
@@ -32,7 +31,7 @@ export const createNotification = createAsyncThunk(
           `http://localhost:7000/api/notification/createNotification/${receiverId}/${postId}`,
           { type }
         );
-        return;
+        return true;
       }
 
       if (!postId) {
@@ -40,8 +39,13 @@ export const createNotification = createAsyncThunk(
           `http://localhost:7000/api/notification/createNotification/${receiverId}/${null}`,
           { type }
         );
+
+        return true;
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   }
 );
 
@@ -81,21 +85,6 @@ export const getNotificationsCount = createAsyncThunk(
     } catch (err) {}
   }
 );
-
-export const subscribeToNotifications = () => (dispatch: any) => {
-  socket.on("getNotification", (data) => {
-    dispatch(notificationsActions.saveReceivedNotifications(data));
-  });
-};
-
-export const unsubscribeFromNotifications = () => () => {
-  socket.off("getNotification");
-};
-
-export const sendNotification =
-  (notification: Notification) => (dispatch: any) => {
-    socket.emit("sendNotification", notification);
-  };
 
 const notificationSlice = createSlice({
   name: "notification",

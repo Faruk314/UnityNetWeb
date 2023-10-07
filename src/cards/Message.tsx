@@ -1,10 +1,10 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiCheckDouble } from "react-icons/bi";
 import profileDefault from "../images/profile.jpg";
-import { emitSeen } from "../redux/chatSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { SocketContext } from "../context/SocketContext";
 
 interface Props {
   id: number;
@@ -29,6 +29,7 @@ const Message = ({
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const [isHovering, setIsHovering] = useState(false);
   const dispatch = useAppDispatch();
+  const { socket } = useContext(SocketContext);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -44,14 +45,15 @@ const Message = ({
         await axios.put(
           `http://localhost:7000/api/messages/markMessageAsSeen/${messageId}`
         );
-        dispatch(
-          emitSeen({
-            message_id: messageId,
-            receiver_id: id,
-            sender_id: loggedUserInfo.id,
-            seen_at: new Date(),
-          })
-        );
+
+        let data = {
+          message_id: messageId,
+          receiver_id: id,
+          sender_id: loggedUserInfo.id,
+          seen_at: new Date(),
+        };
+
+        socket?.emit("emitSeen", data);
       } catch (err) {
         console.log(err);
       }
@@ -60,7 +62,7 @@ const Message = ({
     if (id !== loggedUserInfo.id) {
       markMessageAsSeen();
     }
-  }, [id, loggedUserInfo, messageId, dispatch]);
+  }, [id, loggedUserInfo, messageId, socket]);
 
   return (
     <div

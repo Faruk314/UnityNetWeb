@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../types/types";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import profileDefault from "../images/profile.jpg";
+import { getFriends } from "../services/FriendServices";
 
 interface Props {
   id: number;
@@ -13,17 +13,13 @@ const AllFriends = ({ id, setOpenAllFriends }: Props) => {
   const [friends, setFriends] = useState<User[]>([]);
 
   useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:7000/api/users/getUserFriends/${id}`
-        );
+    const getUserFriendsHandler = async () => {
+      const friends = await getFriends(id);
 
-        setFriends(response.data);
-      } catch (err) {}
+      if (friends) setFriends(friends);
     };
 
-    getFriends();
+    getUserFriendsHandler();
   }, [id]);
 
   return (

@@ -1,11 +1,18 @@
-import React, { useEffect, useState, FormEvent, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  FormEvent,
+  useRef,
+  useContext,
+} from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import profileDefault from "../../images/profile.jpg";
 import { IoMdSend } from "react-icons/io";
 import Message from "../../cards/Message";
 import axios from "axios";
-import { chatActions, fetchMessages, sendMessage } from "../../redux/chatSlice";
+import { chatActions, fetchMessages } from "../../redux/chatSlice";
 import { Chat as Ch } from "../../types/types";
+import { SocketContext } from "../../context/SocketContext";
 
 interface Props {
   chatInfo: Ch;
@@ -18,6 +25,7 @@ const Chat = ({ chatInfo }: Props) => {
   const messages = useAppSelector((state) => state.chat.messages);
   const [messageSent, setMessageSent] = useState(false);
   const chatWindowRef = useRef<HTMLDivElement>(null);
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     dispatch(chatActions.deleteArrivedMessages());
@@ -56,15 +64,15 @@ const Chat = ({ chatInfo }: Props) => {
   const messageHandler = async (e: FormEvent) => {
     e.preventDefault();
 
-    dispatch(
-      sendMessage({
-        conversation_id: chatInfo.conversationId,
-        sender_id: loggedUserInfo.id,
-        receiverId: chatInfo.userId,
-        message,
-        seen_at: null,
-      })
-    );
+    const msg = {
+      conversation_id: chatInfo.conversationId,
+      sender_id: loggedUserInfo.id,
+      receiverId: chatInfo.userId,
+      message,
+      seen_at: null,
+    };
+
+    socket?.emit("sendMessage", msg);
 
     setMessage("");
     setMessageSent(true);
