@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { User } from "../types/types";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { GrFormCheckmark } from "react-icons/gr";
@@ -6,10 +6,8 @@ import { GrFormCheckmark } from "react-icons/gr";
 import {
   sendFriendRequest,
   removeFromFriends,
-  getFriendReqStatus,
 } from "../services/FriendServices";
 import { SocketContext } from "../context/SocketContext";
-import Loader from "./Loader";
 import { friendRequestActions } from "../redux/friendRequestSlice";
 
 interface Request {
@@ -20,35 +18,22 @@ interface Request {
 
 interface Props {
   friendStatus: boolean;
+  friendReqStatus: Request;
   setFriendStatus: React.Dispatch<React.SetStateAction<boolean>>;
   userInfo: User;
+  setFriendReqStatus: React.Dispatch<React.SetStateAction<Request>>;
 }
 
-const ProfileButtons = ({ friendStatus, userInfo, setFriendStatus }: Props) => {
+const ProfileButtons = ({
+  friendStatus,
+  userInfo,
+  setFriendStatus,
+  friendReqStatus,
+  setFriendReqStatus,
+}: Props) => {
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const [friendReqStatus, setFriendReqStatus] = useState<Request>({
-    status: false,
-    receiver: 0,
-    sender: 0,
-  });
-  const [loader, setLoader] = useState(true);
-  const friendRequests = useAppSelector((state) => state.request.requests);
-  const friends = useAppSelector((state) => state.request.friends);
   const { socket } = useContext(SocketContext);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const friendReqStatusHandler = async () => {
-      const friendReqData = await getFriendReqStatus(userInfo.id);
-
-      if (friendReqData) {
-        setLoader(false);
-        setFriendReqStatus(friendReqData);
-      }
-    };
-
-    friendReqStatusHandler();
-  }, [userInfo.id, friendRequests, friends]);
 
   const friendHandler = async () => {
     const friendRequestSent = await sendFriendRequest(userInfo.id);
@@ -77,10 +62,6 @@ const ProfileButtons = ({ friendStatus, userInfo, setFriendStatus }: Props) => {
       socket?.emit("removeFromFriends", userInfo.id);
     }
   };
-
-  if (loader) {
-    return <div></div>;
-  }
 
   return (
     <div className="mb-6 ml-5">

@@ -15,11 +15,19 @@ import CreatePost from "../modals/CreatePost";
 import { SlPicture } from "react-icons/sl";
 import AddPhoto from "../modals/photoModals/AddPhoto";
 import { getFriendStatus } from "../services/FriendServices";
+import Loader from "../components/Loader";
+import { getFriendReqStatus } from "../services/FriendServices";
 
 interface UserInfo extends User {
   last_active: number | null;
   country: string | null;
   city: string | null;
+}
+
+interface Request {
+  status: boolean;
+  receiver: number;
+  sender: number;
 }
 
 const Profile = () => {
@@ -45,6 +53,12 @@ const Profile = () => {
   const [openCreatePost, setOpenCreatePost] = useState(false);
   const photoDeleted = useAppSelector((state) => state.post.photoDeleted);
   const photoUploaded = useAppSelector((state) => state.post.photoUploaded);
+  const [loading, setLoading] = useState(true);
+  const [friendReqStatus, setFriendReqStatus] = useState<Request>({
+    status: false,
+    receiver: 0,
+    sender: 0,
+  });
 
   useEffect(() => {
     dispatch(postActions.emptyPosts());
@@ -80,6 +94,24 @@ const Profile = () => {
     friendStatusHandler();
   }, [userId, friends, friendRequests]);
 
+  useEffect(() => {
+    const friendReqStatusHandler = async () => {
+      const friendReqData = await getFriendReqStatus(userInfo.id);
+
+      if (friendReqData) {
+        setFriendReqStatus(friendReqData);
+      }
+
+      setLoading(false);
+    };
+
+    friendReqStatusHandler();
+  }, [userInfo.id, friendRequests, friends, dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="h-[100vh]">
       <Navbar />
@@ -95,6 +127,8 @@ const Profile = () => {
             userInfo={userInfo}
             setFriendStatus={setFriendStatus}
             friendStatus={friendStatus}
+            friendReqStatus={friendReqStatus}
+            setFriendReqStatus={setFriendReqStatus}
           />
         </div>
 
