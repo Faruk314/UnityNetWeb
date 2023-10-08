@@ -38,7 +38,7 @@ const Register = () => {
     <section className="flex flex-col justify-center items-center h-[100vh]">
       <div className="md:mb-5">
         <h1 className="text-center text-4xl text-blue-500 font-bold md:text-5xl lg:text-[3.5rem]">
-          Social Media
+          UnityNet
         </h1>
 
         <p className="my-3 text-center text-gray-700 text-[1rem] md:text-[1.2rem]">
