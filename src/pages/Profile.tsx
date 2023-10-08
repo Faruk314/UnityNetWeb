@@ -61,10 +61,6 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    dispatch(postActions.emptyPosts());
-  }, [dispatch]);
-
-  useEffect(() => {
     const getUser = async () => {
       const response = await axios.get(
         `http://localhost:7000/api/users/getUserInfo/${userId}`
@@ -81,7 +77,10 @@ const Profile = () => {
   }, [userId, photoDeleted, photoUploaded, dispatch]);
 
   useEffect(() => {
-    if (userId) dispatch(fetchUserPosts(userId));
+    if (userId) {
+      dispatch(postActions.emptyPosts());
+      dispatch(fetchUserPosts(userId));
+    }
   }, [dispatch, userId]);
 
   useEffect(() => {

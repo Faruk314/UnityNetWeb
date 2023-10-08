@@ -8,13 +8,9 @@ export interface IPost {
   type: string;
 }
 
-// export const emptyIPost: IPost = {
-//   id: 0,
-//   text_content: "",
-//   user_id: 0,
-//   created_at: new Date(),
-//   updated_at: new Date(),
-// };
+export type ModalState = {
+  [key: string]: boolean;
+};
 
 export interface OtherUserInfo {
   firstName: string;

@@ -10,11 +10,7 @@ import { createNotification } from "../redux/notificationSlice";
 import { friendRequestActions } from "../redux/friendRequestSlice";
 import { SocketContext } from "../context/SocketContext";
 
-interface Props {
-  setReqOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const FriendRequests = ({ setReqOpen }: Props) => {
+const FriendRequests = () => {
   const requests = useAppSelector((state) => state.request.requests);
   const dispatch = useAppDispatch();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
@@ -59,12 +55,6 @@ const FriendRequests = ({ setReqOpen }: Props) => {
       dispatch(friendRequestActions.deleteFriendRequest(userId));
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("click", () => {
-      setReqOpen(false);
-    });
-  });
 
   return (
     <div className="absolute top-[3.2rem] right-[-4rem] bg-white text-black shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md p-2 z-20">

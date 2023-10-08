@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUserFriends } from "react-icons/fa";
 import FriendRequests from "../modals/FriendRequests";
@@ -11,19 +11,41 @@ import Notifications from "../modals/Notifications";
 import Messenger from "../modals/messenger/Messenger";
 import { AiOutlineSearch } from "react-icons/ai";
 import Search from "../modals/Search";
+import { ModalState } from "../types/types";
 
 const Navbar = () => {
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
-  const [reqOpen, setReqOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [messagesOpen, setOpenMessages] = useState(false);
-  const [openNotification, setOpenNotification] = useState(false);
   const requestsCount = useAppSelector((state) => state.request.requests);
   const notificationsCount = useAppSelector(
     (state) => state.notification.notificationCount
   );
   const [searchOpen, setSearchOpen] = useState(false);
   const arrivedMessages = useAppSelector((state) => state.chat.arrivedMessages);
+  const [isOpen, setIsOpen] = useState<ModalState>({
+    profile: false,
+    messages: false,
+    notifications: false,
+    requests: false,
+  });
+
+  const toggleModal = (modalName: string) => {
+    setIsOpen((prevState) => {
+      const newState = { ...prevState };
+      const modalState = prevState[modalName];
+
+      // Close all other modals
+      Object.keys(newState).forEach((key) => {
+        if (key !== modalName) {
+          newState[key] = false;
+        }
+      });
+
+      // Toggle the target modal
+      newState[modalName] = !modalState;
+
+      return newState;
+    });
+  };
 
   return (
     <div className="sticky top-0 z-20 flex items-center justify-between p-3 text-white bg-white border">
@@ -53,7 +75,7 @@ const Navbar = () => {
             className="bg-gray-200 w-[2.3rem] h-[2.2rem] md:w-[2.5rem] text-xl  md:text-2xl md:h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
             onClick={(e) => {
               e.stopPropagation();
-              setOpenNotification((prev) => !prev);
+              toggleModal("notifications");
             }}
           >
             <IoIosNotifications className="text-blue-500" />
@@ -65,7 +87,7 @@ const Navbar = () => {
             </span>
           )}
 
-          {openNotification && <Notifications />}
+          {isOpen.notifications && <Notifications />}
         </div>
 
         <div className="relative">
@@ -73,7 +95,7 @@ const Navbar = () => {
             className="bg-gray-200 w-[2.3rem] h-[2.2rem] md:w-[2.5rem] text-xl  md:text-2xl md:h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
             onClick={(e) => {
               e.stopPropagation();
-              setReqOpen((prev) => !prev);
+              toggleModal("requests");
             }}
           >
             <FaUserFriends className="text-blue-500" />
@@ -85,13 +107,15 @@ const Navbar = () => {
             </span>
           )}
 
-          {reqOpen && <FriendRequests setReqOpen={setReqOpen} />}
+          {isOpen.requests && <FriendRequests />}
         </div>
 
         <div className="relative">
           <button
             className="bg-gray-200 w-[2.3rem] h-[2.2rem] md:w-[2.5rem] text-xl  md:text-md md:h-[2.5rem] flex items-center justify-center rounded-full hover:bg-gray-300"
-            onClick={() => setOpenMessages((prev) => !prev)}
+            onClick={() => {
+              toggleModal("messages");
+            }}
           >
             <BsMessenger className="text-blue-500" />
           </button>
@@ -103,21 +127,21 @@ const Navbar = () => {
               </span>
             )}
 
-          {messagesOpen && <Messenger setOpenMessages={setOpenMessages} />}
+          {isOpen.messages && <Messenger />}
         </div>
 
         <div className="relative">
           <img
             onClick={(e) => {
               e.stopPropagation();
-              setProfileOpen((prev) => !prev);
+              toggleModal("profile");
             }}
             src={loggedUserInfo?.image || profileDefault}
             alt=""
             className="w-[2.5rem] h-[2.5rem] border-2 rounded-[100%] hover:cursor-pointer"
           />
 
-          {profileOpen && <Profile setProfileOpen={setProfileOpen} />}
+          {isOpen.profile && <Profile />}
         </div>
       </div>
     </div>

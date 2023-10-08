@@ -6,20 +6,10 @@ import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { authActions } from "../redux/authSlice";
 
-interface Props {
-  setProfileOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Profile = ({ setProfileOpen }: Props) => {
+const Profile = () => {
   const navigate = useNavigate();
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    window.addEventListener("click", () => {
-      setProfileOpen(false);
-    });
-  }, [setProfileOpen]);
 
   const logoutHandler = async () => {
     try {

@@ -5,11 +5,7 @@ import Conversation from "../../cards/Conversation";
 import { chatActions } from "../../redux/chatSlice";
 import { Conversation as Conv } from "../../types/types";
 
-interface Props {
-  setOpenMessages: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Messenger = ({ setOpenMessages }: Props) => {
+const Messenger = () => {
   const [conversations, setConversations] = useState<Conv[]>([]);
   const loggedUserInfo = useAppSelector((state) => state.auth.loggedUserInfo);
   const messages = useAppSelector((state) => state.chat.messages);
