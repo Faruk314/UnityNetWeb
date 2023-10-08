@@ -82,7 +82,7 @@ const Message = ({
       )}
 
       <div
-        className="text-[0.9rem] py-1 px-3 rounded-lg max-w-[11rem] mt-2"
+        className="text-[0.9rem] py-1 px-3 rounded-lg max-w-[11rem] overflow-x-hidden break-all mt-2"
         style={
           id !== loggedUserInfo.id
             ? {

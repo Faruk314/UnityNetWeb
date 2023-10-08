@@ -64,6 +64,8 @@ const Chat = ({ chatInfo }: Props) => {
   const messageHandler = async (e: FormEvent) => {
     e.preventDefault();
 
+    if (message.length === 0) return;
+
     const msg = {
       conversation_id: chatInfo.conversationId,
       sender_id: loggedUserInfo.id,

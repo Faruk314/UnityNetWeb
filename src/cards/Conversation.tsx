@@ -39,6 +39,11 @@ const Conversation = ({
     setIsHovering(false);
   };
 
+  const modifiedMessage =
+    lastMessage && lastMessage.length > 15
+      ? `${lastMessage?.slice(0, 15)}...`
+      : lastMessage;
+
   return (
     <div
       onClick={(e) => {
@@ -58,15 +63,11 @@ const Conversation = ({
       className="flex items-center justify-between p-1 space-x-4 rounded-md hover:bg-gray-100 hover:cursor-pointer"
     >
       <div className="flex space-x-3">
-        <div className="relative">
+        <div className="">
           <img
             className="border-2 w-[3rem] h-[3rem] rounded-full"
             alt=""
             src={image || profileDefault}
-          />
-          <RxDotFilled
-            size={30}
-            className="absolute bottom-[-0.3rem] right-[-0.7rem] text-green-600"
           />
         </div>
 
@@ -83,9 +84,8 @@ const Conversation = ({
                   : {}
               }
             >
-              {senderId === loggedUserInfo.id
-                ? `You: ${lastMessage}`
-                : lastMessage}
+              {senderId === loggedUserInfo.id && `You: ${modifiedMessage}`}
+              {senderId !== loggedUserInfo.id && modifiedMessage}
             </span>
           )}
         </div>
