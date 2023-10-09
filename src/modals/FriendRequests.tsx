@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import profileDefault from "../images/profile.jpg";
 import { useNavigate } from "react-router-dom";

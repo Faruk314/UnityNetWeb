@@ -31,10 +31,6 @@ const initialState: InitialState = {
   searchTerm: JSON.parse(localStorage.getItem("searchTerm") || "null"),
 };
 
-export const addUser = (userId: number) => (dispatch: any) => {
-  // socket.emit("addUser", userId);
-};
-
 export const getLoggedUserInfo = createAsyncThunk(
   "auth/getLoggedUserInfo",
   async () => {

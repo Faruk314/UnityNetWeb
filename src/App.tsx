@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { authActions } from "./redux/authSlice";
@@ -25,6 +25,7 @@ import ProtectedAuthPages from "./protection/ProtectedAuthPages";
 import ProtectedRoutes from "./protection/ProtectedRoutes";
 import { getFriends } from "./services/FriendServices";
 import { chatActions } from "./redux/chatSlice";
+import Loader from "./components/Loader";
 
 axios.defaults.withCredentials = true;
 
@@ -37,6 +38,9 @@ function App() {
     (state) => state.notification.notifications
   );
   const chats = useAppSelector((state) => state.chat.chats);
+  const [loading, setLoading] = useState(true);
+
+  console.log(isLoggedIn, "isLoggedin");
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -56,7 +60,7 @@ function App() {
     };
 
     getLoginStatus();
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -79,7 +83,10 @@ function App() {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn) dispatch(getNotificationsCount());
+    if (isLoggedIn) {
+      dispatch(getNotificationsCount());
+      setLoading(false);
+    }
   }, [dispatch, notifications, isLoggedIn]);
 
   useEffect(() => {
@@ -152,20 +159,24 @@ function App() {
     };
   }, [socket, dispatch]);
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedAuthPages />}>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
-
         <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/previewPost/:postId" element={<PreviewPost />} />
           <Route path="/editProfile/:id" element={<EditProfile />} />
           <Route path="/search" element={<SearchPage />} />
+        </Route>
+
+        <Route element={<ProtectedAuthPages />}>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
       {isLoggedIn && (
